@@ -1,2 +1,2 @@
 # look-kit
-Syner J’s
+Team Syner J’s
