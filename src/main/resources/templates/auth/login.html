@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/default_layout">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <style>
+      body {
+        input:focus {
+          outline: none;
+        } /* outline 테두리 없애기 */
+      }
+      .loginContainer,
+      .loginBox * {
+        box-sizing: border-box;
+      }
+      .loginContainer {
+        height: 100vh;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .loginBox {
+        width: 460px;
+        height: 488px;
+        position: relative;
+      }
+      .loginHeading {
+        color: #101010;
+        text-align: center;
+        font-family: "Inter-Regular", sans-serif;
+        font-size: 30px;
+        line-height: 30px;
+        font-weight: 400;
+        top: 0px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .formContainer {
+        width: 460px;
+        height: 420px;
+        position: absolute;
+        left: 0px;
+        top: 68px;
+      }
+      .formBox {
+        height: 420px;
+        position: absolute;
+        right: 0px;
+        left: 0px;
+        top: 0px;
+      }
+      .formLabel {
+        color: #101010;
+        text-align: left;
+        font-family: "Inter-Regular", sans-serif;
+        font-size: 22px;
+        line-height: 19px;
+        font-weight: 400;
+        position: absolute;
+        left: 1px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
+      .formLabelId {
+        top: 0px;
+      }
+      .formLabelPassword {
+        top: 97px;
+      }
+      .inputField {
+        height: 46px;
+        position: absolute;
+        right: 0px;
+        left: 0px;
+        border: 1px solid #cdcdcd;
+        box-sizing: border-box;
+        font-size: 20px;
+        padding: 14px;
+      }
+      .inputFieldId {
+        top: 28px;
+      }
+      .inputFieldPassword {
+        top: 125px;
+      }
+      .rememberIdContainer {
+        height: 20px;
+        position: absolute;
+        left: 0px;
+        top: 187px;
+        display: flex;
+        align-items: center;
+      }
+      .rememberIdLabel {
+        color: #101010;
+        text-align: left;
+        font-family: "Inter-Regular", sans-serif;
+        font-size: 16px;
+        line-height: 18px;
+        font-weight: 400;
+        margin-left: 28px;
+      }
+      .checkbox {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #b8b8b9;
+        border-radius: 3px;
+        position: absolute;
+      }
+      .loginButton {
+        background: #062236;
+        border-radius: 54px;
+        width: 460px;
+        height: 54px;
+        position: relative;
+        left: calc(50% - 230px);
+        top: calc(53%);
+        color: #ffffff;
+        text-align: center;
+        font-family: "Inter-Regular", sans-serif;
+        font-size: 17px;
+        line-height: 54px;
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .signupLink {
+        background: #ffffff;
+        border-radius: 54px;
+        width: 460px;
+        height: 54px;
+        position: absolute;
+        left: calc(50% - 229px);
+        top: 293px;
+        border: 1px solid #b8b8b9;
+        color: #2b2b2b;
+        text-align: center;
+        font-family: "Inter-Regular", sans-serif;
+        font-size: 17px;
+        line-height: 54px;
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .findIdPasswordContainer {
+        color: #6a6a6a;
+        text-align: center;
+        font-family: "Inter-Regular", sans-serif;
+        font-size: 14px;
+        line-height: 14px;
+        font-weight: 400;
+        position: absolute;
+        left: calc(50% - 79px);
+        top: 366px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .findIdLink {
+        margin-right: 10px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .findPasswordLink {
+        margin-left: 10px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .verticalDivider {
+        background: #aeaeae;
+        width: 1px;
+        height: 10px;
+        margin: 0 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      $(document).ready(() => {
+        $(".findIdLink").click(() => {
+          location.href = "/auth/findID";
+        });
+        $(".findPasswordLink").click(() => {
+          location.href = "/auth/findPwd";
+        });
+        $(".signupLink").click(() => {
+          location.href = "/auth/signUp";
+        });
+      });
+    </script>
+    <th:block layout:fragment="content">
+    <div class="loginContainer">
+      <div class="loginBox">
+        <div class="loginHeading">로그인</div>
+        <div class="formContainer">
+          <form class="formBox">
+            <div class="formLabel formLabelId"><label>아이디</label></div>
+            <input
+              type="text"
+              placeholder="아이디를 입력하세요"
+              id="idInputBox"
+              class="inputField inputFieldId"
+            />
+            <div class="formLabel formLabelPassword">
+              <label>비밀번호</label>
+            </div>
+            <input
+              type="password"
+              placeholder="비밀번호 영문/특수문자/숫자 8~16자"
+              id="pwdInputBox"
+              class="inputField inputFieldPassword"
+            />
+            <div class="rememberIdContainer">
+              <input type="checkbox" class="checkbox" id="rememberId" />
+              <label class="rememberIdLabel" for="rememberId"
+                >아이디 저장</label
+              >
+            </div>
+            <button type="button" class="loginButton">로그인</button>
+            <button type="button" class="signupLink">회원가입</button>
+            <div class="findIdPasswordContainer">
+              <div class="findIdLink">아이디 찾기</div>
+              <div class="verticalDivider"></div>
+              <div class="findPasswordLink">비밀번호 찾기</div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    </th:block>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lagn="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>header</title>
+<link href="../../static/css/header.css" rel="stylesheet">
+  </head>
+  <body>
+  <div th:fragment="headerFragment">
+    <div class="header">
+      <div class="headerWrapper">
+        <div class="navBox1">
+          <a href="#" class="logo">LOOK KIT</a>
+          <ul class="navMenu">
+            <li><a href="#" class="menu">HOME</a></li>
+            <li><a href="#" class="menu">APPEAREL</a></li>
+            <li><a href="#" class="menu">SHOES</a></li>
+            <li><a href="#" class="menu">ACC</a></li>
+          </ul>
+        </div>
+        <div class="navBox2">
+          <div class="searchBox">
+            <input id="searchInputEl" class="searchInput" />
+            <span class="searchBtn"> <img th:src="@{/images/icon/searchIcon.svg}" /> </span>
+          </div>
+
+          <div class="navIcon">
+            <div id="LoginBtn" class="iconBtn">
+              <img th:src="@{/images/icon/LoginIcon.svg}" width="35" height="35" />
+            </div>
+            <div class="iconBtn">
+              <img th:src="@{/images/icon/profileIcon.svg}" width="35" height="35" />
+            </div>
+            <div class="iconBtn">
+              <img th:src="@{/images/icon/CartIcon.svg}" width="35" height="35" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </body>
+</html>
