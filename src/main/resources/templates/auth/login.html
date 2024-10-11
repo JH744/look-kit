@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/default_layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/base">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
       body {
         input:focus {
@@ -187,19 +187,6 @@
     </style>
   </head>
   <body>
-    <script>
-      $(document).ready(() => {
-        $(".findIdLink").click(() => {
-          location.href = "/auth/findID";
-        });
-        $(".findPasswordLink").click(() => {
-          location.href = "/auth/findPwd";
-        });
-        $(".signupLink").click(() => {
-          location.href = "/auth/signUp";
-        });
-      });
-    </script>
     <th:block layout:fragment="content">
     <div class="loginContainer">
       <div class="loginBox">
@@ -229,16 +216,32 @@
               >
             </div>
             <button type="button" class="loginButton">로그인</button>
-            <button type="button" class="signupLink">회원가입</button>
+            <button type="button" class="signupLink" id="signupLink">회원가입</button>
             <div class="findIdPasswordContainer">
-              <div class="findIdLink">아이디 찾기</div>
+              <div class="findIdLink" id="findIdLink">아이디 찾기</div>
               <div class="verticalDivider"></div>
-              <div class="findPasswordLink">비밀번호 찾기</div>
+              <div class="findPasswordLink" id="findPasswordLink">비밀번호 찾기</div>
             </div>
           </form>
         </div>
       </div>
     </div>
+    </th:block>
+    <th:block layout:fragment="script">
+      <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+      <script>
+        $(document).ready(function () {
+            $("#findIdLink").click(function () {
+                location.href = "/auth/findID";
+            });
+            $("#findPasswordLink").click(function () {
+                location.href = "/auth/findPwd";
+            });
+            $("#signupLink").click(function () {
+                location.href = "/auth/signUp";
+            });
+        });
+      </script>
     </th:block>
   </body>
 </html>

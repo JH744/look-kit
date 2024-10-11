@@ -1,4 +1,4 @@
-package com.example.lookkit.config;
+package com.example.lookkit.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
