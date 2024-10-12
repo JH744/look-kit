@@ -17,7 +17,7 @@ public class SecurityConfig {
                 authorize.requestMatchers("/**").permitAll() // 모든 페이지 허용
 
         );
-        http.formLogin((formLogin) -> formLogin.loginPage("/login") // login폼으로 이동
+        http.formLogin((formLogin) -> formLogin.loginPage("/auth/login") // login폼으로 이동
                 .defaultSuccessUrl("/")
                 .failureUrl("/fail")
         );

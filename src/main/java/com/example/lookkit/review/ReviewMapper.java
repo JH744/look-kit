@@ -1,4 +1,7 @@
 package com.example.lookkit.review;
 
-public class ReviewMapper {
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface ReviewMapper {
 }

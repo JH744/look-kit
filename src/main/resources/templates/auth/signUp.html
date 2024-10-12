@@ -66,7 +66,20 @@
           }).open();
         });
 
-        $(".cancelButton").click(() => {
+        $(".signupButton").click((e) => {
+        // 폼 기본 이벤트 막기
+          e.preventDefault();
+       // 기본주소와 상세주소 합치기
+         let addr1 =$("#user_address").val();
+         console.log('addr1',addr1);
+         let addr2 =$("#user_detail_address").val();
+          console.log('addr2',addr2);
+        $("#user_total_address").val(addr1 + " " + addr2);
+       // 폼 제출
+         $("form").submit();
+        });
+
+         $(".cancelButton").click(() => {
           location.href = "/auth/login";
         });
       });
@@ -113,7 +126,7 @@
         font-weight: 400;
         display: flex;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
       }
       .separator {
         margin-top: -1px;
@@ -141,11 +154,18 @@
         top: 1033px;
       }
       .signupButton {
+        background: #0d1134;
         width: 499px;
         height: 44px;
         position: relative;
         top: -60px;
         cursor: pointer;
+        border-radius: 50px;
+         color: #ffffff;
+        stext-align: center;
+        font-family: "Inter-SemiBold", sans-serif;
+        font-size: 17px;
+        font-weight: 600;
       }
       .signupButtonBg {
         background: #0d1134;
@@ -166,14 +186,8 @@
         cursor: pointer;
       }
 
+
       .cancelButton {
-        width: 499px;
-        height: 44px;
-        position: relative;
-        top: -100px;
-        cursor: pointer;
-      }
-      .cancelButtonBg {
         background: #ffffff;
         border-radius: 35px;
         border-style: solid;
@@ -183,7 +197,7 @@
         height: 44px;
         position: absolute;
         left: 0px;
-        top: 56px;
+        top: 0px;
         color: #000000;
         text-align: center;
         font-family: "Inter-SemiBold", sans-serif;
@@ -192,6 +206,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
       }
 
       .inputContainer {
@@ -614,18 +629,20 @@
           <div class="separator"></div>
         </div>
         <div class="formContainer">
+          <form action="/auth/signUp" method="post" >
           <div class="buttonContainer">
-            <div class="signupButton">
-              <div class="signupButtonBg">회원가입</div>
-            </div>
-            <div class="cancelButton">
-              <div class="cancelButtonBg">취소하기</div>
+            <button type="submit" class="signupButton">
+              회원가입
+            </button>
+            <div class="cancelButton" >
+              취소하기
             </div>
           </div>
           <div class="inputContainer">
             <div class="label">아이디</div>
             <input
               type="text"
+              name="userUuid"
               class="inputField"
               placeholder="아이디를 입력하세요"
             />
@@ -637,6 +654,7 @@
             <div class="passwordLabel">비밀번호</div>
             <input
               type="password"
+              name="password"
               class="passwordInput"
               placeholder="비밀번호 영문/특수문자/숫자 8~16자"
             />
@@ -645,6 +663,7 @@
             <div class="nameLabel">이름</div>
             <input
               type="text"
+              name="userName"
               class="nameInput"
               placeholder="이름을 입력하세요"
             />
@@ -653,6 +672,7 @@
             <div class="phoneLabel">휴대폰 번호</div>
             <input
               type="tel"
+              name="phone"
               class="nameInput"
               placeholder="-없이 휴대폰 번호를 입력하세요"
             />
@@ -661,6 +681,7 @@
           <div class="emailContainer">
             <input
               type="email"
+              name="email"
               class="emailInput"
               placeholder="[선택] 이메일주소"
             />
@@ -684,11 +705,18 @@
               class="detailedAddressInput"
               placeholder="상세주소"
             />
+            <input
+              type="text"
+              id="user_total_address"
+              name="address"
+              style="display:none"
+            />
           </div>
           <div class="birthdateLabel">생년월일</div>
           <input
             type="text"
             class="birthdateInput"
+            name="birthDate"
             placeholder="생년월일 8자리를 입력하세요"
           />
           <div class="genderMaleContainer">
@@ -707,6 +735,7 @@
               value="F"
             />
           </div>
+          </form>
         </div>
       </div>
     </div>

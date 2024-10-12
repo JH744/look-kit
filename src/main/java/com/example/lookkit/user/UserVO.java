@@ -1,28 +1,28 @@
 package com.example.lookkit.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class UserVO {
-    private long userId;       // ID 필드 타입을 long으로 변경
+    private long userId;
     private String userUuid;
     private String userName;
     private String password;
     private String gender;
-    private Date birthDate;
+    @DateTimeFormat(pattern = "yyMMdd")
+    private LocalDate birthDate;
     private String email;
-    private LocalDateTime createdAt;
+    private Timestamp createdAt;
     private String phone;
-    private LocalDateTime lastUpdate;
+    private Timestamp lastUpdate;
     private String role;
     private String address;
 }

@@ -1,4 +1,7 @@
 package com.example.lookkit.wishlist;
 
-public class WishlistMapper {
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface WishlistMapper {
 }

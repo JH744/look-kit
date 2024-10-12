@@ -1,4 +1,7 @@
 package com.example.lookkit.coordiset;
 
-public class CoordisetMapper {
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface CoordisetMapper {
 }

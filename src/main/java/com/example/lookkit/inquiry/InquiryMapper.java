@@ -1,4 +1,7 @@
 package com.example.lookkit.inquiry;
 
-public class InquiryMapper {
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface InquiryMapper {
 }

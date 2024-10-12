@@ -1,4 +1,7 @@
 package com.example.lookkit.cart;
 
-public class CartMapper {
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
+public interface CartMapper {
 }
