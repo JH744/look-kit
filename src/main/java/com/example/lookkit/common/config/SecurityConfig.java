@@ -15,6 +15,9 @@ public class SecurityConfig {
         http.csrf((csrf) -> csrf.disable());
         http.authorizeHttpRequests((authorize) ->
                 authorize.requestMatchers("/**").permitAll() // 모든 페이지 허용
+//              authorize.requestMatchers("/", "/auth/**","/fail","/common/**","/home/**","/fail", "/css/**", "/js/**", "/images/**").permitAll() // 특정페이지만 허용
+
+
 
         );
         http.formLogin((formLogin) -> formLogin.loginPage("/auth/login") // login폼으로 이동
