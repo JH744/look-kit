@@ -16,7 +16,7 @@ public class homeController {
             CustomUser user = (CustomUser) auth.getPrincipal();
             session.setAttribute("userid",user.getUserId());
             // Session의 유효 시간 설정 (3600초 = 60분)
-            session.setMaxInactiveInterval(3600);
+             session.setMaxInactiveInterval(3600);
 //            System.out.println(user.getUserId());
 //            System.out.println(auth.getName());
 //            System.out.println(auth.getAuthorities());

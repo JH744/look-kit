@@ -224,3 +224,8 @@ a {
 .iconBtn {
   padding-top: 10px;
 }
+
+
+.LogoutBtn{
+  cursor:pointer;
+}
