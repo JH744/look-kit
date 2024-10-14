@@ -3,109 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"/>
 </head>
 <body>
-<th:block layout:fragment="script">
-<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script>
-    $(document).ready(function(){
-        if (typeof $ !== "undefined") {
-            console.log("jQuery loaded successfully.");
-        } else {
-            console.log("jQuery not loaded.");
-        }
-    });
-    $(document).ready(function(){
-        ///////   결제하기 (더미 데이터 테스트) //////////
-        $(".btnOrder").click(function(){
-            console.log("sssss");
-            // 테스트용 더미 데이터
-            let count = 2;  // 테스트를 위해 임의로 2로 설정
-            let products = ["Product1", "Product2"]; // 테스트용 더미 상품 목록
-
-            let name;
-            if(count === 1) {
-                name = "상품";
-            } else {
-                name = '상품 외 ' + (count - 1) + '개';
-            }
-
-            // 결제 API 초기화
-            IMP.init("imp40354073"); // 가맹점 식별코드 (실제 테스트 시에는 발급받은 테스트용 가맹점 식별코드를 사용하세요)
-
-            // 결제 요청
-            IMP.request_pay({
-                pg: 'kcp',  // 테스트 시에는 'html5_inicis', 'kcp', 'paypal' 등 테스트 가능한 PG사를 사용할 수 있습니다.
-                pay_method: 'card',
-                merchant_uid: 'merchant_' + new Date().getTime(),  // 임의의 고유 주문번호 생성
-                name: name,
-                amount: 10000,  // 테스트용 고정 결제 금액 (10,000원)
-                buyer_email: 'testuser@example.com',  // 테스트용 이메일
-                buyer_name: '테스트 사용자',  // 테스트용 이름
-                buyer_tel: '010-1234-5678',  // 테스트용 전화번호
-                buyer_addr: '서울특별시 강남구 테헤란로',  // 테스트용 주소
-                buyer_postcode: '123-456'  // 테스트용 우편번호
-            }, function(res) {
-                if(res.success) {
-                    var msg = "결제가 완료되었습니다.\n";
-                    msg += '고유ID: ' + res.imp_uid + '\n';
-                    msg += '상점 거래ID: ' + res.merchant_uid + '\n';
-                    msg += '결제 금액: ' + res.paid_amount + '\n';
-                    msg += '카드 승인번호: ' + res.apply_num + '\n';
-
-                    alert(msg);
-
-                    // 결제 완료된 정보를 폼에 입력
-                    $("#ordersReceiver").val(res.buyer_name);
-                    $("#ordersReceiverAddr").val(res.buyer_addr);
-                    $("#ordersReceiverPhone").val(res.buyer_tel);
-                    $("#ordersTotalPrice").val(10000);  // 고정된 테스트 결제 금액
-                    $("#ordersSalePrice").val(res.paid_amount);
-                    $("#ordersUsedPoint").val(0);  // 테스트용 포인트 사용 0
-                    $("#ordersRequest").val('테스트 요청 사항');
-                    $("#ordersContent").val(res.name);
-
-                    // 상품 정보 전송 (더미 데이터 사용)
-                    sendProducts(products);
-
-                    // 폼 제출 (테스트 시 실제 제출 대신 콘솔 로그로 대체)
-                    console.log("폼 제출 성공 (테스트)", $("#pay").serialize());
-                    // $("#pay").submit(); // 실제 결제 시에는 이 부분을 활성화
-                } else {
-                    var msg = "결제에 실패하였습니다.\n";
-                    msg += '실패사유: ' + res.error_msg;
-                    alert(msg);
-                }
-            });
-        });
-
-        // 더미 sendProducts 함수 추가
-        function sendProducts(products) {
-            console.log("상품 정보 전송 (테스트):", products);
-        }
-
-
-    });
-
-</script>
-
-    </th:block>
 <th:block layout:fragment="content">
     <div>
         <h1>메인페이지</h1>
-        <!-- 간단한 테스트용 HTML 추가 -->
-        <button class="btnOrder">결제하기 (테스트)</button>
-        <form id="pay" action="/your/submit/url" method="post">
-            <input type="hidden" id="ordersReceiver" name="ordersReceiver">
-            <input type="hidden" id="ordersReceiverAddr" name="ordersReceiverAddr">
-            <input type="hidden" id="ordersReceiverPhone" name="ordersReceiverPhone">
-            <input type="hidden" id="ordersTotalPrice" name="ordersTotalPrice">
-            <input type="hidden" id="ordersSalePrice" name="ordersSalePrice">
-            <input type="hidden" id="ordersUsedPoint" name="ordersUsedPoint">
-            <input type="hidden" id="ordersRequest" name="ordersRequest">
-            <input type="hidden" id="ordersContent" name="ordersContent">
-        </form>
     </div>
 </th:block>
 </body>
