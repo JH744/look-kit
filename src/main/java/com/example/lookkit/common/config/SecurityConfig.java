@@ -16,12 +16,11 @@ public class SecurityConfig {
         http.authorizeHttpRequests((authorize) ->
                 authorize.requestMatchers("/**").permitAll() // 모든 페이지 허용
 //              authorize.requestMatchers("/", "/auth/**","/fail","/common/**","/home/**","/fail", "/css/**", "/js/**", "/images/**").permitAll() // 특정페이지만 허용
-
-
-
         );
-        http.formLogin((formLogin) -> formLogin.loginPage("/auth/login") // login폼으로 이동
-                .defaultSuccessUrl("/")
+        http.formLogin((formLogin) -> formLogin
+                .loginPage("/auth/login")
+                .loginProcessingUrl("/auth/login")
+                .defaultSuccessUrl("/main")
                 .failureUrl("/fail")
         );
         return http.build();

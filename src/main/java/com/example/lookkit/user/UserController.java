@@ -16,7 +16,6 @@ public class UserController {
 
     @GetMapping("/login")
     public  void loginForm() {
-        System.out.println("sss");
     }
 
     @GetMapping("/signUp")
