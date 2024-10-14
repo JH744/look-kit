@@ -3,7 +3,6 @@ package com.example.lookkit.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,6 +26,12 @@ public class MyUserDetailsService implements UserDetailsService {
         }
         List<GrantedAuthority> 권한목록 = new ArrayList<>();
         권한목록.add(new SimpleGrantedAuthority("ROLE_USER"));
-        return new User(user.getUserUuid(), user.getPassword(), 권한목록);
+     // 유저아이디, 유저비밀번호, 유저권한, 유저PK-ID 를 세션에 저장
+     return  new CustomUser(user.getUserUuid(), user.getPassword(), 권한목록,user.getUserId());
+
     }
-} 
+}
+
+
+
+
