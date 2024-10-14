@@ -23,6 +23,14 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/main")
                 .failureUrl("/fail")
         );
+
+        http.logout( logout -> logout
+                .logoutUrl("/logout")
+//                .logoutSuccessUrl("/login?logout") // 로그아웃 후 리디렉션 경로 설정. 디폴트는 요청페이지
+                .invalidateHttpSession(true) // 세션 무효화하기
+                .deleteCookies("JSESSIONID") // 인증 관련 쿠키 삭제
+                .permitAll() // 누구나 로그아웃 요청 가능하도록 설정
+         );
         return http.build();
     }
 }

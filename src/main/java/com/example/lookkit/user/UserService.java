@@ -1,20 +1,19 @@
 package com.example.lookkit.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
+    private final PasswordEncoder encoder;
 
     public boolean insertUser(UserVO user){
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        // 해싱된 비밀번호로 재설정
         try {
+            // 해싱된 비밀번호로 재설정
             user.setPassword(encoder.encode(user.getPassword()));
-
         }catch (Exception e){
             System.out.println("에러발생: "+e.getMessage());
         }
