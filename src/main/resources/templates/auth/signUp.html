@@ -10,7 +10,7 @@
   <script src="http://code.jquery.com/jquery-latest.min.js"></script>
   <script>
     $(document).ready(function () {
-      var idDuplicateChecked = false;
+      let idDuplicateChecked = false;
 
       $("#addressSearch").click(function () {
         new daum.Postcode({
@@ -131,15 +131,10 @@
           .then(result => {
           console.log('결과 : ', result);
           if (result) {
-            $('#idCheckLabel').css({
-              'color': '#1FCE65',
-              'display':'inline'
-            }).text('✓ 사용 가능한 아이디입니다.');
+            $('#idCheckLabel').text('✓ 사용 가능한 아이디입니다.').css({'color': '#1FCE65','display':'inline'});
             idDuplicateChecked=true;
           } else {
-            $('#idCheckLabel').css({
-              'display':'inline'
-            }).text('* 이미 사용 중인 아이디입니다.');
+            $('#idCheckLabel').text('* 이미 사용 중인 아이디입니다.').css({'display':'inline'});
           }
         })
           .catch(error => {
@@ -148,16 +143,24 @@
       }
 
 
-
+      /**폼제출 이벤트 */
       $("#signUpForm").submit(function(e){
         e.preventDefault();
-        console.log("중복확인?",idDuplicateChecked);
-        if(!idDuplicateChecked) alert("아이디 중복확인을 해주세요.");
+        let userId = $("#userUuid").val().trim();
+        let password = $("#password").val().trim();
+        let phone = $("#phone").val().trim();
+        let birthDate = $("#birthDate").val().trim();
+        let email = $("#email").val().trim();
+        let addr1 = $("#user_address").val().trim();
 
+        if(!userId || !password || !phone || !birthDate || !email || !addr1){
+            alert("입력하지 않은 항목이 있습니다. 확인 후 입력해주세요.");
+        }else if(!idDuplicateChecked){
+          alert("아이디 중복확인을 해주세요.")
+        }else{
+          this.submit();
+        }
       })
-
-
-
 
 
     });
@@ -175,9 +178,9 @@
     .singUpContainer * {
       box-sizing: border-box;
 
-    input {
-      font-size: 20px;
-      padding-left: 16px;
+      input {
+        font-size: 20px;
+        padding-left: 16px;
     }
     }
     .singUpContainer {
@@ -585,7 +588,7 @@
     .detailedAddressInput {
       background: #ffffff;
       border-style: solid;
-      border-color: #555553;
+      border-color: #55555;
       border-width: 1px;
       width: 499px;
       height: 57px;
@@ -730,12 +733,11 @@
           <div class="inputContainer">
             <div class="label">아이디</div>
             <input
-                    id="InputIdBox"
+                    id="userUuid"
                     type="text"
                     name="userUuid"
                     class="inputField"
                     placeholder="아이디를 입력하세요"
-                    required
             />
             <button type="button" id="duplicateCheckButton" class="duplicateCheckButton">
               중복확인
@@ -746,40 +748,40 @@
             <div class="passwordLabel">비밀번호</div>
             <input
                     type="password"
+                    id="password"
                     name="password"
                     class="passwordInput"
                     placeholder="비밀번호 영문/특수문자/숫자 8~16자"
-                    required
             />
           </div>
           <div class="nameContainer">
             <div class="nameLabel">이름</div>
             <input
                     type="text"
+                    id="userName"
                     name="userName"
                     class="nameInput"
                     placeholder="이름을 입력하세요"
-                    required
             />
           </div>
           <div class="phoneContainer">
             <div class="phoneLabel">휴대폰 번호</div>
             <input
                     type="tel"
+                    id="phone"
                     name="phone"
                     class="nameInput"
                     placeholder="-없이 휴대폰 번호를 입력하세요"
-                    required
             />
           </div>
           <div class="emailLabel">이메일 주소</div>
           <div class="emailContainer">
             <input
                     type="email"
+                    id="email"
                     name="email"
                     class="emailInput"
                     placeholder="이메일주소"
-                    required
             />
           </div>
           <div class="addressLabel">주소 정보</div>
@@ -792,6 +794,7 @@
                       id="user_address"
                       name="user_address"
                       placeholder="주소"
+                      readonly
               />
             </div>
             <input
@@ -811,6 +814,7 @@
           <div class="birthdateLabel">생년월일</div>
           <input
                   type="text"
+                  id="birthDate"
                   class="birthdateInput"
                   name="birthDate"
                   placeholder="생년월일 8자리를 입력하세요"
