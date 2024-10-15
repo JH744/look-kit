@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/userinfo.css">
+    <title>회원정보</title>
+    <style>
+        /* 사이드바 스타일 */
+        .sidebar {
+            width: 170px;
+            height: 100%;
+        }
+
+        .sidebar h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+        }
+
+        /* nav 스타일 */
+        .welcome-header {
+            padding: 20px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #555353;
+            color: #555353;
+        }
+
+        .welcome-message {
+            font-size: 23px;
+            color: #555;
+        }
+
+        .profile-options {
+            display: inline-grid;
+            justify-items: center;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .icon-settings {
+            width: 25px;
+            height: 25px;
+        }
+
+        .side-and-main {
+            display: inline-flex;
+            height: 1000px;
+        }
+
+        .mypage-block {
+            text-align: center;
+            background-color: #f0f0f0;
+            height: 160px;
+            place-content: center;
+            font-size: 25px;
+        }
+
+        /* 추가 스타일 */
+        .info-group1, .info-group2, .address-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .inline {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-password-change,
+        .btn-email-check,
+        .btn-postcode-search,
+        .btn-cancel,
+        .btn-save {
+            padding: 8px 12px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+        }
+
+        .btn-password-change:hover,
+        .btn-email-check:hover,
+        .btn-postcode-search:hover,
+        .btn-cancel:hover,
+        .btn-save:hover {
+            background-color: #0056b3;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .profile-management-content {
+            width: 600px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="profile-container">
+    <div class="welcome-header">
+        <span class="welcome-message" th:text="${userInfo.name} + ' 님 환영합니다.'">홍길동 님 환영합니다.</span>
+        <div class="profile-options">
+            <img class="icon-settings" src="./img/setting.png" alt="Settings" />
+            <span>개인정보 변경</span>
+        </div>
+    </div>
+
+    <!-- 사이드바 추가 -->
+    <div class="side-and-main">
+        <div>
+            <aside class="sidebar">
+                <div>
+                    <p class="mypage-block">MY PAGE</p>
+                </div>
+                <div>
+                    <ul>
+                        <li><a href="#">주문 관리</a></li>
+                        <li><a href="#">반납 신청</a></li>
+                        <li><a href="#">1:1 문의하기</a></li>
+                        <ul>
+                            <li><a href="#">문의 현황</a></li>
+                            <li><a href="#">문의 관리</a></li>
+                        </ul>
+                        <li><a href="#">리뷰 관리</a></li>
+                        <ul>
+                            <li><a href="#">작성 가능한 리뷰</a></li>
+                            <li><a href="#">작성한 리뷰</a></li>
+                        </ul>
+                        <li><a href="#">찜한 상품</a></li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+
+        <div class="second-grid">
+            <div class="section-title">회원정보 관리</div>
+            <div class="profile-management-content">
+                <form th:action="@{/mypage/update}" method="post" id="userinfo-form">
+                    <!-- CSRF 토큰 추가 -->
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                    <div class="info-group1">
+                        <label for="user-id">아이디</label>
+                        <input id="user-id" name="userId" type="text" th:value="${userInfo.userId}" readonly>
+                    </div>
+
+                    <div class="info-group1">
+                        <label for="user-uuid">UUID</label>
+                        <input id="user-uuid" name="userUuid" type="text" th:value="${userInfo.userUuid}" readonly>
+                    </div>
+
+                    <div class="info-group2">
+                        <label for="password">비밀번호</label>
+                        <div class="inline">
+                            <input id="password" name="password" type="password" readonly>
+                            <button type="button" class="btn-password-change" onclick="togglePasswordEdit()">변경하기</button>
+                        </div>
+                    </div>
+
+                    <div class="info-group1">
+                        <label for="name">이름</label>
+                        <input id="name" name="name" type="text" th:value="${userInfo.name}" readonly>
+                    </div>
+
+                    <div class="info-group1">
+                        <label for="phone">휴대폰 번호</label>
+                        <input id="phone" name="phoneNumber" type="text" th:value="${userInfo.phoneNumber}" readonly>
+                    </div>
+
+                    <div class="info-group1">
+                        <label for="birthdate">생년월일</label>
+                        <input id="birthdate" name="birthDate" type="text" th:value="${userInfo.birthDate}" readonly>
+                    </div>
+
+                    <div class="info-group2">
+                        <label for="email">이메일 주소</label>
+                        <div class="inline">
+                            <input id="email" name="email" type="email" th:value="${userInfo.email}" readonly>
+                            <button type="button" class="btn-email-check" onclick="checkEmail()">중복확인</button>
+                            <span id="email-feedback" style="color: red; display: none;">이메일이 중복됩니다.</span>
+                            <span id="email-success" style="color: green; display: none;">사용 가능한 이메일입니다.</span>
+                        </div>
+                    </div>
+
+                    <div class="address-group">
+                        <label>주소 정보</label>
+                        <div class="inline">
+                            <input type="text" name="zipcode" th:value="${userInfo.zipcode}" readonly>
+                            <button type="button" class="btn-postcode-search" onclick="searchPostcode()">우편번호 검색</button>
+                        </div>
+                        <input type="text" name="address" th:value="${userInfo.address}" readonly>
+                        <input type="text" name="detailAddress" th:value="${userInfo.detailAddress}" required>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="button" class="btn-cancel" onclick="window.location.reload()">취소하기</button>
+                        <button type="submit" class="btn-save">저장하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 비밀번호 변경 토글 기능
+    function togglePasswordEdit() {
+        const passwordInput = document.getElementById('password');
+        const isReadOnly = passwordInput.readOnly;
+        passwordInput.readOnly = !isReadOnly;
+        passwordInput.type = isReadOnly ? 'password' : 'password';
+        if (!isReadOnly) {
+            passwordInput.value = ""; // 입력 필드를 비웁니다.
+        }
+    }
+
+    // 이메일 중복 확인 기능
+    function checkEmail() {
+        const email = document.getElementById('email').value;
+        if (!email) {
+            alert('이메일을 입력해주세요.');
+            return;
+        }
+
+        // CSRF 토큰 가져오기
+        const csrfToken = document.querySelector('input[name="_csrf"]').value;
+
+        $.ajax({
+            type: 'POST',
+            url: '/mypage/checkEmail',
+            data: { email: email },
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRF-TOKEN", csrfToken);
+            },
+            success: function(response) {
+                if (response) {
+                    $('#email-feedback').hide();
+                    $('#email-success').show();
+                } else {
+                    $('#email-success').hide();
+                    $('#email-feedback').show();
+                }
+            },
+            error: function() {
+                alert('이메일 중복 확인 중 오류가 발생했습니다.');
+            }
+        });
+    }
+
+    // 우편번호 검색 기능 (예시: 다음 우편번호 API 사용)
+    function searchPostcode() {
+        // 예시로 다음 우편번호 API를 사용하는 경우
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성
+                // 예: 주소 데이터를 폼에 입력
+                document.querySelector('input[name="zipcode"]').value = data.zonecode;
+                document.querySelector('input[name="address"]').value = data.address;
+            }
+        }).open();
+    }
+</script>
+</body>
+</html>
