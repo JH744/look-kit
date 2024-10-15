@@ -1,6 +1,7 @@
 package com.example.lookkit.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,4 @@ public class UserService {
         }
         return userMapper.insertUser(user);
     }
-
-//    public UserVO getUserById(long userId) {
-//        return userMapper.getUserById(userId);
-//    }
 }
