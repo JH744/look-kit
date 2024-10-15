@@ -15,6 +15,7 @@
       box-sizing: border-box;
     }
     .main-container {
+      padding: 0px 280px 140px 280px;
       display: flex;
       flex-direction: column;
       gap: 94px;
@@ -33,7 +34,7 @@
       position: relative;
     }
     .section-header {
-      border-width: 2px 0px 2px 0px;
+      border-top: 1px solid #101010;
       border-style: solid;
       border-image: linear-gradient(
         0deg,
@@ -65,6 +66,7 @@
       justify-content: flex-start;
     }
     .info-table {
+      width: 1536px;
       display: flex;
       flex-direction: column;
       gap: 0px;
@@ -74,6 +76,7 @@
       flex-shrink: 0;
       max-width: 1360px;
       position: relative;
+      border-top: 1px solid #101010;
     }
     .info-body {
       display: flex;
@@ -115,7 +118,7 @@
       justify-content: flex-start;
       position: absolute;
       left: 174px;
-      top: calc(50% - 28px);
+      top: 15px;
     }
     .input-container {
       display: flex;
@@ -201,6 +204,8 @@
       flex-shrink: 0;
       height: 94px;
       position: relative;
+      width: 886px;
+      gap: 15px;
     }
     .memo-item {
       display: flex;
@@ -242,6 +247,7 @@
       align-self: stretch;
       flex-shrink: 0;
       position: relative;
+      border-top: 1px solid #101010;
     }
     .product-item {
       align-self: stretch;
@@ -269,16 +275,24 @@
       gap: 30px;
       flex-wrap: wrap;
       justify-content: space-between;
+      height: 200px;
     }
-    .summary-title,
+    .summary-title {
+
+      height: 30px;
+    }
     .summary-value {
       color: #101010;
       font-family: "Inter-Regular", sans-serif;
+      font-size: 25px;
     }
     .summary-value {
       font-weight: 700;
       text-align: right;
-      font-size: 18.59375px;
+      font-size: 25px;
+    }
+    .summary-row {
+      gap: 15px;
     }
     .pay-button {
       background: #062236;
@@ -288,6 +302,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      color: #ffffff;
     }
     .button-text {
       color: #ffffff;
@@ -295,6 +310,11 @@
       font-size: 16.203125px;
       line-height: 54px;
       font-weight: 400;
+    }
+    .agreement-list {
+      display: flex;
+      flex-direction: column; /* 위에서 아래로 정렬 */
+      gap: 15px; /* 항목 간 간격 추가 */
     }
   </style>
 </head>
@@ -413,50 +433,47 @@
       </header>
       <div class="payment-method-list">
         <label class="payment-method-item">
-          <input type="radio" name="payment-method" class="method-radio" />
-          <img src="image2.png" alt="Credit/Debit Card" class="method-icon" />
+          <input type="radio" name="payment-method" class="method-radio">
+          <img src="image2.png" alt="Credit/Debit Card" class="method-icon">
           <span class="method-title">신용/체크카드</span>
         </label>
       </div>
-
+      <header class="section-header">
+        <h2 class="section-title">최종 결제금액</h2>
+      </header>
       <section class="total-payment-section">
         <div class="summary-table">
-          <div class="summary-row">
-            <span class="summary-title">최종 결제금액</span>
-            <span class="summary-value">4,800원</span>
-          </div>
-        </div>
-
         <div class="agreement-section">
+         <div class="agreement-list">
           <label class="agreement-item">
-            <input type="checkbox" name="agreement1" class="agreement-checkbox" />
+            <input type="checkbox" name="agreement1" class="agreement-checkbox">
             <span class="agreement-text">주문상품정보 및 서비스 이용약관에 동의</span>
           </label>
-
-          <div class="agreement-list">
-            <label class="agreement-item">
-              <input type="checkbox" name="agreement2" class="agreement-checkbox" />
+          <label class="agreement-item">
+              <input type="checkbox" name="agreement2" class="agreement-checkbox">
               <span class="agreement-text">구매조건 확인 및 결제 진행 동의(필수)</span>
-            </label>
-            <label class="agreement-item">
-              <input type="checkbox" name="agreement3" class="agreement-checkbox" />
+          </label>
+          <label class="agreement-item">
+              <input type="checkbox" name="agreement3" class="agreement-checkbox">
               <span class="agreement-text">개인정보 제 3자 제공 동의(필수)</span>
               <button class="details-button">
                 자세히
               </button>
-            </label>
-          </div>
-        </div>
-
-        <label class="final-agreement">
-          <input type="checkbox" name="final-agreement" class="agreement-checkbox" />
+          </label>
+          <label class="final-agreement">
+          <input type="checkbox" name="final-agreement" class="agreement-checkbox">
           <span class="agreement-text">위 주문 내용을 확인하였으며, 결제에 모두 동의합니다</span>
-        </label>
-
+          </label>
+         </div>
+        </div>
+      </section>
+      <div class="summary-row">
+        <span class="summary-title">최종 결제금액</span>
+        <span class="summary-value">4,800원</span>
         <button class="pay-button" id="pay-button">
-          결제하기
+      결제하기
         </button>
-       
+      </div>
       </section>
     </section>
   </div>
@@ -511,6 +528,7 @@
             if (rsp.success) {
               alert("결제가 완료되었습니다.\n고유ID: " + rsp.imp_uid);
           
+              $("#pay").submit();
             } else {
               alert("결제에 실패하였습니다. 실패사유: " + rsp.error_msg);
             }
@@ -519,7 +537,7 @@
       });
 
       function openAddressRegistration() {
-        window.open('/order/addAddress', '주소 등록', 'width=600,height=800');
+        window.open('/order/addAddress', '주소 등록', 'width=500,height=700');
       }
     </script>
   </th:block>
