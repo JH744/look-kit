@@ -10,6 +10,8 @@
   <script src="http://code.jquery.com/jquery-latest.min.js"></script>
   <script>
     $(document).ready(function () {
+      var idDuplicateChecked = false;
+
       $("#addressSearch").click(function () {
         new daum.Postcode({
           oncomplete: function (data) {
@@ -84,7 +86,82 @@
       $(".cancelButton").click(() => {
         location.href = "/auth/login";
       });
+
+
+
+      /**아이디 중복체크 클릭이벤트 **/
+      $(".duplicateCheckButton").click(() => {
+
+        // 정규식
+        // id, pw
+        let regId = /^[a-zA-Z0-9]{4,12}$/;
+
+        let regPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/;
+        // 이름
+        let regName = /^[가-힣a-zA-Z]{2,15}$/;
+        // 이메일
+        let regMail = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+
+
+       let inputId= $("#InputIdBox").val();
+        console.log("입력한 아이디",inputId);
+        if( !regId.test(inputId) ){
+          $('#idCheckLabel').text('* 4~12자 영문 대소문자, 숫자만 입력하세요.').css({'display':'inline'});
+        }
+        else{
+          fetchDuplicateCheckId(inputId);
+        }
+      });
+
+
+      /**아이디 중복요청 확인 요청 */
+      const fetchDuplicateCheckId = (inputId)=>{
+        fetch(`/auth/checkDuplicateId?id=${inputId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        })
+          .then(response => {
+          if (!response.ok) {
+            throw new Error('응답에러 ' + response.statusText);
+          }
+          return response.json();
+        })
+          .then(result => {
+          console.log('결과 : ', result);
+          if (result) {
+            $('#idCheckLabel').css({
+              'color': '#1FCE65',
+              'display':'inline'
+            }).text('✓ 사용 가능한 아이디입니다.');
+            idDuplicateChecked=true;
+          } else {
+            $('#idCheckLabel').css({
+              'display':'inline'
+            }).text('* 이미 사용 중인 아이디입니다.');
+          }
+        })
+          .catch(error => {
+          console.error('아이디 중복 체크 중 에러 발생 : ', error);
+        });
+      }
+
+
+
+      $("#signUpForm").submit(function(e){
+        e.preventDefault();
+        console.log("중복확인?",idDuplicateChecked);
+        if(!idDuplicateChecked) alert("아이디 중복확인을 해주세요.");
+
+      })
+
+
+
+
+
     });
+
   </script>
 
   <style>
@@ -269,6 +346,16 @@
       position: absolute;
       left: 0px;
       top: 29px;
+    }
+    .idCheckLabel {
+      font-size:14px;
+      color : #FF294F;
+      width: 293px;
+      height: 57px;
+      position: absolute;
+      left: 5px;
+      top: 93px;
+      display:none;
     }
     .inputPlaceholder {
       color: #797979;
@@ -631,9 +718,9 @@
         <div class="separator"></div>
       </div>
       <div class="formContainer">
-        <form action="/auth/signUp" method="post" >
+        <form action="/auth/signUp" method="post" id="signUpForm"   autocomplete="off"  >
           <div class="buttonContainer">
-            <button type="submit" class="signupButton">
+            <button type="submit" class="signupButton" id="signupButton">
               회원가입
             </button>
             <div class="cancelButton" >
@@ -643,14 +730,17 @@
           <div class="inputContainer">
             <div class="label">아이디</div>
             <input
+                    id="InputIdBox"
                     type="text"
                     name="userUuid"
                     class="inputField"
                     placeholder="아이디를 입력하세요"
+                    required
             />
-            <div class="duplicateCheckButton">
-              <span class="duplicateCheckText">중복확인</span>
-            </div>
+            <button type="button" id="duplicateCheckButton" class="duplicateCheckButton">
+              중복확인
+            </button>
+            <label id="idCheckLabel" class="idCheckLabel" > ✓ 사용가능한 아이디</label>
           </div>
           <div class="passwordContainer">
             <div class="passwordLabel">비밀번호</div>
@@ -659,6 +749,7 @@
                     name="password"
                     class="passwordInput"
                     placeholder="비밀번호 영문/특수문자/숫자 8~16자"
+                    required
             />
           </div>
           <div class="nameContainer">
@@ -668,6 +759,7 @@
                     name="userName"
                     class="nameInput"
                     placeholder="이름을 입력하세요"
+                    required
             />
           </div>
           <div class="phoneContainer">
@@ -677,6 +769,7 @@
                     name="phone"
                     class="nameInput"
                     placeholder="-없이 휴대폰 번호를 입력하세요"
+                    required
             />
           </div>
           <div class="emailLabel">이메일 주소</div>
@@ -685,7 +778,8 @@
                     type="email"
                     name="email"
                     class="emailInput"
-                    placeholder="[선택] 이메일주소"
+                    placeholder="이메일주소"
+                    required
             />
           </div>
           <div class="addressLabel">주소 정보</div>

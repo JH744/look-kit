@@ -3,9 +3,7 @@ package com.example.lookkit.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -48,6 +46,18 @@ public class UserController {
     @GetMapping("/findPwd")
     public void findPwd() {
     }
+
+    @GetMapping("/checkDuplicateId")
+    @ResponseBody
+    public boolean checkDuplicateId(@RequestParam String id){
+        System.out.println("중복체크 컨트롤러 전달"+id);
+        UserVO user =  userService.getUserByUuid(id);
+        //가져온 유저객체가 null이면 중복값이 없으므로 true로 반환.
+        boolean result = (user == null);
+        return result;
+    }
+
+
 
 
 

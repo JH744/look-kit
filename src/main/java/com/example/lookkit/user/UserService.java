@@ -10,6 +10,7 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder encoder;
 
+    // 유저 추가
     public boolean insertUser(UserVO user){
         try {
             // 해싱된 비밀번호로 재설정
@@ -19,6 +20,13 @@ public class UserService {
         }
         return userMapper.insertUser(user);
     }
+
+
+    // 아이디로 유저 조회
+    public UserVO getUserByUuid(String userId) {
+        return userMapper.getUserByUuid(userId);
+    }
+
 
 //    public UserVO getUserById(long userId) {
 //        return userMapper.getUserById(userId);
