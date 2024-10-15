@@ -1,6 +1,9 @@
 // MypageController.java
 package com.example.lookkit.mypage;
 
+import com.example.lookkit.user.UserService;
+import com.example.lookkit.user.UserVO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,23 +13,22 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/mypage")
 public class MypageController {
 
     private final MypageService mypageService;
+    private  final UserService userService;
 
-    @Autowired
-    public MypageController(MypageService mypageService) {
-        this.mypageService = mypageService;
-    }
 
     // 회원정보 조회 페이지
     @GetMapping("/userinfo")
     public String userinfo(Model model, HttpSession session) {
+//        int userId = (int)session.getAttribute("userid");
         // 테스트 목적으로 userId를 1로 고정
         int userId = 1;
 
-        MypageDTO userInfo = mypageService.getUserInfo(userId);
+        UserVO userInfo = mypageService.getUserInfo(userId);
         if (userInfo != null) {
             userInfo.setPassword(""); // 비밀번호를 빈 문자열로 설정
         }
@@ -56,7 +58,7 @@ public class MypageController {
         }
 
         // 업데이트된 정보 다시 조회
-        MypageDTO updatedInfo = mypageService.getUserInfo(userId);
+//        MypageDTO updatedInfo = mypageService.getUserInfo(userId);
         if (updatedInfo != null) {
             updatedInfo.setPassword(""); // 비밀번호를 빈 문자열로 설정
         }

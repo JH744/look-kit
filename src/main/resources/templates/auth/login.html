@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
       body {
         input:focus {
@@ -192,9 +191,10 @@
       <div class="loginBox">
         <div class="loginHeading">로그인</div>
         <div class="formContainer">
-          <form class="formBox">
+          <form class="formBox" action="/auth/login" method="post">
             <div class="formLabel formLabelId"><label>아이디</label></div>
             <input
+                    name="username"
               type="text"
               placeholder="아이디를 입력하세요"
               id="idInputBox"
@@ -205,6 +205,7 @@
             </div>
             <input
               type="password"
+              name="password"
               placeholder="비밀번호 영문/특수문자/숫자 8~16자"
               id="pwdInputBox"
               class="inputField inputFieldPassword"
@@ -215,7 +216,7 @@
                 >아이디 저장</label
               >
             </div>
-            <button type="button" class="loginButton">로그인</button>
+            <button type="submit" class="loginButton">로그인</button>
             <button type="button" class="signupLink" id="signupLink">회원가입</button>
             <div class="findIdPasswordContainer">
               <div class="findIdLink" id="findIdLink">아이디 찾기</div>

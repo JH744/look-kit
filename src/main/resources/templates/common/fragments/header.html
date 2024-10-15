@@ -8,6 +8,10 @@
   </head>
   <body>
   <div th:fragment="headerFragment">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+
+    </script>
     <div class="header">
       <div class="headerWrapper">
         <div class="navBox1">
@@ -26,8 +30,17 @@
           </div>
 
           <div class="navIcon">
-            <div id="LoginBtn" class="iconBtn">
+              <!-- 비로그인시 로그인버튼 노출-->
+            <div id="LoginBtn" class="iconBtn" sec:authorize="isAnonymous()">
+              <a th:href="@{/auth/login}">
               <img th:src="@{/images/icon/LoginIcon.svg}" width="35" height="35" />
+              </a>
+            </div>
+              <!-- 로그인시 로그아웃버튼 노출-->
+            <div id="LogoutBtn" class="iconBtn" sec:authorize="isAuthenticated()">
+              <a th:href="@{/logout}">
+                <img th:src="@{/images/icon/logoutIcon.svg}" width="25" height="25" />
+              </a>
             </div>
             <div class="iconBtn">
               <img th:src="@{/images/icon/profileIcon.svg}" width="35" height="35" />
