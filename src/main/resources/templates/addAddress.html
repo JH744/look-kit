@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Address</title>
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <style>
+   a,
+   button,
+   input,
+   select,
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   * {
+       box-sizing: border-box;
+       margin: 0;
+       padding: 0;
+       border: none;
+       text-decoration: none;
+       background: none;
+       -webkit-font-smoothing: antialiased;
+   }
+   
+   menu, ol, ul {
+       list-style-type: none;
+       margin: 0;
+       padding: 0;
+   }
+
+   button {
+       cursor: pointer;
+       display: inline-flex;
+       align-items: center;
+       justify-content: center;
+       border-radius: 54px;
+       padding: 16px 24px;
+       font-size: 16px;
+       font-weight: bold;
+       color: #fff;
+       background-color: #062236;
+       transition: background-color 0.3s ease;
+   }
+
+   button:hover {
+       background-color: #1a4d6e;
+   }
+
+   .button-zipcode {
+       background-color: #7f8284;
+       padding: 0 20px;
+   }
+
+   .button-zipcode:hover {
+       background-color: #a0a2a4;
+   }
+
+   .span-text {
+       font-size: 14px;
+       color: #101010;
+   }
+
+   .label {
+       margin-bottom: 10px;
+       display: block;
+   }
+
+   .address-registration,
+.address-registration * {
+  box-sizing: border-box;
+}
+.address-registration {
+  background: #ffffff;
+  height: 905px;
+  position: relative;
+}
+.address-info {
+  background: #ffffff;
+  border-radius: 20px;
+  border-style: solid;
+  border-color: #888686;
+  border-width: 1px;
+  width: 649px;
+  height: 905px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.button.button-register {
+  background: #062236;
+  border-radius: 54px;
+  padding: 17px 70px 0px 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  height: 54px;
+  position: absolute;
+  left: 176px;
+  top: 791px;
+  cursor: pointer;
+  color: #ffffff;
+}
+.button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+}
+.button-text {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 16.203125px;
+  line-height: 54px;
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.button.button-zipcode {
+  background: #7f8284;
+  border-radius: 54px;
+  padding: 0 20px; /* 좌우 여백 조정 */
+  display: flex;
+  flex-direction: row; /* 가로 방향으로 설정 */
+  gap: 0px;
+  align-items: center; /* 수직 중앙 정렬 */
+  justify-content: center; /* 가로 중앙 정렬 */
+  width: 150px;
+  height: 54px;
+  position: absolute;
+  left: 277px;
+  top: 556px;
+  color: #ffffff;
+}
+.address-input {
+  background: #ffffff;
+  border-style: solid;
+  border-color: #888686;
+  border-width: 1px;
+  width: 532px;
+  height: 54px;
+  position: absolute;
+  left: 59px;
+  top: 142px;
+}
+.label.label-destination {
+  color: #101010;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+  position: absolute;
+  left: 59px;
+  top: 97px;
+  width: 1350px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.address-details {
+  background: #ffffff;
+  border-radius: 20px 20px 0px 0px;
+  border-style: solid;
+  border-color: #888686;
+  border-width: 1px;
+  width: 649px;
+  height: 79px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.recipient-info {
+  background: #ffffff;
+  border-style: solid;
+  border-color: #888686;
+  border-width: 1px;
+  width: 532px;
+  height: 54px;
+  position: absolute;
+  left: 59px;
+  top: 279px;
+}
+.label.label-recipient {
+  color: #101010;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+  position: absolute;
+  left: 59px;
+  top: 233px;
+  width: 1350px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.recipient-input {
+  background: #ffffff;
+  border-style: solid;
+  border-color: #888686;
+  border-width: 1px;
+  width: 532px;
+  height: 54px;
+  position: absolute;
+  left: 59px;
+  top: 416px;
+}
+.label.label-phone {
+  color: #101010;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+  position: absolute;
+  left: 59px;
+  top: 370px;
+  width: 1350px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.phone-input {
+  background: #ffffff;
+  border-style: solid;
+  border-color: #888686;
+  border-width: 1px;
+  width: 532px;
+  height: 54px;
+  position: absolute;
+  left: 59px;
+  top: 695px;
+}
+.address-input-1 {
+  background: #ffffff;
+  border-style: solid;
+  border-color: #888686;
+  border-width: 1px;
+  width: 206px;
+  height: 54px;
+  position: absolute;
+  left: 59px;
+  top: 553px;
+}
+.address-input-2 {
+  background: #ffffff;
+  border-style: solid;
+  border-color: #888686;
+  border-width: 1px;
+  width: 532px;
+  height: 54px;
+  position: absolute;
+  left: 59px;
+  top: 624px;
+}
+.label.label-address {
+  color: #101010;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 400;
+  position: absolute;
+  left: 59px;
+  top: 507px;
+  width: 1350px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.delete-button {
+  color: #bbbaba;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 40px;
+  line-height: 28px;
+  font-weight: 400;
+  position: absolute;
+  left: 591px;
+  top: 25px;
+  width: 37px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.new-address-registration {
+  color: #101010;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 400;
+  position: absolute;
+  left: 41px;
+  top: 25px;
+  width: 150px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+  </style>
+</head>
+<body>
+    <div class="address-registration">
+        <div class="new-address-registration">
+          <span>신규 배송지 등록</span>
+        </div>
+        <div class="delete-button">
+          <button type="button">X</button>
+        </div>
+        <div class="label label-destination">
+          <span>배송지명</span>
+        </div>
+        <div class="address-input">
+          <input type="text" class="span-text" placeholder="배송지명 입력" />
+        </div>
+      
+        <div class="label label-recipient">
+          <span>받는 사람</span>
+        </div>
+        <div class="recipient-input">
+          <input type="text" class="span-text" placeholder="받는 사람 입력" />
+        </div>
+      
+        <div class="label label-phone">
+          <span>휴대폰 번호</span>
+        </div>
+        <div class="phone-input">
+          <input type="text" class="span-text" placeholder="휴대폰 번호 입력" />
+        </div>
+      
+        <div class="label label-address">
+          <span>주소</span>
+        </div>
+        <div class="address-input-1">
+          <input type="text" id="user_address" class="span-text" placeholder="우편번호 입력" />
+        </div>
+        <div class="button button-zipcode">
+          <button type="button" id="addressSearch">우편번호 찾기</button>
+        </div>
+        <div class="address-input-2">
+          <input type="text" id="user_detail_address" class="span-text" placeholder="상세 주소 입력" />
+        </div>
+      
+        <div class="button button-register">
+          <button type="button" id="registerAddress">등록하기</button>
+        </div>
+      </div>      
+  <script>
+    $(document).ready(function () {
+      // 우편번호 찾기 버튼 클릭 시 다음 주소찾기 API 사용
+      $("#addressSearch").click(function () {
+        new daum.Postcode({
+          oncomplete: function (data) {
+            let addr = ""; // 주소 변수
+
+            if (data.userSelectedType === "R") {
+              addr = data.roadAddress; // 도로명 주소
+            } else {
+              addr = data.jibunAddress; // 지번 주소
+            }
+
+            $("#user_address").val(addr);
+            $("#user_detail_address").focus();
+          },
+        }).open();
+      });
+
+      // 등록하기 버튼 클릭 시 order.html에 정보 반영
+      $("#registerAddress").click(function () {
+        // 기본주소와 상세주소 합치기
+        let addr1 = $("#user_address").val();
+        let addr2 = $("#user_detail_address").val();
+        let totalAddress = addr1 + " " + addr2;
+
+        // 부모 창의 order.html 페이지로 데이터 전달
+        window.opener.document.querySelector(".address-title .address-label").innerText = $("#address_name").val();
+        window.opener.document.querySelector(".recipient-details .recipient-name").innerText = $("#recipient_name").val() + " / " + $("#phone_number").val();
+        window.opener.document.querySelector(".address-text span").innerText = totalAddress;
+
+        // 창 닫기
+        window.close();
+      });
+    });
+  </script>
+</body>
+</html>

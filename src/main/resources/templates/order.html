@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="common/layout/base"> 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Page</title>
+  <style>
+    body {
+      input:focus {
+        outline: none;
+      }
+    }
+    .main-container,
+    .main-container * {
+      box-sizing: border-box;
+    }
+    .main-container {
+      display: flex;
+      flex-direction: column;
+      gap: 94px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      position: relative;
+    }
+    .recipient-info-section {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      align-self: stretch;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .section-header {
+      border-width: 2px 0px 2px 0px;
+      border-style: solid;
+      border-image: linear-gradient(
+        0deg,
+        rgba(238, 238, 238, 1) 0%,
+        rgba(16, 16, 16, 1) 0%
+      );
+      border-image-slice: 1;
+      padding: 21px 5px 22px 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      align-self: stretch;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .section-title {
+      color: #101010;
+      text-align: left;
+      font-family: "Inter-Regular", sans-serif;
+      font-size: 18.75px;
+      line-height: 28px;
+      font-weight: 400;
+      position: relative;
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .info-table {
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      width: 100%;
+      flex-shrink: 0;
+      max-width: 1360px;
+      position: relative;
+    }
+    .info-body {
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .info-row {
+      flex-shrink: 0;
+      width: 1360px;
+      height: 56px;
+      position: relative;
+    }
+    .info-label {
+      color: #101010;
+      text-align: left;
+      font-family: "Inter-Regular", sans-serif;
+      font-size: 14.0625px;
+      line-height: 21px;
+      font-weight: 400;
+      position: absolute;
+      left: 23px;
+      top: 11.5px;
+      width: 69.2px;
+      height: 21px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .info-data {
+      padding: 0px 886px 10px 0px;
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      position: absolute;
+      left: 174px;
+      top: calc(50% - 28px);
+    }
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      width: 100%;
+      flex-shrink: 0;
+      max-width: 300px;
+      position: relative;
+    }
+    .input-wrapper {
+      padding: 13px 0px 0px 0px;
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      align-self: stretch;
+      flex-shrink: 0;
+      height: 46px;
+      position: relative;
+    }
+    .background-border {
+      background: #ffffff;
+      border-radius: 3px;
+      border-style: solid;
+      border-color: #cdcdcd;
+      border-width: 2px;
+      flex-shrink: 0;
+      width: 100%;
+      position: absolute;
+      right: 0%;
+      left: 0%;
+      bottom: 0px;
+      top: 0px;
+    }
+    .input-field {
+      padding: 0px 40px 0px 14px;
+      display: flex;
+      flex-direction: row;
+      gap: 0px;
+      align-items: flex-start;
+      justify-content: center;
+      align-self: stretch;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .input-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      flex: 1;
+      position: relative;
+      overflow: auto;
+    }
+    .action-button {
+      padding: 0px 14px 0px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+      align-items: center;
+      justify-content: flex-start;
+      flex-shrink: 0;
+      width: 44px;
+      height: 46px;
+      position: absolute;
+      right: 0px;
+      top: calc(50% - 23px);
+    }
+    .icon {
+      flex-shrink: 0;
+      width: 16px;
+      height: 46px;
+      position: relative;
+      overflow: visible;
+    }
+    .memo-list {
+      flex-shrink: 0;
+      height: 94px;
+      position: relative;
+    }
+    .memo-item {
+      display: flex;
+      flex-direction: row;
+      gap: 0px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      position: absolute;
+    }
+    .memo-text {
+      color: #101010;
+      text-align: left;
+      font-family: "Inter-Regular", sans-serif;
+      font-size: 13.015625px;
+      line-height: 18px;
+      font-weight: 400;
+      position: relative;
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .product-info-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      align-self: stretch;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .product-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+      align-items: flex-start;
+      justify-content: flex-start;
+      align-self: stretch;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .product-item {
+      align-self: stretch;
+      flex-shrink: 0;
+      height: 150px;
+      position: relative;
+    }
+    .product-image {
+      width: 77px;
+      height: 102px;
+      object-fit: cover;
+    }
+    .like-button {
+      padding: 10px 10px 12.25px 10px;
+      left: -10px;
+      top: 0px;
+    }
+    .like-icon {
+      width: 18px;
+      height: 15.75px;
+      overflow: visible;
+    }
+    .payment-frame {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .summary-title,
+    .summary-value {
+      color: #101010;
+      font-family: "Inter-Regular", sans-serif;
+    }
+    .summary-value {
+      font-weight: 700;
+      text-align: right;
+      font-size: 18.59375px;
+    }
+    .pay-button {
+      background: #062236;
+      border-radius: 54px;
+      width: 324px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .button-text {
+      color: #ffffff;
+      font-family: "Inter-Regular", sans-serif;
+      font-size: 16.203125px;
+      line-height: 54px;
+      font-weight: 400;
+    }
+  </style>
+</head>
+<body>
+  <th:block layout:fragment="content">
+  <div class="main-container">
+    <section class="recipient-info-section">
+      <header class="section-header">
+        <h2 class="section-title">받는 분 정보</h2>
+      </header>
+      <div class="info-table">
+        <div class="info-body">
+          <div class="info-row">
+            <div class="info-label">이메일 주소</div>
+            <div class="info-data">
+              <div class="input-container">
+                <input type="text" class="input-field" value="lxxeugene@naver.com" readonly />
+                <button class="action-button">
+                  <img src="icon0.svg" alt="Edit Email" class="icon" />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">
+              <span class="label-title">배송지 정보</span>
+              <span class="item-count">1개</span>
+            </div>
+            <div class="info-data">
+              <div class="address-list">
+                <div class="address-item">
+                  <button class="address-link" onclick="openAddressRegistration()">
+                    <span class="link-text">배송지를 등록하세요</span>
+                    <div class="link-icon-container">
+                      <img src="icon1.svg" alt="Add Address" />
+                    </div>
+                  </button>
+                </div>
+                <div class="address-item">
+                  <div class="address-details">
+                    <div class="address-info">
+                      <div class="address-title">
+                        <span class="address-label">집</span>
+                      </div>
+                      <div class="recipient-details">
+                        <span class="recipient-name">이유진 / 01051026304</span>
+                      </div>
+                      <div class="address-text">
+                        <span>13260 경기도 성남시 수정구 수정로 31<br />9 (신흥동, 산성역포레스티아아파트) 1<br />16-801</span>
+                      </div>
+                    </div>
+                    <button class="action-button">
+                      <img src="icon1.svg" alt="Edit Address" class="icon" />
+                    </button>
+                    <span class="recent-address-label">최근배송지</span>
+                  </div>
+                  <button class="delete-button">삭제</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">배송 메모</div>
+            <div class="info-data">
+              <div class="memo-list">
+                <label class="memo-item">
+                  <input type="radio" name="memo-option" class="memo-checkbox" />
+                  <span class="memo-text">선택 안 함</span>
+                </label>
+                <label class="memo-item">
+                  <input type="radio" name="memo-option" class="memo-checkbox" />
+                  <span class="memo-text">부재 시 경비실에 맡겨주세요</span>
+                </label>
+                <label class="memo-item">
+                  <input type="radio" name="memo-option" class="memo-checkbox" />
+                  <span class="memo-text">부재 시 집 앞에 놔주세요</span>
+                </label>
+                <label class="memo-item">
+                  <input type="radio" name="memo-option" class="memo-checkbox" />
+                  <span class="memo-text">부재 시 핸드폰으로 연락 바랍니다</span>
+                </label>
+                <label class="memo-item">
+                  <input type="radio" name="memo-option" class="memo-checkbox" />
+                  <span class="memo-text">배송 전 연락 바랍니다</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="product-info-section">
+      <header class="section-header">
+        <h2 class="section-title">상품 정보</h2>
+      </header>
+      <div class="product-container">
+        <div class="product-item">
+          <img src="image0.png" alt="Product Thumbnail" class="product-image" />
+          <div class="product-details">
+            <h3 class="brand-name">CERESHOME</h3>
+            <p class="product-description">[세레스홈] 화이트 멀티탭 전선 2구 (10A) 1.5M 3M 5M 10M</p>
+            <p class="product-variant">전선길이 1.5M - / 1개</p>
+          </div>
+          <button class="like-button">
+            <img src="goods-like-off-svg0.svg" alt="Like Product" class="like-icon" />
+          </button>
+          <div class="product-price">4,800원</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="payment-frame">
+      <header class="section-header">
+        <h2 class="section-title">결제수단 선택</h2>
+      </header>
+      <div class="payment-method-list">
+        <label class="payment-method-item">
+          <input type="radio" name="payment-method" class="method-radio" />
+          <img src="image2.png" alt="Credit/Debit Card" class="method-icon" />
+          <span class="method-title">신용/체크카드</span>
+        </label>
+      </div>
+
+      <section class="total-payment-section">
+        <div class="summary-table">
+          <div class="summary-row">
+            <span class="summary-title">최종 결제금액</span>
+            <span class="summary-value">4,800원</span>
+          </div>
+        </div>
+
+        <div class="agreement-section">
+          <label class="agreement-item">
+            <input type="checkbox" name="agreement1" class="agreement-checkbox" />
+            <span class="agreement-text">주문상품정보 및 서비스 이용약관에 동의</span>
+          </label>
+
+          <div class="agreement-list">
+            <label class="agreement-item">
+              <input type="checkbox" name="agreement2" class="agreement-checkbox" />
+              <span class="agreement-text">구매조건 확인 및 결제 진행 동의(필수)</span>
+            </label>
+            <label class="agreement-item">
+              <input type="checkbox" name="agreement3" class="agreement-checkbox" />
+              <span class="agreement-text">개인정보 제 3자 제공 동의(필수)</span>
+              <button class="details-button">
+                자세히
+              </button>
+            </label>
+          </div>
+        </div>
+
+        <label class="final-agreement">
+          <input type="checkbox" name="final-agreement" class="agreement-checkbox" />
+          <span class="agreement-text">위 주문 내용을 확인하였으며, 결제에 모두 동의합니다</span>
+        </label>
+
+        <button class="pay-button" id="pay-button">
+          결제하기
+        </button>
+       
+      </section>
+    </section>
+  </div>
+</th:block>
+<th:block layout:fragment="script">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script>
+      $(document).ready(function () {
+        console.log("jQuery 로드 성공!");
+
+        // 결제하기 버튼 클릭 이벤트
+        $("#pay-button").click(function () {
+          console.log("결제하기 버튼 클릭됨");
+
+          let count = 2;
+          let products = ["Product1", "Product2"];
+          let name = count === 1 ? "상품" : '상품 외 ' + (count - 1) + '개';
+
+
+          // 결제 수단이 선택되었는지 확인
+          if (!$("input[name='payment-method']:checked").val()) {
+            alert("결제 수단을 선택해주세요.");
+            return;
+          }
+
+          // 필수 동의 항목이 모두 체크되었는지 확인
+          if (!$("input[name='agreement1']").is(":checked") ||
+              !$("input[name='agreement2']").is(":checked") ||
+              !$("input[name='agreement3']").is(":checked") ||
+              !$("input[name='final-agreement']").is(":checked")) {
+            alert("모든 필수 동의 항목에 체크해주세요.");
+            return;
+          }
+
+          // 포트원 결제 API 초기화
+          IMP.init("imp40354073"); // 테스트 가맹점 식별코드 사용
+
+          // 결제 요청
+          IMP.request_pay({
+            pg: 'kcp', // PG사 선택 (테스트 가능한 PG사 사용)
+            pay_method: 'card', // 결제 방식
+            merchant_uid: 'merchant_' + new Date().getTime(), // 임의의 고유 주문번호 생성
+            name: '상품 결제 테스트',
+            amount: 10000, // 결제 금액 (테스트용)
+            buyer_email: 'testuser@example.com',
+            buyer_name: '테스트 사용자',
+            buyer_tel: '010-1234-5678',
+            buyer_addr: '서울특별시 강남구 테헤란로',
+            buyer_postcode: '123-456'
+          }, function (rsp) {
+            if (rsp.success) {
+              alert("결제가 완료되었습니다.\n고유ID: " + rsp.imp_uid);
+          
+            } else {
+              alert("결제에 실패하였습니다. 실패사유: " + rsp.error_msg);
+            }
+          });
+        });
+      });
+
+      function openAddressRegistration() {
+        window.open('/order/addAddress', '주소 등록', 'width=600,height=800');
+      }
+    </script>
+  </th:block>
+</body>
+</html>
