@@ -41,7 +41,9 @@
           <tbody>
           <!-- 반복 부분 처리 -->
           <tr th:each="inquiry : ${inquiries}">
-            <td class="right-padding" th:text="${inquiry.inquiryTitle}">문의 제목</td>
+            <td class="right-padding">
+              <a th:href="@{'/mypage/inquiry/view/' + ${inquiry.inquiryId}}" th:text="${inquiry.inquiryTitle}">문의 제목</a>
+            </td>
             <td th:text="${#temporals.format(inquiry.inquiryCreatedAt, 'yyyy-MM-dd')}">작성일</td>
             <td class="answer-text" th:text="${inquiry.answerState=='Y' ? 'YES' : 'NO'}">답변여부</td>
             <td><button th:attr="data-id=${inquiry.inquiryId}" class="delete-btn">삭제</button></td>
@@ -61,7 +63,7 @@
 
       if (confirm("정말로 삭제하시겠습니까?")) {
         $.ajax({
-          url: '/mypage/delete/' + inquiryId,
+          url: '/mypage/inquiry/delete/' + inquiryId,
           type: 'DELETE',
           success: function(result) {
             location.reload();
@@ -74,10 +76,6 @@
       }
       // 취소를 누른 경우 아무 동작도 하지 않음
     });
-
-
-
-
 
   });
 </script>

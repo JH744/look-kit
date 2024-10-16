@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="" lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" th:href="@{/css/header.css}"/>
+  <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+  <link rel="stylesheet" th:href="@{/css/inquiry.css}"/>
+</head>
+<body>
+<th:block th:replace="~{common/fragments/header :: headerFragment}"></th:block>
+
+<div class="outer-container">
+  <th:block th:replace="~{common/fragments/userHeader :: userHeaderFragment}"></th:block>
+
+  <div class="side-and-main">
+    <!-- 사이드바 추가 -->
+    <th:block th:replace="~{common/fragments/sidebar :: sidebarFragment}"></th:block>
+    <div class="second-grid">
+      <section class="section-inquiries">
+        <p id="section-title">1:1 문의하기</p>
+      </section>
+
+      <div class="inquiry">
+        <div class="inquiry-meta">
+
+          <div>
+            <img class="inquiry-image" th:src="@{/images/inquiries/question.png}" alt=""/>
+            <div>
+              <p class="inquiry-subject" th:text="${inquiry.inquiryTitle}">문의명</p>
+              <span class="inquiry-date" th:text="${inquiry.inquiryCreatedAt}">문의날짜</span>
+            </div>
+            <span th:if="${inquiry.answerState eq 'Y'}" class="inquiry-status" th:text="답변 완료">답변 완료</span>
+          </div>
+        </div>
+        <div class="inquiry-content">
+          <p class="inquiry-text" th:text="${inquiry.inquiryContents}">문의 내용</p>
+          <div th:if="${not #lists.isEmpty(inquiry.inquiryImages)}">
+            <div th:each="image : ${inquiry.inquiryImages}">
+              <img class="meta-icon question" th:src="${image.imagePath}" alt=""/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reply">
+        <div class="inquiry-meta">
+          <img class="meta-icon question" th:src="@{/images/inquiries/answer.png}" alt=""/>
+          <div>
+            <p class="inquiry-subject">루킷 담당자</p>
+            <span class="inquiry-date">2024.10.04 12:40</span>
+          </div>
+        </div>
+        <div class="reply-content">
+          <p class="reply-text">
+          </p>
+        </div>
+      </div>
+
+      <div class="inquiry-btn-block">
+        <button class="back-to-inquiry">문의 페이지로</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

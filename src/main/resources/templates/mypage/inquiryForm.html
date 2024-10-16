@@ -26,12 +26,18 @@
       <div class="inquiry-form">
         <div class="form-title">
           <form method="post" action="/" enctype="multipart/form-data"> </form>
-          <p>문의 제목</p>
-          <input type="text" class="input-title" placeholder="재입고 문의" />
+          <div class="inquiry-inline">
+            <p class="inquiry-content-title">문의 제목</p>
+            <p class="error-message" id="title-error">문의명을 입력해주세요</p>
+          </div>
+          <input type="text" class="input-title" placeholder="문의명을 입력하세요" required/>
         </div>
         <div class="form-content">
-          <p>문의 내용</p>
-          <textarea class="input-content" placeholder="문의 내용은 2,000자 이내로 입력하세요"></textarea>
+          <div class="inquiry-inline">
+            <p class="inquiry-content-title">문의 내용</p>
+            <p class="error-message" id="content-error">내용을 입력해 주세요</p>
+          </div>
+          <textarea class="input-content" placeholder="문의 내용은 2,000자 이내로 입력하세요" required></textarea>
         </div>
         <div class="image-upload">
           <div class="image-placeholder" data-index="1">+</div>
@@ -76,7 +82,7 @@
 
       if (confirm("정말로 삭제하시겠습니까?")) {
         $.ajax({
-          url: '/mypage/delete/' + inquiryId,
+          url: '/mypage/inquiry/delete/' + inquiryId,
           type: 'DELETE',
           success: function() {
             location.reload();
@@ -115,7 +121,6 @@
 
     // 다중 이미지 업로드 버튼 클릭
     $('.upload-button').on('click', function() {
-      console.log("클릭");
       selectedFiles = [];
 
       // 기존 input을 제거하여 이벤트 중복 바인딩을 방지
@@ -136,12 +141,9 @@
             selectedFiles.push(file);
           }
         });
-
         // 미리보기 업데이트
         updateImagePreview(placeholders);
-
       });
-
       // 파일 선택창 열기
       newInput.click();
     });
@@ -167,28 +169,52 @@
 
     // 이미지 전송 이벤트
     $('.btn-submit').on('click', function() {
-      var formData = new FormData();
+      var title = $('.input-title').val();
+      var content = $('.input-content').val();
+      var isValid = true;
 
-      // 각 이미지 placeholder에서 파일을 가져와 FormData에 추가
-      $('.image-placeholder').each(function(index, element) {
-        var fileInput = $(element).next('input[type="file"]')[0];
-        if (fileInput && fileInput.files.length > 0) {
-          formData.append('files', fileInput.files[0]);
+      // 에러 메시지 초기화
+      $('.error-message').hide();
+
+      // 유효성 검사
+      if (!title) {
+        $('#title-error').show(); // 제목이 없을 때 에러 메시지 표시
+        isValid = false;
+      }
+
+      if (!content) {
+        $('#content-error').show(); // 내용이 없을 때 에러 메시지 표시
+        isValid = false;
+      }
+
+      if (!isValid) {
+        return; // 유효성 검사를 통과하지 못하면 Ajax 요청을 중지
+      }
+
+      // 유효성 검사를 통과하면 Ajax 요청을 보냄
+      var formData = new FormData();
+      formData.append('title', title);
+      formData.append('content', content);
+
+      // 선택된 이미지 파일들을 FormData에 추가
+      $.each(selectedFiles, function(index, file) {
+        if (file) {
+          formData.append('files', file); // 파일 배열로 추가
         }
       });
-
       // 서버로 이미지 전송
       $.ajax({
-        url: '/upload/images',
+        url: '/mypage/inquiry/upload',
         type: 'POST',
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function() {
-          alert('이미지가 성공적으로 업로드되었습니다.');
+        data: formData,                // FormData 객체를 서버로 전송
+        contentType: false,            // 브라우저가 자동으로 Content-Type을 설정하도록 함
+        processData: false,            // jQuery가 데이터를 변환하지 않도록 설정
+        success: function(response) {
+          alert(response);
+          window.location.href = "/mypage//inquiry/list";
         },
-        error: function() {
-          alert('이미지 업로드에 실패했습니다.');
+        error: function(e) {
+          console.log(e);
         }
       });
     });

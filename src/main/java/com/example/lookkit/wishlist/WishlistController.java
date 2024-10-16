@@ -16,8 +16,9 @@ public class WishlistController {
     WishlistMapper dao;
 
     @GetMapping("/wishlist")
-    public String getWishList(Model model) {
-        model.addAttribute("wishlist", dao.getWishList(1));  // "inquiries" 대신 "wishlist"로 수정
+    public String getWishList(Model model, HttpSession session) {
+        long userId = (long) session.getAttribute("userid");
+        model.addAttribute("wishlist", dao.getWishList(userId));  // "inquiries" 대신 "wishlist"로 수정
         return "mypage/wishlist";
     }
 }
