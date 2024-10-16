@@ -11,12 +11,11 @@
   <script>
     $(document).ready(function () {
       let idDuplicateChecked = false;
-
+   //      -- [주소지 찾기] --
       $("#addressSearch").click(function () {
         new daum.Postcode({
           oncomplete: function (data) {
             // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
             // 각 주소의 노출 규칙에 따라 주소를 조합한다.
             // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
             var addr = ""; // 주소 변수
@@ -70,48 +69,57 @@
         }).open();
       });
 
-      $(".signupButton").click((e) => {
-        // 폼 기본 이벤트 막기
-        e.preventDefault();
-        // 기본주소와 상세주소 합치기
-        let addr1 =$("#user_address").val();
-        console.log('addr1',addr1);
-        let addr2 =$("#user_detail_address").val();
-        console.log('addr2',addr2);
-        $("#user_total_address").val(addr1 + " " + addr2);
-        // 폼 제출
-        $("form").submit();
-      });
-
-      $(".cancelButton").click(() => {
-        location.href = "/auth/login";
-      });
 
 
+
+
+      // --  [유효성 검사]  --
 
       /**아이디 중복체크 클릭이벤트 **/
       $(".duplicateCheckButton").click(() => {
 
         // 정규식
-        // id, pw
-        let regId = /^[a-zA-Z0-9]{4,12}$/;
-
-        let regPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/;
+        // id
+        let regId = /^[a-zA-Z0-9]{6,12}$/;
         // 이름
         let regName = /^[가-힣a-zA-Z]{2,15}$/;
-        // 이메일
-        let regMail = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
 
 
-       let inputId= $("#InputIdBox").val();
+       let inputId= $("#userUuid").val();
         console.log("입력한 아이디",inputId);
         if( !regId.test(inputId) ){
-          $('#idCheckLabel').text('* 4~12자 영문 대소문자, 숫자만 입력하세요.').css({'display':'inline'});
+          $('#idCheckLabel').text('* 6~12자 영문 대소문자, 숫자만 입력하세요.').css({'display':'inline','color': '#FF294F'});
         }
         else{
           fetchDuplicateCheckId(inputId);
         }
       });
+
+      /**비밀번호 검증 */
+      $("#password").keyup( function() {
+        let regPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/;
+        if( !regPw.test($(this).val())){
+          $('#pwCheckLabel').text('* 8-16자 이내 영문자,숫자,특수문자를 모두 포함해야합니다.').css({'display':'inline','color': '#FF294F'});
+        }else{
+          $('#pwCheckLabel').css({'display':'none'});
+        }
+      })
+
+      /**이메일 검증 */
+      $("#email").keyup( function() {
+        console.log($(this).val());
+        // 이메일
+        let regMail = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+        if( !regMail.test($(this).val())){
+          $('#emailCheckLabel').text('* 올바른 이메일 주소를 입력해주세요.').css({'display':'inline','color': '#FF294F'});
+        }else{
+          $('#emailCheckLabel').css({'display':'none'});
+        }
+      })
+
+
+
+
 
 
       /**아이디 중복요청 확인 요청 */
@@ -134,7 +142,7 @@
             $('#idCheckLabel').text('✓ 사용 가능한 아이디입니다.').css({'color': '#1FCE65','display':'inline'});
             idDuplicateChecked=true;
           } else {
-            $('#idCheckLabel').text('* 이미 사용 중인 아이디입니다.').css({'display':'inline'});
+            $('#idCheckLabel').text('* 이미 사용 중인 아이디입니다.').css({'display':'inline','color': '#FF294F'});
           }
         })
           .catch(error => {
@@ -142,6 +150,26 @@
         });
       }
 
+
+// --  [submit 이벤트]  --
+
+      /**폼제출 버튼 이벤트*/
+      $(".signupButton").click((e) => {
+        // 폼 기본 이벤트 막기
+        e.preventDefault();
+        // 기본주소와 상세주소 합치기
+        let addr1 =$("#user_address").val();
+        console.log('addr1',addr1);
+        let addr2 =$("#user_detail_address").val();
+        console.log('addr2',addr2);
+        $("#user_total_address").val(addr1 + " " + addr2);
+        // 폼 제출
+        $("form").submit();
+      });
+
+      $(".cancelButton").click(() => {
+        location.href = "/auth/login";
+      });
 
       /**폼제출 이벤트 */
       $("#signUpForm").submit(function(e){
@@ -506,7 +534,7 @@
     .emailContainer {
       width: 499px;
       height: 57px;
-      position: static;
+      position: relative;
     }
     .emailInput {
       background: #ffffff;
@@ -718,6 +746,19 @@
         border-color:#C5C5C5;
     }
 
+    .pwCheckLabel{
+      position:absolute;
+      top:92px;
+      left:3px;
+      display:none;
+    }
+    .emailCheckLabel{
+      position:absolute;
+      top: 723px;
+      left:3px;
+      display:none;
+    }
+
   </style>
 </head>
 <body>
@@ -761,6 +802,7 @@
                     class="passwordInput"
                     placeholder="비밀번호 영문/특수문자/숫자 8~16자"
             />
+            <label id="pwCheckLabel" class="pwCheckLabel" > 비밀번호 체크</label>
           </div>
           <div class="nameContainer">
             <div class="nameLabel">이름</div>
@@ -791,6 +833,7 @@
                     class="emailInput"
                     placeholder="이메일주소"
             />
+            <label id="emailCheckLabel" class="emailCheckLabel" > 이메일 체크</label>
           </div>
           <div class="addressLabel">주소 정보</div>
           <div class="addressContainer">
@@ -825,7 +868,7 @@
                   id="birthDate"
                   class="birthdateInput"
                   name="birthDate"
-                  placeholder="생년월일 8자리를 입력하세요"
+                  placeholder="생년월일 6자리를 입력하세요"
           />
           <div class="genderMaleContainer">
             <input
