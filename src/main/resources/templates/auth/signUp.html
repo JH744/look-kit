@@ -71,8 +71,6 @@
 
 
 
-
-
       // --  [유효성 검사]  --
 
       /**아이디 중복체크 클릭이벤트 **/
@@ -83,7 +81,6 @@
         let regId = /^[a-zA-Z0-9]{6,12}$/;
         // 이름
         let regName = /^[가-힣a-zA-Z]{2,15}$/;
-
 
        let inputId= $("#userUuid").val();
         console.log("입력한 아이디",inputId);
@@ -187,8 +184,6 @@
           this.submit();
         }
       })
-
-
     });
 
   </script>
@@ -757,6 +752,9 @@
       display:none;
     }
 
+
+
+
   </style>
 </head>
 <body>
@@ -768,7 +766,7 @@
         <div class="separator"></div>
       </div>
       <div class="formContainer">
-        <form action="/auth/signUp" method="post" id="signUpForm"   autocomplete="off"  >
+        <form action="/auth/signUp" method="post" id="signUpForm" autocomplete="off"  >
           <div class="buttonContainer">
             <button type="submit" class="signupButton" id="signupButton">
               회원가입
@@ -793,6 +791,7 @@
           </div>
           <div class="passwordContainer">
             <div class="passwordLabel">비밀번호</div>
+
             <input
                     type="password"
                     id="password"
@@ -800,6 +799,7 @@
                     class="passwordInput"
                     placeholder="비밀번호 영문/특수문자/숫자 8~16자"
             />
+
             <label id="pwCheckLabel" class="pwCheckLabel" > 비밀번호 체크</label>
           </div>
           <div class="nameContainer">

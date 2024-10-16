@@ -192,12 +192,25 @@
         height: 10px;
         margin: 0 5px;
       }
-
       .loginFailMessage{
         color: #FF294F;
         text-align:center;
         padding:14px;
       }
+      .NoShowPwdButton{
+        position:absolute;
+        top:148px;
+        right:12px;
+        display:none;
+        cursor:pointer;
+      }
+      .showPwdButton{
+        position:absolute;
+        top:150px;
+        right:14px;
+        cursor:pointer;
+      }
+
     </style>
   </head>
   <body>
@@ -226,6 +239,12 @@
               id="pwdInputBox"
               class="inputField inputFieldPassword"
             />
+            <div id="showPwdButton" class="showPwdButton show">
+              <img th:src="@{/images/icon/eyesShow.svg}" width="27" height="27"  />
+            </div>
+            <div id="NoShowPwdButton" class="NoShowPwdButton show">
+              <img th:src="@{/images/icon/eyesNoShow.svg}" width="31" height="31" />
+            </div>
             <div class="rememberIdContainer">
               <input type="checkbox" class="checkbox" id="rememberId" />
               <label class="rememberIdLabel" for="rememberId"
@@ -257,7 +276,20 @@
             $("#signupLink").click(function () {
                 location.href = "/auth/signUp";
             });
-        });
+
+            $("#showPwdButton").click(function(){
+               $(this).css('display','none');
+            $("#NoShowPwdButton").css("display","block");
+              $("#pwdInputBox").attr("type", "text");
+            })
+
+          $("#NoShowPwdButton").click(function(){
+               $(this).css('display','none');
+            $("#showPwdButton").css('display','block');
+            $("#pwdInputBox").attr("type", "password");
+            })
+
+            });
       </script>
     </th:block>
   </body>
