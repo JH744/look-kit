@@ -1,0 +1,162 @@
+@charset "UTF-8";
+.page-container {
+    height: 100%;
+    position: relative;
+  }
+  
+  .main-content {
+    background: #ffffff;
+    width: 100%;
+  }
+  
+  .main-banner {
+    height: 250px;
+    overflow: hidden;
+  }
+  
+  .banner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .title {
+    font-size: 42px;
+    font-weight: bold;
+  }
+  
+  .banner-subtitle {
+    font-size: 18px;
+    font-weight: 300;
+    margin-top: 10px;
+  }
+  
+  .indicator {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .section-title {
+    font-size: 20px;
+    text-align: center;
+    margin: 40px 0;
+    font-weight: bold;
+  }
+  
+  .brand-container {
+    display: inline-flex;
+    text-align: center;
+    width: 100%;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+.brand-image-container {
+    position: relative;
+    display: inline-block; /* 필요에 따라 변경 가능 */
+}
+  
+.brand-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지가 컨테이너에 맞게 잘림 */
+}
+  
+  .brand-name {
+    position: absolute;
+    top: 83%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 15px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  
+  /* 코디세트 컨테이너 */
+.codi-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.codi-main-container {
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+}
+
+.codi-title {
+    display: flex;
+    align-items: center; /* 수직 정렬 */
+    justify-content: space-between; /* 양 끝에 요소 배치 */
+    padding: 10px 0px;
+    width: 100%;
+    margin-top: 50px;
+}
+
+.circle {
+    width: 15px;
+    height: 15px;
+    background-color: #6e2485;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.codi-text {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.codi-sumnail {
+    width: 250px;
+}
+
+.view-more {
+    margin-left: auto; /* 오른쪽 끝으로 밀어내기 */
+    color: #999;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.codi-product {
+    display: flex;
+    align-items: center;
+}
+
+.codi-product-img {
+    width: 70px;
+    height: 70px;
+}
+
+.codi-block {
+    display: grid;
+    justify-items: center;
+}
+
+.codi-text p {
+    margin: 0px;
+    font-size: 15px;
+    /* margin-left: 10px; */
+}
+
+.codi-text p:nth-child(2) {
+    font-size: 11px;
+}
+
+/* new-in */
+.new-container {
+    margin-top: 50px;
+    display: grid;
+    justify-content: center;
+}
+
+.new-product-img {
+    width: 200px;
+}
+
+.new-product-block {
+    display: flex;
+    gap: 25px;
+}
