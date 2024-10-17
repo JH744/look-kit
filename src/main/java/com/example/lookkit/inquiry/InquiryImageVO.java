@@ -6,6 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@ToString
 public class InquiryImageVO {
     private long inquiryImageId;
     private long inquiryId;

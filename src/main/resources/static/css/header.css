@@ -133,6 +133,7 @@ table {
 }
 a {
   text-decoration: none;
+  color : black;
 }
 
 /** <초기화 코드/>   **/

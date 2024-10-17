@@ -1,0 +1,90 @@
+.outer-container {
+    display: grid;
+    margin-top: 20px;
+    width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 100px;
+}
+
+.section-inquiries {
+    border-bottom: 2px solid #727272;
+}
+
+.second-grid {
+    width: 100%;
+    margin-left: 50px;
+}
+
+#section-title {
+    font-size: 24px;
+    margin-top: 65px;
+    margin-bottom: 0px;
+}
+
+.space-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 7px;
+}
+
+/* 테이블 스타일 */
+.inquiries-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border-top: 1px solid black;
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+}
+
+th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+#th-wide {
+    width: 150px;
+}
+
+.right-padding, #th-wide {
+    padding-right: 350px;
+}
+
+
+td button {
+    padding: 5px 10px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+td button:hover {
+    background-color: #aaa;
+}
+
+/* "문의하기" 버튼 스타일 */
+.inquiry-btn {
+    display: inline-block;
+    background-color: #0d1134;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    width: 140px;
+}
+
+.inquiry-btn:hover {
+    cursor: pointer;
+}
+
+/* 답변 여부 강조 */
+.answer-text {
+    font-weight: bolder;
+    font-size: 20px;
+}

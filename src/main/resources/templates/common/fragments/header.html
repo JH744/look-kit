@@ -37,20 +37,19 @@
             </div>
               <!-- 로그인시 로그아웃버튼 노출-->
             <div id="LogoutBtn" class="iconBtn" sec:authorize="isAuthenticated()">
-              <a th:href="@{/logout}" class="simptip-position-top simptip-info" data-tooltip="Logout">
+              <a th:href="@{/logout}" class="simptip-position-top " data-tooltip="Logout">
                 <img th:src="@{/images/icon/logoutIcon.svg}" width="30" height="30" />
               </a>
             </div>
-            <div class="iconBtn" >
-              <a th:href="@{/}" class="simptip-position-top simptip-danger" data-tooltip="My Page">
-              <img th:src="@{/images/icon/profileIcon.svg}" width="30" height="30"  />
-              </a>
-            </div>
             <div class="iconBtn">
-              <a th:href="@{/}" class="simptip-position-top" data-tooltip="Cart">
-              <img th:src="@{/images/icon/cartIcon.svg}" width="30" height="30" />
+              <a th:href="@{/mypage/wishlist}" class="simptip-position-top " data-tooltip="My Page">
+                <img th:src="@{/images/icon/profileIcon.svg}" width="35" height="35" />
               </a>
             </div>
+              <a th:href="@{/}" class="simptip-position-top" data-tooltip="Cart">
+                  <img th:src="@{/images/icon/cartIcon.svg}" width="30" height="30" />
+<!--          경진님아이콘   <img th:src="@{/images/icon/CartIcon.svg}" width="35" height="35" />-->
+              </a>
           </div>
         </div>
       </div>
