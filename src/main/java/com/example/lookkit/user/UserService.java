@@ -27,8 +27,17 @@ public class UserService {
         return userMapper.getUserByUuid(userId);
     }
 
-
+    // pk로 유저 조회
     public UserVO getUserById(long userId) {
         return userMapper.getUserById(userId);
     }
+
+    // 이름,이메일로 아이디 찾기
+    public String findUserUuidByNameAndEmail(String userName, String email){
+        return userMapper.findUserUuidByNameAndEmail(userName,email);
+    }
+
+
+
+
 }
