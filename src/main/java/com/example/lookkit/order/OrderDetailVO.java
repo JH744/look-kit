@@ -6,6 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class OrderDetailVO {
     private long orderItemId;
     private long orderId;
@@ -13,4 +14,8 @@ public class OrderDetailVO {
     private Long codiId;
     private long userId;
     private int quantity;
+
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
+    }
 }
