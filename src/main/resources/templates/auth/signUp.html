@@ -88,6 +88,7 @@
           $('#idCheckLabel').text('* 6~12자 영문 대소문자, 숫자만 입력하세요.').css({'display':'inline','color': '#FF294F'});
         }
         else{
+          $('#idCheckLabel').text('');
           fetchDuplicateCheckId(inputId);
         }
       });
@@ -766,7 +767,7 @@
         <div class="separator"></div>
       </div>
       <div class="formContainer">
-        <form action="/auth/signUp" method="post" id="signUpForm" autocomplete="off"  >
+        <form action="/auth/signUp" method="post" id="signUpForm"   >
           <div class="buttonContainer">
             <button type="submit" class="signupButton" id="signupButton">
               회원가입

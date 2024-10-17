@@ -253,11 +253,7 @@
   </style>
   <script>
     $(document).ready(() => {
-      $("#authenticationBtn").click(() => {
-        alert("입력하신 이메일로 인증번호를 발송했습니다.");
-        $(".formContainer").css("display", "none");
-        $(".formContainer2").css("display", "block");
-      });
+
       $("#authenticationOKBtn").click(() => {
         confirm("인증에 성공하였습니다.");
         $(".formContainer2").css("display", "none");
@@ -270,6 +266,62 @@
       $("#goToLoginBtn").click(() => {
         location.href = "/auth/login";
       });
+
+
+
+      // 이메일인증 버튼 클릭 이벤트
+      $("#authenticationBtn").click(() => {
+        let name = $("input[name='name']").val();
+        let email = $("input[name='email']").val();
+        console.log("입력한 이름:", name);
+        console.log("입력한 이메일:", email);
+
+        // 유효성 검사 (이메일 형식 확인)
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (name.trim() === "") {
+          alert("이름을 입력해 주세요.");
+          return;
+        }
+        if (!emailPattern.test(email)) {
+          alert("올바른 이메일 형식을 입력해 주세요.");
+          return;
+        }
+
+        // 이메일 인증 요청
+        sendEmailVerification(name, email);
+
+      });
+    });
+
+    // 이메일 인증 요청 함수
+    function sendEmailVerification(name, email) {
+      $.ajax({
+        url: "/email/verify", // 이메일 인증 API 엔드포인트
+        method: "POST",
+        data: { name: name, email: email },
+        success: (response) => {
+          if (response.success) {
+            alert("입력하신 이메일로 인증번호를 발송했습니다.");
+            $(".formContainer").css("display", "none");
+            $(".formContainer2").css("display", "block");
+          } else {
+            alert("이메일 인증에 실패했습니다. 다시 시도해 주세요.");
+          }
+        },
+        error: () => {
+          alert("오류가 발생했습니다. 다시 시도해 주세요.");
+        },
+      });
+    }
+
+
+
+
+
+
+
+
+
     });
   </script>
 </head>
@@ -284,12 +336,11 @@
     </div>
     <div class="formContainer">
       <div class="formLabel">이름</div>
-      <input class="formInput" placeholder="이름을 입력해 주세요" />
+      <input class="formInput" placeholder="이름을 입력해 주세요" name="name"/>
       <div class="formLabel">이메일</div>
-      <input class="formInput" placeholder="이메일을 입력해 주세요" />
+      <input class="formInput" placeholder="이메일을 입력해 주세요" name="email"/>
       <div id="authenticationBtn" class="buttonContainer">인증받기</div>
     </div>
-
     <div class="formContainer2">
       <input class="formInput" placeholder="인증번호 입력" />
       <div style="margin: 15px">

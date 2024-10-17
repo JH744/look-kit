@@ -41,6 +41,8 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'io.github.cdimascio:dotenv-java:2.2.4'
+	implementation 'org.springframework:spring-context-support:5.3.24'
+	implementation 'javax.mail:mail:1.4.7'
 }
 
 tasks.named('test') {

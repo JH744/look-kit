@@ -64,6 +64,8 @@ public class UserController {
     @GetMapping("/findPwd")
     public void findPwd() {
     }
+    @PostMapping("/findPwd")
+
 
     @GetMapping("/checkDuplicateId")
     @ResponseBody
