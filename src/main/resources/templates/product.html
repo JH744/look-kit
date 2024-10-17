@@ -230,7 +230,18 @@
     <p>상세정보 내용이 여기에 표시됩니다.</p>
   </div>
   <div class="tab-content">
-    <p>리뷰 내용이 여기에 표시됩니다.</p>
+    <h3>리뷰</h3>
+  <div th:if="${#lists.isEmpty(reviews)}">
+    <p>작성된 리뷰가 없습니다.</p>
+  </div>
+  <div th:each="review : ${reviews}">
+    <div class="review-item">
+      <p th:text="${review.userId} + ' 님의 리뷰'">유저 리뷰</p>
+      <p th:text="${review.rating} + '점'">5점</p>
+      <p th:text="${review.reviewText}">리뷰 내용</p>
+      <p th:text="${review.createdAt}">리뷰 작성일</p>
+    </div>
+  </div>
   </div>
   <div class="tab-content">
     <p>상품 Q&A 내용이 여기에 표시됩니다.</p>
