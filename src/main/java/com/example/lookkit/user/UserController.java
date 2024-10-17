@@ -55,8 +55,7 @@ public class UserController {
         //가져온 유저객체가 null이면 중복값이 없으므로 true로 반환.
         boolean result = (user == null);
         return result;
+
+
     }
-
-
-
 }

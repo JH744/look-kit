@@ -1,9 +1,9 @@
 package com.example.lookkit.mypage;
 
-import com.example.lookkit.user.UserVO;
-
 public interface MypageService {
-    UserVO getUserInfo(int userId);
+    MypageDTO getUserInfo(long userId);
     boolean updateUserInfo(MypageDTO mypageDTO);
-    boolean isEmailUnique(String email, int userId);
+    boolean isEmailDuplicate(String email, long userId);
+    boolean updatePassword(long userId, String newPassword);
+    String getPassword(long userId);
 }

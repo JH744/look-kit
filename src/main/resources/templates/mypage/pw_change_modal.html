@@ -1,120 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>비밀번호 변경</title>
+    <link rel="stylesheet" th:href="@{/css/changePassword.css}">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: rgba(0, 0, 0, 0.5); /* 모달 외부 어둡게 */
+        /* 간단한 스타일 추가 */
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
         }
 
-        .modal-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .pw-check-modal {
-            display: grid;
-            background-color: white;
-            width: 530px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            border-radius: 3px;
-        }
-
-        .modal-title {
-            font-size: 16px;
-            margin-bottom: 50px;
-            margin-left: 3px;
-            padding: 5px;
-            color: #555353;
-        }
-
-        .modal-subtitle {
-            font-size: 21px;
-            margin-bottom: 30px;
-            text-align: center;
-            color: #555;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            font-size: 14px;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .input-group input {
-            width: 350px;
-            padding: 10px;
-            border: 1px solid #ccc;
+        .change-password-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            font-size: 14px;
         }
 
-        .input-container {
-            justify-self: center;
+        .form-group {
+            margin-bottom: 15px;
         }
 
-        .modal-footer {
-            text-align: center;
-            margin: 20px 0px;
+        label {
+            display: block;
+            margin-bottom: 5px;
         }
 
-        .modal-footer button {
-            padding: 12px 30px;
-            background-color: #0d1134;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 15px;
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 15px;
             cursor: pointer;
-            width: 200px;
-            height: 42px
         }
 
-        .modal-footer button:hover {
-            background-color: #1a1b5d;
+        .button-group {
+            display: flex;
+            justify-content: space-between;
         }
     </style>
 </head>
 <body>
-
-    <div class="modal-container">
-        <div class="pw-check-modal">
-            <span class="modal-title">비밀번호 변경</span>
-            <span class="modal-subtitle">변경하실 비밀번호를 입력해주세요</span>
-
-            <div class="input-container">
-                <div class="input-group">
-                    <label for="current-password">현재 비밀번호</label>
-                    <input type="password" id="current-password" placeholder="현재 비밀번호를 입력하세요">
-                </div>
-    
-                <div class="input-group">
-                    <label for="new-password">새 비밀번호</label>
-                    <input type="password" id="new-password" placeholder="새 비밀번호를 입력하세요">
-                </div>
-    
-                <div class="input-group">
-                    <label for="confirm-password">새 비밀번호 확인</label>
-                    <input type="password" id="confirm-password" placeholder="한번 더 입력하세요">
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button>비밀번호 변경하기</button>
-            </div>
+<div class="change-password-container">
+    <h2>비밀번호 변경</h2>
+    <form action="/mypage/changePassword" method="post">
+        <div class="form-group">
+            <label for="newPassword">새 비밀번호:</label>
+            <input type="password" id="newPassword" name="newPassword" required>
         </div>
-    </div>
+        <div class="form-group">
+            <label for="confirmPassword">비밀번호 확인:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+        </div>
+        <div class="button-group">
+            <button type="button" onclick="window.location.href='/mypage/userinfo'">취소하기</button>
+            <button type="submit">변경하기</button>
+        </div>
+    </form>
+    <div th:if="${message}" th:text="${message}"
+         th:classappend="${message.contains('성공') ? 'success' : 'error'}"></div>
+</div>
 
+<script>
+    // 비밀번호 확인 스크립트
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(event) {
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (newPassword !== confirmPassword) {
+            alert('비밀번호가 일치하지 않습니다.');
+            event.preventDefault();
+        }
+    });
+</script>
 </body>
 </html>

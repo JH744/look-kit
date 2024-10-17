@@ -1,109 +1,34 @@
 package com.example.lookkit.mypage;
 
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
+import java.time.LocalDate;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MypageDTO {
+    private long userId;
+    private String userUuid;
 
-    @NotEmpty
-    private int userId; // 타입을 int로 유지
-
-    @NotEmpty(message = "아이디를 입력해주세요.")
-    private String userUuid; // USER_UUID 필드 추가
-
-    @Size(min = 8, message = "비밀번호는 최소 8자 이상이어야 합니다.")
-    private String password;
-
-    @NotEmpty(message = "이름을 입력해주세요.")
+    @NotEmpty(message = "이름은 필수입니다.")
     private String name;
 
-    @NotEmpty(message = "휴대폰 번호를 입력해주세요.")
+    @Pattern(regexp = "^[0-9]{10,11}$", message = "휴대폰 번호 형식이 올바르지 않습니다.")
     private String phoneNumber;
 
-    @NotEmpty(message = "생년월일을 입력해주세요.")
-    private String birthDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthDate;
 
-    @Email(message = "유효한 이메일 주소를 입력해주세요.")
+    @Email(message = "이메일 형식이 올바르지 않습니다.")
     private String email;
 
-    private String zipcode;
+    @NotEmpty(message = "주소는 필수입니다.")
     private String address;
-
-    @NotEmpty(message = "상세 주소를 입력해주세요.")
-    private String detailAddress;
-
-    // Getters and Setters
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getDetailAddress() {
-        return detailAddress;
-    }
-
-    public void setDetailAddress(String detailAddress) {
-        this.detailAddress = detailAddress;
-    }
 }
+
