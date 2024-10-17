@@ -28,7 +28,7 @@ public class UserService {
     }
 
 
-//    public UserVO getUserById(long userId) {
-//        return userMapper.getUserById(userId);
-//    }
+    public UserVO getUserById(long userId) {
+        return userMapper.getUserById(userId);
+    }
 }

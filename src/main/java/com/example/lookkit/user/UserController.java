@@ -34,7 +34,7 @@ public class UserController {
 
         boolean result = userService.insertUser(user);
         System.out.println("결과 : " + (result? "성공":"실패"));
-        return "redirect:/main";
+        return "redirect:/auth/login";
     };
 
     @GetMapping("/findID")

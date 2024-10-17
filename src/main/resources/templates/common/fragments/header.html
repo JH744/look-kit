@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>header</title>
-<link href="../../../static/css/header.css" rel="stylesheet">
   </head>
   <body>
   <div th:fragment="headerFragment">
@@ -32,24 +31,25 @@
           <div class="navIcon">
               <!-- 비로그인시 로그인버튼 노출-->
             <div id="LoginBtn" class="iconBtn" sec:authorize="isAnonymous()">
-              <a th:href="@{/auth/login}">
-              <img th:src="@{/images/icon/LoginIcon.svg}" width="35" height="35" />
+              <a th:href="@{/auth/login}" class="simptip-position-top simptip-success" data-tooltip="Login">
+              <img th:src="@{/images/icon/LoginIcon.svg}" width="30" height="30" />
               </a>
             </div>
               <!-- 로그인시 로그아웃버튼 노출-->
             <div id="LogoutBtn" class="iconBtn" sec:authorize="isAuthenticated()">
-              <a th:href="@{/logout}">
-                <img th:src="@{/images/icon/logoutIcon.svg}" width="25" height="25" />
+              <a th:href="@{/logout}" class="simptip-position-top " data-tooltip="Logout">
+                <img th:src="@{/images/icon/logoutIcon.svg}" width="30" height="30" />
               </a>
             </div>
             <div class="iconBtn">
-              <a th:href="@{/mypage/wishlist}">
+              <a th:href="@{/mypage/wishlist}" class="simptip-position-top " data-tooltip="My Page">
                 <img th:src="@{/images/icon/profileIcon.svg}" width="35" height="35" />
               </a>
             </div>
-            <div class="iconBtn">
-              <img th:src="@{/images/icon/CartIcon.svg}" width="35" height="35" />
-            </div>
+              <a th:href="@{/}" class="simptip-position-top" data-tooltip="Cart">
+                  <img th:src="@{/images/icon/cartIcon.svg}" width="30" height="30" />
+<!--          경진님아이콘   <img th:src="@{/images/icon/CartIcon.svg}" width="35" height="35" />-->
+              </a>
           </div>
         </div>
       </div>
