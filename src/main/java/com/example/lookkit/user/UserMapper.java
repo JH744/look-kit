@@ -18,7 +18,7 @@ public interface UserMapper {
     UserVO getUserById(Long userid);
 
 
-    @Select("SELECT USER_UUID FROM USER WHERE USER_NAME = #{userName} AND EMAIL = #{email}")
+    @Select("SELECT USER_UUID FROM USERS WHERE USER_NAME = #{userName} AND EMAIL = #{email}")
     public String findUserUuidByNameAndEmail(String userName, String email);
 
 }

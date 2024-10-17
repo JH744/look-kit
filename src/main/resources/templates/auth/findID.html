@@ -209,7 +209,8 @@
     <script>
         $(document).ready(() => {
           $("#findIdBtn").click(() => {
-            location.href = "/auth/findIdOK";
+//            location.href = "/auth/findIdOK";
+              $("#findIdForm").submit();
           });
         });
     </script>
@@ -223,13 +224,13 @@
                 <div class="tabTextActive">아이디찾기</div>
             </div>
         </div>
-        <div class="formContainer">
+        <form action="/auth/findID" method="post" id="findIdForm" class="formContainer">
             <div class="formLabel">이름</div>
-            <input class="formInput" placeholder="이름을 입력해 주세요" />
+            <input class="formInput" placeholder="이름을 입력해 주세요" name="name"/>
             <div class="formLabel">이메일</div>
-            <input class="formInput" placeholder="이메일을 입력해 주세요" />
+            <input class="formInput" placeholder="이메일을 입력해 주세요" name="email"/>
             <div id="findIdBtn" class="buttonContainer">확인</div>
-        </div>
+        </form>
     </div>
 </div>
 </body>

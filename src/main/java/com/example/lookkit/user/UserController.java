@@ -3,6 +3,7 @@ package com.example.lookkit.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -40,6 +41,23 @@ public class UserController {
     @GetMapping("/findID")
     public void findID() {
     }
+
+    @PostMapping("/findID")
+    public String submitFindID(String name, String email, Model model) {
+        System.out.println("전달받은 이름: "+name);
+        System.out.println("전달받은 멜: "+ email);
+        String userId = userService.findUserUuidByNameAndEmail(name,email);
+        if (userId == null) {
+            System.out.println("아이디가 null로 확인");
+            model.addAttribute("errorMessage", "일치하는 사용자를 찾을 수 없습니다.");
+            return "redirect:/auth/findID";  // 에러 메시지를 유지하며 다시 아이디 찾기 페이지로 이동
+        }
+        model.addAttribute("userid", userId);
+        model.addAttribute("userName", name);
+//        return "redirect:/auth/findIdOK";
+        return "/auth/findIdOK";
+    }
+
     @GetMapping("/findIdOK")
     public void findIdOK() {
     }

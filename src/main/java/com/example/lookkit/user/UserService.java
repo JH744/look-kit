@@ -34,6 +34,7 @@ public class UserService {
 
     // 이름,이메일로 아이디 찾기
     public String findUserUuidByNameAndEmail(String userName, String email){
+        System.out.println("찾은아이디: "+ userMapper.findUserUuidByNameAndEmail(userName,email));
         return userMapper.findUserUuidByNameAndEmail(userName,email);
     }
 

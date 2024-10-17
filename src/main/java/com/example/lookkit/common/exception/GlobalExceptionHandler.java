@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-
+//모든 컨트롤러에서 발생하는 예외를 전역으로 처리함
 @ControllerAdvice
 public class GlobalExceptionHandler {
     // UserNotFoundException 발생 시 처리
