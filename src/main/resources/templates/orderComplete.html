@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="common/layout/base"> 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Complete Page</title>
+  <style>
+   a,
+   button,
+   input,
+   select,
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   * {
+       box-sizing: border-box;
+       margin: 0;
+       padding: 0;
+       border: none;
+       text-decoration: none;
+       background: none;
+   }
+   button {
+       cursor: pointer;
+   }
+   
+   menu, ol, ul {
+       list-style-type: none;
+       margin: 0;
+       padding: 0;
+   }
+
+   .button {
+       display: inline-flex;
+       align-items: center;
+       justify-content: center;
+       padding: 10px 20px;
+       font-size: 16px;
+       font-weight: bold;
+       border-radius: 5px;
+       background-color: #1d1d1f;
+       color: white;
+       transition: background-color 0.3s ease;
+   }
+   .button:hover {
+       background-color: #333;
+   }
+   
+   .span {
+       font-size: 14px;
+       color: #1d1d1f;
+       margin: 5px 0;
+   }
+   /* 기존 클래스명을 새로운 클래스명으로 교체 */
+
+.order-complete,
+.order-complete * {
+  box-sizing: border-box;
+}
+.order-complete {
+  background: #ffffff;
+  height: 1484.84px;
+  position: relative;
+}
+.order-info {
+  width: 1359.98px;
+  height: 1284.84px;
+  position: absolute;
+  left: 100px;
+  top: 100px;
+}
+.order-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 0px;
+}
+.heading {
+  padding: 118px 563.41px 19px 563.39px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.order-complete-text {
+  color: #101010;
+  text-align: center;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 24.578125px;
+  line-height: 26px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.order-number-container {
+  margin: -0.8px 0 0 0;
+  padding: 0px 558.09px 0px 558.09px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.order-number-wrapper {
+  padding: 0px 0px 0px 3.47px;
+  display: flex;
+  flex-direction: row;
+  gap: 13.45px;
+  align-items: flex-end;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.order-number {
+  color: #101010;
+  text-align: center;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 13.59375px;
+  line-height: 15px;
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.order-icon-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.order-icon-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+.order-icon {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  position: relative;
+  overflow: visible;
+}
+.order-links {
+  margin: -0.8px 0 0 0;
+  padding: 39.8px 450.03px 0px 450px;
+  display: flex;
+  flex-direction: row;
+  gap: 7.99px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.button.view-order-link {
+  background: #ffffff;
+  border-radius: 46px;
+  flex-shrink: 0;
+  width: 225.98px;
+  height: 45.98px;
+  position: relative;
+}
+.view-order-text {
+  color: #2b2b2b;
+  text-align: center;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 14.1796875px;
+  line-height: 46px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 41.06px);
+  top: -1.25px;
+  width: 82.33px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.button.home-link {
+  background: #062236;
+  border-radius: 46px;
+  flex-shrink: 0;
+  width: 225.98px;
+  height: 45.98px;
+  position: relative;
+}
+.home-link-text {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 14.0625px;
+  line-height: 46px;
+  font-weight: 400;
+  position: absolute;
+  left: calc(50% - 36.23px);
+  top: -1.25px;
+  width: 72.67px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 356.93px;
+}
+.product-header {
+  display: flex; /* 자식 요소를 가로로 배치 */
+  align-items: center; /* 수직 중앙 정렬 */
+  gap: 8px;
+  background: #fafafa;
+  border-radius: 3px 3px 0px 0px;
+  border-style: solid;
+  border-color: #cdcdcd;
+  border-width: 1.5px 1.5px 0px 1.5px;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 46.99px;
+  position: relative;
+  overflow: hidden;
+}
+.product-icon-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  position: absolute;
+  left: 24.49px;
+  top: 1.5px;
+}
+.product-icon {
+  flex-shrink: 0;
+  width: 14.41px;
+  height: 45px;
+  position: relative;
+  overflow: visible;
+}
+.product-brand {
+  color: #101010;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 13px;
+  line-height: 45px;
+  font-weight: 400;
+  position: absolute;
+  left: 44.9px;
+  top: 0.75px;
+  width: 74.12px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.product-list {
+  margin: 0px 0 0 0;
+  border-radius: 0px 0px 3px 3px;
+  border-style: solid;
+  border-color: #cdcdcd;
+  border-width: 0px 1.5px 1.5px 1.5px;
+  padding: 0px 1.5px 1.5px 1.5px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.product-item {
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 150px;
+  position: relative;
+}
+.product-price {
+  padding: 0px 0px 1.99px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 128.99px;
+  position: absolute;
+  left: 1185px;
+  top: 63.01px;
+}
+.price-amount {
+  color: #101010;
+  text-align: left;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 18.4375px;
+  line-height: 20px;
+  font-weight: 700;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.product-details-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: absolute;
+  right: 171.98px;
+  left: 42.97999954223633px;
+  top: calc(50% - 51px);
+}
+.product-image-wrapper {
+  padding: 0px 0.01px 0px 76.99px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.product-image-background {
+  background: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 6.74%;
+  position: absolute;
+  right: 93.26%;
+  left: 0%;
+  top: 0px;
+  overflow: hidden;
+}
+.product-image {
+  flex-shrink: 0;
+  width: 76.99px;
+  height: 102px;
+  position: relative;
+  object-fit: cover;
+}
+.product-description {
+  padding: 0.99px 54px 31.45px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  min-height: 102px;
+  position: relative;
+}
+.product-brand-name {
+  color: #000000;
+  text-align: left;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 13.453125px;
+  line-height: 19.6px;
+  font-weight: 700;
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.product-name {
+  color: #767676;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 13.5625px;
+  line-height: 20px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.product-variant {
+  color: #7b7b7b;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 12.59375px;
+  line-height: 19px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+/* 기존 클래스명을 새로운 클래스명으로 교체 */
+
+.shipping-info {
+  display: flex;
+  flex-direction: column;
+  gap: 13.99px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 635.42px;
+}
+
+.shipping-header {
+  border-width: 1.5px 0px 1.5px 0px;
+  border-style: solid;
+  border-image: linear-gradient(
+    0deg,
+    rgba(238, 238, 238, 1) 0%,
+    rgba(16, 16, 16, 1) 0%
+  );
+  border-image-slice: 1;
+  padding: 20.5px 5px 21.5px 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.shipping-info-title {
+  color: #101010;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 18.75px;
+  line-height: 28px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.shipping-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  flex-shrink: 0;
+  max-width: 1359.98px;
+  position: relative;
+}
+
+.shipping-body {
+  flex-shrink: 0;
+  width: 1359.98px;
+  height: 159.96px;
+  position: relative;
+}
+
+.shipping-row {
+  padding: 0px 0px 0px 22.99px;
+  display: flex;
+  flex-direction: row;
+  gap: 102.07px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: absolute;
+  left: 0px;
+  top: -0.25px;
+}
+
+.shipping-cell {
+  color: #7b7b7b;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 13.34375px;
+  line-height: 32px;
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.shipping-data {
+  padding: 0px 23px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.shipping-value {
+  color: #101010;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 32px;
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.shipping-memo {
+  color: #7b7b7b;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 13.34375px;
+  line-height: 32px;
+  font-weight: 400;
+  position: absolute;
+  left: 22.99px;
+  top: 127.72px;
+  width: 49.14px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.payment-info {
+  display: flex;
+  flex-direction: row;
+  gap: 57.98px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 965.35px;
+}
+
+.payment-header {
+  display: flex;
+  flex-direction: column;
+  gap: 13.99px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 978px;
+  position: relative;
+}
+
+.payment-info-title {
+  color: #101010;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 18.75px;
+  line-height: 28px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.payment-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  flex-shrink: 0;
+  max-width: 978px;
+  position: relative;
+}
+
+.payment-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.payment-row {
+  padding: 0px 0px 0px 22.99px;
+  display: flex;
+  flex-direction: row;
+  gap: 102.07px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.payment-cell {
+  color: #101010;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 13.234375px;
+  line-height: 32px;
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.payment-value {
+  color: #101010;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 13.125px;
+  line-height: 32px;
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.final-payment {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 324px;
+  position: relative;
+}
+
+.final-payment-header {
+  border-style: solid;
+  border-color: #101010;
+  border-width: 1.5px 0px 0px 0px;
+  padding: 20.5px 5px 20px 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.final-payment-title {
+  color: #101010;
+  text-align: left;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 14.1796875px;
+  line-height: 31px;
+  font-weight: 400;
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.final-payment-border {
+  background: #fafafa;
+  border-radius: 3px;
+  border-style: solid;
+  border-color: #eeeeee;
+  border-width: 1px;
+  padding: 22.5px 34.5px 21.5px 34.5px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 324px;
+  position: relative;
+}
+
+.final-payment-table {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  flex-shrink: 0;
+  max-width: 324px;
+  position: relative;
+}
+
+.final-payment-body {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.final-payment-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.final-payment-cell {
+  padding: 0.25px 0px 2.76px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+}
+
+.final-payment-data {
+  margin: 0;
+  padding: 0 4px; 
+  display: flex;
+  flex-direction: column; 
+  gap: 0px;
+  align-items: flex-end; 
+  justify-content: center; 
+  flex-shrink: 0;
+  position: relative; 
+}
+
+.final-payment-amount {
+  color: #101010;
+  text-align: right;
+  font-family: "Inter-Bold", sans-serif;
+  font-size: 17.96875px;
+  line-height: 31px;
+  font-weight: 700;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.final-payment-footer {
+  margin: 0px 0 0 0;
+  border-style: solid;
+  border-color: #dcdcdc;
+  border-width: 1.5px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+   </style>
+</head>
+<body>
+  <th:block layout:fragment="content">
+  <div class="order-complete">
+    <div class="order-info">
+      <div class="order-header">
+        <div class="heading">
+          <div class="order-complete-text">주문이 완료되었습니다</div>
+        </div>
+        <div class="order-number-container">
+          <div class="order-number-wrapper">
+            <div class="order-number">주문번호: <span th:text="${orderId}"></span></div>
+          </div>
+          <div class="order-icon-wrapper">
+            <div class="order-icon-container">
+              <img class="order-icon" src="icon0.svg" alt="Order Icon" />
+            </div>
+          </div>
+        </div>
+        <div class="order-links">
+          <button class="button view-order-link">
+            <span>구매내역 보기</span>
+          </button>
+          <button class="button home-link">
+            <span>쇼핑 홈 가기</span>
+          </button>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-header">
+          <div class="product-icon-container">
+            <img class="product-icon" src="icon1.svg" alt="Product Icon" />
+          </div>
+          <div class="product-brand">노이오(noio)</div>
+        </div>
+        <div class="product-list">
+          <div class="product-item">
+            <div class="product-price">
+              <div class="price-amount"><span th:text="${amount}"></span>원</div>
+            </div>
+            <div class="product-details-wrapper">
+              <div class="product-image-wrapper">
+                <div class="product-image-background">
+                  <img class="product-image" src="image0.png" alt="Product Image" />
+                </div>
+                <div class="product-description">
+                  <div class="product-brand-name">noio</div>
+                  <div class="product-name">노이오 캣닢토이_Anchovy Catnip Toy</div>
+                  <div class="product-variant">블루 / 1개</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="shipping-info">
+        <div class="shipping-header">
+          <div class="shipping-info-title">배송지 정보</div>
+        </div>
+        <div class="shipping-table">
+          <div class="shipping-body">
+            <div class="shipping-row">
+              <div class="shipping-cell">배송지명</div>
+              <div class="shipping-data">
+                <span class="span shipping-value">집</span>
+              </div>
+            </div>
+            <div class="shipping-row">
+              <div class="shipping-cell">받는 사람</div>
+              <div class="shipping-data">
+                <span class="span shipping-value">이유진</span>
+              </div>
+            </div>
+            <div class="shipping-row">
+              <div class="shipping-cell">휴대폰번호</div>
+              <div class="shipping-data">
+                <span class="span shipping-value">010-5102-6304</span>
+              </div>
+            </div>
+            <div class="shipping-row">
+              <div class="shipping-cell">주소</div>
+              <div class="shipping-data">
+                <span class="span shipping-value">
+                  13260 경기도 성남시 수정구 수정로 319 (신흥동, 산성역포레스티아아파트) 116-801
+                </span>
+              </div>
+            </div>
+            <div class="shipping-memo">배송메모</div>
+          </div>
+        </div>
+      </div>
+      <div class="payment-info">
+        <div class="payment-header">
+          <div class="payment-info-title">결제 정보</div>
+        </div>
+        <div class="payment-table">
+          <div class="payment-body">
+            <div class="payment-row">
+              <div class="payment-cell">결제수단</div>
+              <div class="payment-data">
+                <span class="span payment-value" th:text="${paymentMethod}"></span>
+              </div>
+            </div>
+            <div class="payment-row">
+              <div class="payment-cell">구매 적립</div>
+              <div class="payment-data">
+                <span class="span payment-value">88원</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="final-payment">
+          <div class="final-payment-header">
+            <div class="final-payment-title">최종 결제금액</div>
+          </div>
+          <div class="final-payment-border">
+            <div class="final-payment-table">
+              <div class="final-payment-body">
+                <div class="final-payment-row">
+                  <div class="final-payment-cell">총 상품금액</div>
+                  <div class="final-payment-data">
+                    <span class="span final-payment-amount" th:text="${amount}"></span>원
+                  </div>
+                </div>
+              </div>
+              <div class="final-payment-footer">
+                <div class="final-payment-row">
+                  <div class="final-payment-cell">최종 결제금액</div>
+                  <div class="final-payment-data">
+                    <span class="span final-payment-amount" th:text="${amount}"></span>원
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</th:block>
+<th:block layout:fragment="script">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      // '구매내역 보기' 버튼 클릭 시 구매 내역 페이지로 이동
+      $(".view-order-link").click(function () {
+        location.href = "/order/list"; // 구매내역 페이지로 이동 (URL 수정 필요)
+      });
+      
+      // '쇼핑 홈 가기' 버튼 클릭 시 쇼핑 홈으로 이동
+      $(".home-link").click(function () {
+        location.href = "/home"; // 쇼핑 홈 페이지로 이동 (URL 수정 필요)
+      });
+    });
+  </script>
+</th:block>
+</body>
+</html>
