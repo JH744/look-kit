@@ -8,7 +8,8 @@ import java.util.List;
 @Mapper
 public interface InquiryMapper {
     @Select("select inquiry_id, user_id, inquiry_title, inquiry_contents, inquiry_created_at, answer_state " +
-            "from inquiries where user_id=#{userId}")
+            "from inquiries where user_id=#{userId} " +
+            "order by inquiry_created_at desc")
     public List<InquiryVO> getList(long userId);
 
     @Delete("delete from inquiries where inquiry_id=#{inquiryId}")

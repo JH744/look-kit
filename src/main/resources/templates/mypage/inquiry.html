@@ -24,29 +24,26 @@
 
       <div class="inquiry">
         <div class="inquiry-meta">
-
+          <img th:src="@{/images/inquiries/question.png}" alt=""/>
           <div>
-            <img class="inquiry-image" th:src="@{/images/inquiries/question.png}" alt=""/>
-            <div>
               <p class="inquiry-subject" th:text="${inquiry.inquiryTitle}">문의명</p>
               <span class="inquiry-date" th:text="${inquiry.inquiryCreatedAt}">문의날짜</span>
-            </div>
-            <span th:if="${inquiry.answerState eq 'Y'}" class="inquiry-status" th:text="답변 완료">답변 완료</span>
           </div>
+          <span th:if="${inquiry.answerState eq 'Y'}" class="inquiry-status" th:text="답변 완료">답변 완료</span>
         </div>
         <div class="inquiry-content">
           <p class="inquiry-text" th:text="${inquiry.inquiryContents}">문의 내용</p>
           <div th:if="${not #lists.isEmpty(inquiry.inquiryImages)}">
             <div th:each="image : ${inquiry.inquiryImages}">
-              <img class="meta-icon question" th:src="${image.imagePath}" alt=""/>
+              <img class="inquiry-image" th:src="${image.imagePath}" alt=""/>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="reply">
+      <div class="reply" th:if="${inquiry.answerState eq 'Y'}">
         <div class="inquiry-meta">
-          <img class="meta-icon question" th:src="@{/images/inquiries/answer.png}" alt=""/>
+          <img class="meta-icon question"  th:src="@{/images/inquiries/answer.png}" alt=""/>
           <div>
             <p class="inquiry-subject">루킷 담당자</p>
             <span class="inquiry-date">2024.10.04 12:40</span>

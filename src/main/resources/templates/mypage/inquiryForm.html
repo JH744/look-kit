@@ -204,14 +204,14 @@
       });
       // 서버로 이미지 전송
       $.ajax({
-        url: '/mypage/inquiry/upload',
+        url: '/mypage/inquiry/create',
         type: 'POST',
         data: formData,                // FormData 객체를 서버로 전송
         contentType: false,            // 브라우저가 자동으로 Content-Type을 설정하도록 함
         processData: false,            // jQuery가 데이터를 변환하지 않도록 설정
         success: function(response) {
           alert(response);
-          window.location.href = "/mypage//inquiry/list";
+          window.location.href = "/mypage/inquiry/list";
         },
         error: function(e) {
           console.log(e);

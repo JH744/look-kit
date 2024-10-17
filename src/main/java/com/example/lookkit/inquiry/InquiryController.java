@@ -39,7 +39,7 @@ public class InquiryController {
         return "mypage/inquiryForm";
     }
 
-    @PostMapping("/upload")
+    @PostMapping("/create")
     public ResponseEntity<String> uploadInquiry(
             @RequestParam("title") String inquiryTitle,
             @RequestParam("content") String inquiryContents,
@@ -59,12 +59,9 @@ public class InquiryController {
 
     @GetMapping("/view/{inquiryId}")
     public ModelAndView getInquiry(@PathVariable long inquiryId){
-        System.out.println("문의ID>>>>>>"+inquiryId);
         ModelAndView mv = new ModelAndView("mypage/inquiry");
-        InquiryImagesDTO dto =service.getInquiry(inquiryId);
-        mv.addObject("inquiry", service.getInquiry(inquiryId));
-        System.out.println(dto);
-        System.out.println(">>>>>>>>>>>>>>>>");
+        InquiryImagesDTO dto = service.getInquiry(inquiryId);
+        mv.addObject("inquiry", dto);
         return mv;
     }
 
