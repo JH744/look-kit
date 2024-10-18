@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -223,8 +223,12 @@
     </div>
     <div class="formContainer">
       <div class="findIdbox">
-        <span>xxx님의 아이디는 000입니다. </span>
-        <span>가입일자 : </span>
+        <div th:if="${errorMessage != null}">
+          <p th:text="${errorMessage}">에러 메시지</p>
+        </div>
+        <div th:if="${errorMessage == null}">
+          <span><span th:text="${userName}">xxx</span>님의 아이디는 <span th:text="${userid}">아이디</span>입니다.</span>
+        </div>
       </div>
       <div class="goToLoginBtn">로그인하러가기</div>
     </div>

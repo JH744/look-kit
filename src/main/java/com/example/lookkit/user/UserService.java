@@ -27,10 +27,26 @@ public class UserService {
         return userMapper.getUserByUuid(userId);
     }
 
-
-
-
+    // pk로 유저 조회
     public UserVO getUserById(long userId) {
         return userMapper.getUserById(userId);
     }
+
+
+    // 이름,이메일로 아이디 찾기
+    public String findUserUuidByNameAndEmail(String userName, String email){
+        System.out.println("서비스 전달된 유저명:"+userName);
+        System.out.println("서비스 전달된 이멜:"+email);
+        System.out.println("찾은아이디: "+ userMapper.findUserUuidByNameAndEmail(userName,email));
+        return userMapper.findUserUuidByNameAndEmail(userName,email);
+    }
+
+
+    public String updatePassword(String uuid, String password) {
+     String encodedPassword  = encoder.encode(password);
+        String result ="";
+        int changedRow = userMapper.UpdatePassword(uuid, encodedPassword); // 암호화된 비밀번호 사용
+        result = (changedRow == 1) ? "OK" : "FAIL";  // 삼항 연산자로 결과 할당
+        return result;
+   }
 }

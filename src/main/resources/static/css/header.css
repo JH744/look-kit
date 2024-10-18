@@ -133,6 +133,7 @@ table {
 }
 a {
   text-decoration: none;
+  color : black;
 }
 
 /** <초기화 코드/>   **/
@@ -202,8 +203,10 @@ a {
 .searchInput {
   width: 300px;
   height: 35px;
-  border-radius: 50px;
   padding-left: 15px;
+  border-radius:50px;
+  border :2px solid #575757
+/*  border-color :#C5C5C5;*/
 }
 
 .searchBtn {
@@ -215,10 +218,12 @@ a {
 }
 
 .navIcon {
+
   display: flex;
   align-items: center;
   text-align: center;
   gap: 35px;
+  padding-bottom:10px;
 }
 
 .iconBtn {
@@ -229,3 +234,6 @@ a {
 .LogoutBtn{
   cursor:pointer;
 }
+
+
+

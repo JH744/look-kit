@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="" lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" th:href="@{/css/header.css}"/>
+  <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+  <link rel="stylesheet" th:href="@{/css/inquiryList.css}"/>
+</head>
+<body>
+<th:block th:replace="~{common/fragments/header :: headerFragment}"></th:block>
+
+<div class="outer-container">
+  <th:block th:replace="~{common/fragments/userHeader :: userHeaderFragment}"></th:block>
+
+  <div class="side-and-main">
+    <!-- 사이드바 추가 -->
+    <th:block th:replace="~{common/fragments/sidebar :: sidebarFragment}"></th:block>
+    <div class="second-grid">
+        <section class="section-inquiries">
+          <div>
+            <p id="section-title">1:1 문의내역</p>
+          </div>
+          <div class="space-between">
+            <p style="font-size:13px">한번 등록한 상담내용은 수정이 불가능합니다.</p>
+            <button class="inquiry-btn" onclick="window.location.href='/mypage/inquiry/new';">+ 문의하기</button>
+          </div>
+        </section>
+
+
+        <table class="inquiries-table">
+          <thead>
+          <tr>
+            <th id="th-wide">문의 제목</th>
+            <th>작성일</th>
+            <th>답변여부</th>
+            <th></th> <!-- 삭제 버튼 공간 -->
+          </tr>
+          </thead>
+          <tbody>
+          <!-- 반복 부분 처리 -->
+          <tr th:each="inquiry : ${inquiries}">
+            <td class="right-padding">
+              <a th:href="@{'/mypage/inquiry/view/' + ${inquiry.inquiryId}}" th:text="${inquiry.inquiryTitle}">문의 제목</a>
+            </td>
+            <td th:text="${#temporals.format(inquiry.inquiryCreatedAt, 'yyyy-MM-dd')}">작성일</td>
+            <td class="answer-text" th:text="${inquiry.answerState=='Y' ? 'YES' : 'NO'}">답변여부</td>
+            <td><button th:attr="data-id=${inquiry.inquiryId}" class="delete-btn">삭제</button></td>
+          </tr>
+          </tbody>
+        </table>
+
+      </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    // 삭제 버튼 클릭 이벤트 처리
+    $('.delete-btn').on('click', function() {
+      var inquiryId = $(this).attr('data-id'); // 버튼의 data-id 값 가져오기
+
+      if (confirm("정말로 삭제하시겠습니까?")) {
+        $.ajax({
+          url: '/mypage/inquiry/delete/' + inquiryId,
+          type: 'DELETE',
+          success: function(result) {
+            location.reload();
+          },
+          error: function(xhr, status, error) {
+            alert("삭제에 실패했습니다.");
+            console.error(error);
+          }
+        });
+      }
+      // 취소를 누른 경우 아무 동작도 하지 않음
+    });
+
+  });
+</script>
+</body>
+</html>
