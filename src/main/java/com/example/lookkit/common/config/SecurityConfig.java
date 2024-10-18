@@ -21,7 +21,7 @@ public class SecurityConfig {
                 .loginPage("/auth/login")
                 .loginProcessingUrl("/auth/login")
                 .defaultSuccessUrl("/main")
-                .failureUrl("/fail")
+                .failureUrl("/auth/login?error")
         );
 
         http.logout( logout -> logout

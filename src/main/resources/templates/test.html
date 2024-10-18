@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="common/layout/base"> 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Test Page</title>
+
+  <!-- 포트원 JavaScript SDK -->
+  <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+</head>
+<body>
+  <th:block layout:fragment="content">
+    <div>
+      <h1>메인페이지</h1>
+      <!-- 간단한 테스트용 HTML 추가 -->
+      <button class="btnOrder">결제하기 (테스트)</button>
+      <form id="pay" action="/your/submit/url" method="post">
+        <input type="hidden" id="ordersReceiver" name="ordersReceiver">
+        <input type="hidden" id="ordersReceiverAddr" name="ordersReceiverAddr">
+        <input type="hidden" id="ordersReceiverPhone" name="ordersReceiverPhone">
+        <input type="hidden" id="ordersTotalPrice" name="ordersTotalPrice">
+        <input type="hidden" id="ordersSalePrice" name="ordersSalePrice">
+        <input type="hidden" id="ordersUsedPoint" name="ordersUsedPoint">
+        <input type="hidden" id="ordersRequest" name="ordersRequest">
+        <input type="hidden" id="ordersContent" name="ordersContent">
+      </form>
+    </div>
+  </th:block>
+
+  <th:block layout:fragment="script">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script>
+      $(document).ready(function () {
+        console.log("jQuery 로드 성공!");
+
+        // 결제하기 (더미 데이터 테스트)
+        $(".btnOrder").click(function () {
+          console.log("결제하기 버튼 클릭됨");
+
+          // 테스트용 더미 데이터
+          let count = 2;
+          let products = ["Product1", "Product2"];
+          let name = count === 1 ? "상품" : '상품 외 ' + (count - 1) + '개';
+
+          // 결제 API 초기화
+          IMP.init("imp40354073"); // 가맹점 식별코드 (테스트용 식별코드 사용)
+          
+          // 결제 요청
+          IMP.request_pay({
+            pg: 'kcp', // PG사 선택
+            pay_method: 'card',
+            merchant_uid: 'merchant_' + new Date().getTime(),  // 임의의 고유 주문번호 생성
+            name: name,
+            amount: 10000,  // 결제 금액
+            buyer_email: 'testuser@example.com',
+            buyer_name: '테스트 사용자',
+            buyer_tel: '010-1234-5678',
+            buyer_addr: '서울특별시 강남구 테헤란로',
+            buyer_postcode: '123-456'
+          }, function (rsp) {
+            if (rsp.success) {
+              let msg = "결제가 완료되었습니다.\n";
+              msg += '고유ID: ' + rsp.imp_uid + '\n';
+              msg += '상점 거래ID: ' + rsp.merchant_uid + '\n';
+              msg += '결제 금액: ' + rsp.paid_amount + '\n';
+              msg += '카드 승인번호: ' + rsp.apply_num + '\n';
+              alert(msg);
+
+              // 결제 완료된 정보를 폼에 입력
+              $("#ordersReceiver").val(rsp.buyer_name);
+              $("#ordersReceiverAddr").val(rsp.buyer_addr);
+              $("#ordersReceiverPhone").val(rsp.buyer_tel);
+              $("#ordersTotalPrice").val(10000);
+              $("#ordersSalePrice").val(rsp.paid_amount);
+              $("#ordersUsedPoint").val(0);
+              $("#ordersRequest").val('테스트 요청 사항');
+              $("#ordersContent").val(rsp.name);
+
+              // 상품 정보 전송 (더미 데이터 사용)
+              sendProducts(products);
+
+              // 실제 제출 대신 콘솔 로그로 대체 (테스트)
+              console.log("폼 제출 성공 (테스트)", $("#pay").serialize());
+
+              // 실제 서버에 제출하려면 아래 주석 해제
+              // $("#pay").submit();
+            } else {
+              let msg = "결제에 실패하였습니다.\n";
+              msg += '실패사유: ' + rsp.error_msg;
+              alert(msg);
+            }
+          });
+        });
+
+        // 더미 sendProducts 함수 추가
+        function sendProducts(products) {
+          console.log("상품 정보 전송 (테스트):", products);
+        }
+      });
+    </script>
+  </th:block>
+</body>
+</html>

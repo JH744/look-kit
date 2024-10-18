@@ -2,29 +2,22 @@ package com.example.lookkit.common.controller;
 
 import com.example.lookkit.user.CustomUser;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.net.MalformedURLException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @Controller
-public class homeController {
+public class MainController {
 
     @GetMapping("/main")
     public String mainPage(Authentication auth, HttpSession session){
+        // auth가 빈값이 아닐 때 세션 저장
         if(auth != null){
             System.out.println(auth);
             CustomUser user = (CustomUser) auth.getPrincipal();
             session.setAttribute("userid",user.getUserId());
+            System.out.println("유저아이디"+user.getUserId());
             // Session의 유효 시간 설정 (3600초 = 60분)
              session.setMaxInactiveInterval(3600);
 //            System.out.println(user.getUserId());
@@ -34,5 +27,9 @@ public class homeController {
         }
         return "/home/home.html";
     }
+
+
+
+
 
 }

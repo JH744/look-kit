@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>header</title>
-<link href="../../../static/css/header.css" rel="stylesheet">
   </head>
   <body>
   <div th:fragment="headerFragment">
@@ -32,12 +31,18 @@
           <div class="navIcon">
               <!-- 비로그인시 로그인버튼 노출-->
             <div id="LoginBtn" class="iconBtn" sec:authorize="isAnonymous()">
+<<<<<<< HEAD
               <a th:href="@{/auth/login}">
               <img th:src="@{/images/icon/login.png}" class="header-icon" />
+=======
+              <a th:href="@{/auth/login}" class="simptip-position-top simptip-success" data-tooltip="Login">
+              <img th:src="@{/images/icon/LoginIcon.svg}" width="30" height="30" />
+>>>>>>> fd451b57f26e0a3a99878f47647fd08bd77071f2
               </a>
             </div>
               <!-- 로그인시 로그아웃버튼 노출-->
             <div id="LogoutBtn" class="iconBtn" sec:authorize="isAuthenticated()">
+<<<<<<< HEAD
               <a th:href="@{/logout}">
                 <img th:src="@{/images/icon/logout.png}" class="header-icon" />
               </a>
@@ -50,6 +55,21 @@
             <div class="iconBtn">
               <img th:src="@{/images/icon/cart.png}" class="header-icon"  />
             </div>
+=======
+              <a th:href="@{/logout}" class="simptip-position-top " data-tooltip="Logout">
+                <img th:src="@{/images/icon/logoutIcon.svg}" width="30" height="30" />
+              </a>
+            </div>
+            <div class="iconBtn">
+              <a th:href="@{/mypage/wishlist}" class="simptip-position-top " data-tooltip="My Page">
+                <img th:src="@{/images/icon/profileIcon.svg}" width="35" height="35" />
+              </a>
+            </div>
+              <a th:href="@{/}" class="simptip-position-top" data-tooltip="Cart">
+                  <img th:src="@{/images/icon/cartIcon.svg}" width="30" height="30" />
+<!--          경진님아이콘   <img th:src="@{/images/icon/CartIcon.svg}" width="35" height="35" />-->
+              </a>
+>>>>>>> fd451b57f26e0a3a99878f47647fd08bd77071f2
           </div>
         </div>
       </div>

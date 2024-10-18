@@ -119,7 +119,12 @@
             </div>
 
             <div class="status-section-text">
-              <div class="status-text">배송 시작</div>
+              <div class="status-text"
+                   th:text="${product.orderStatus == 'pending'} ? '결제 완료' :
+                            (${product.orderStatus == 'shipped'} ? '배송 준비 중' :
+                            (${product.orderStatus == 'delivered'} ? '배송 중' :
+                            (${product.orderStatus == 'completed'} ? '배송 완료' : '배송 상태 없음')))">
+              </div>
               <button class="inquiry-button">1:1 문의하기</button>
             </div>
 
