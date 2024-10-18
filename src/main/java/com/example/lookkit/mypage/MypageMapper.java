@@ -11,21 +11,15 @@ import com.example.lookkit.mypage.MypageDTO;
 public interface MypageMapper {
 
     // 사용자 정보 조회 (비밀번호 제외)
-    @Select("SELECT USER_ID AS userId, " +
-            "USER_UUID AS userUuid, " +
-            "USER_NAME AS name, " +
-            "PHONE AS phoneNumber, " +
-            "BIRTHDATE AS birthDate, " +
-            "EMAIL AS email, " +
-            "ADDRESS AS address " +
-            "FROM users " +
+    @Select("SELECT USER_ID, USER_UUID, USER_NAME, PHONE, BIRTHDATE, " +
+            "EMAIL, ADDRESS FROM users " +
             "WHERE USER_ID = #{userId}")
     MypageDTO getUserInfo(@Param("userId") long userId);
 
     // 사용자 정보 업데이트 (비밀번호 제외)
     @Update("UPDATE users SET " +
-            "USER_NAME = #{name}, " +
-            "PHONE = #{phoneNumber}, " +
+            "USER_NAME = #{userName}, " +
+            "PHONE = #{phone}, " +
             "BIRTHDATE = #{birthDate}, " +
             "EMAIL = #{email}, " +
             "ADDRESS = #{address}, " +

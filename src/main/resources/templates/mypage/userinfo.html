@@ -93,12 +93,72 @@
         .button-group {
             margin-top: 20px;
         }
+
+        /* Modal Styles */
+        .modal-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Overlay */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .pw-check-modal, .pw-change-modal {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .modal-subtitle {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #777;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .modal-footer {
+            text-align: right;
+        }
+
+        .modal-footer button {
+            padding: 8px 15px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 <div class="profile-container">
     <div class="welcome-header">
-        <span class="welcome-message" th:text="${userInfo.name} + ' 님 환영합니다.'">USER 님 환영합니다.</span>
+        <span class="welcome-message" th:text="${userInfo.userName} + ' 님 환영합니다.'">USER 님 환영합니다.</span>
         <div class="profile-options">
             <img class="icon-settings" src="./img/setting.png" alt="설정 아이콘"/>
             <span>개인정보 변경</span>
@@ -144,21 +204,21 @@
                     <div class="info-group2">
                         <label for="password">비밀번호</label>
                         <div class="inline">
-                            <input id="password" type="password" readonly>
+                            <input id="password" type="password" value="qwe123r" >
                             <button type="button" class="btn-password-change" onclick="showPwChangeModal()">변경하기</button>
                         </div>
                     </div>
 
                     <div class="info-group1">
                         <label for="name">이름</label>
-                        <input id="name" type="text" th:field="*{name}" >
-                        <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">이름 오류</div>
+                        <input id="name" type="text" th:field="*{userName}" readonly>
+                        <div class="error" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">이름 오류</div>
                     </div>
 
                     <div class="info-group1">
                         <label for="phone">휴대폰 번호</label>
-                        <input id="phone" type="text" th:field="*{phoneNumber}" >
-                        <div class="error" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">전화번호 오류</div>
+                        <input id="phone" type="text" th:field="*{phone}">
+                        <div class="error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">전화번호 오류</div>
                     </div>
 
                     <div class="info-group1">
@@ -196,8 +256,8 @@
 </div>
 
 <!-- 비밀번호 변경 모달 -->
-<div id="pw-change-modal-container" class="modal-container" style="display:none;">
-    <div class="pw-check-modal">
+<div id="pw-change-modal-container" class="modal-container">
+    <div class="pw-change-modal">
         <span class="modal-title">비밀번호 변경</span>
         <span class="modal-subtitle">변경하실 비밀번호를 입력해주세요</span>
 
@@ -220,12 +280,14 @@
 
         <div class="modal-footer">
             <button onclick="changePassword()">비밀번호 변경하기</button>
+            <button onclick="closePwChangeModal()">취소</button>
         </div>
     </div>
 </div>
 
 <!-- 이메일 중복 확인 스크립트 -->
 <script>
+    // 이메일 중복 확인
     function checkDuplicateEmail() {
         const email = document.getElementById('email').value;
         if (!email) {
@@ -249,71 +311,59 @@
             });
     }
 
+    // 우편번호 검색 (Placeholder)
     function searchPostcode() {
-        // 우편번호 검색 로직 또는 외부 API 연동
         alert('우편번호 검색 기능은 현재 구현 중입니다.');
     }
 
-    // 비밀번호 확인 모달 관련 스크립트
-    function showPwCheckModal() {
-        document.getElementById('pw-check-modal-container').style.display = 'flex';
-    }
-
-    function verifyPassword() {
-        const password = document.getElementById('current-password').value;
-        // Send AJAX request to verify password with the backend
-        fetch('/mypage/verifyPassword', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded', // because using @RequestParam
-            },
-            body: `currentPassword=${encodeURIComponent(password)}`,
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // If password verification succeeds, allow access to user info update form
-                document.getElementById('pw-check-modal-container').style.display = 'none';
-                // Show sensitive user info form (for example, by removing a 'disabled' attribute or un-hiding a section)
-                // Since in your current userinfo.html, the form is already enabled, no action needed
-                alert(data.message); // Or any other user feedback
-            } else {
-                alert(data.message);
-            }
-        });
-    }
-
-    // 비밀번호 변경 모달 관련 스크립트
+    // 비밀번호 변경 모달 표시
     function showPwChangeModal() {
         document.getElementById('pw-change-modal-container').style.display = 'flex';
     }
 
+    // 비밀번호 변경 모달 닫기
+    function closePwChangeModal() {
+        document.getElementById('pw-change-modal-container').style.display = 'none';
+    }
+
+    // 비밀번호 변경 처리
     function changePassword() {
         const currentPassword = document.getElementById('current-password-change').value;
         const newPassword = document.getElementById('new-password').value;
         const confirmPassword = document.getElementById('confirm-password').value;
+
+        if (!currentPassword) {
+            alert('현재 비밀번호를 입력해주세요.');
+            return;
+        }
 
         if (newPassword !== confirmPassword) {
             alert('새 비밀번호가 일치하지 않습니다.');
             return;
         }
 
-        // Send request to change password
+        // 비밀번호 변경 요청 전송
         fetch('/mypage/changePassword', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded', // because using @RequestParam
+                'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: `newPassword=${encodeURIComponent(newPassword)}&confirmPassword=${encodeURIComponent(confirmPassword)}`,
+            body: `newPassword=${encodeURIComponent(newPassword)}&confirmPassword=${encodeURIComponent(confirmPassword)}&currentPassword=${encodeURIComponent(currentPassword)}`,
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
                 alert('비밀번호가 성공적으로 변경되었습니다.');
                 document.getElementById('pw-change-modal-container').style.display = 'none';
+                // 페이지 새로고침 또는 리다이렉션
+                window.location.href = '/mypage/userinfo';
             } else {
                 alert(data.message);
             }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('비밀번호 변경 중 오류가 발생했습니다.');
         });
     }
 </script>

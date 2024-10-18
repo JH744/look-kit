@@ -1,6 +1,7 @@
 package com.example.lookkit.mypage;
 
 import com.example.lookkit.user.CustomUser;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,14 +25,10 @@ public class MypageController {
 
     // 회원정보 조회 페이지
     @GetMapping("/userinfo")
-    public String userinfo(Model model) {
-        // 인증된 사용자 정보 가져오기
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null || auth.getPrincipal().equals("anonymousUser")) {
-            return "redirect:/auth/login";
-        }
-        CustomUser customUser = (CustomUser) auth.getPrincipal();
-        long userId = customUser.getUserId();
+    public String userinfo(Model model, HttpSession session) {
+        System.out.println("확인>>>>>");
+        long userId = (long) session.getAttribute("userid");
+        System.out.println("아이디 확인 : " + userId);
 
         MypageDTO userInfo = mypageService.getUserInfo(userId);
         model.addAttribute("userInfo", userInfo);
@@ -41,7 +38,6 @@ public class MypageController {
     // 회원정보 업데이트 처리
     @PostMapping("/update")
     public String updateUserInfo(@Valid @ModelAttribute("userInfo") MypageDTO mypageDTO, BindingResult bindingResult, Model model) {
-        // 인증된 사용자 정보 가져오기
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || auth.getPrincipal().equals("anonymousUser")) {
             return "redirect:/auth/login";
@@ -50,14 +46,12 @@ public class MypageController {
         long userId = customUser.getUserId();
 
         if (bindingResult.hasErrors()) {
-            // 검증 오류가 있는 경우, 에러 메시지를 모델에 추가하고 폼 페이지로 돌아갑니다.
             model.addAttribute("message", "입력한 정보에 오류가 있습니다. 다시 확인해주세요.");
             return "mypage/userinfo";
         }
 
         // 이메일 중복 확인
         if (mypageService.isEmailDuplicate(mypageDTO.getEmail(), userId)) {
-            // 이메일 중복인 경우
             model.addAttribute("message", "이미 사용 중인 이메일입니다.");
             return "mypage/userinfo";
         }
@@ -133,7 +127,9 @@ public class MypageController {
     // 비밀번호 변경 처리 (AJAX)
     @PostMapping("/changePassword")
     @ResponseBody
-    public Map<String, Object> changePassword(@RequestParam String newPassword, @RequestParam String confirmPassword) {
+    public Map<String, Object> changePassword(@RequestParam String newPassword,
+                                              @RequestParam String confirmPassword,
+                                              @RequestParam String currentPassword) {
         Map<String, Object> response = new HashMap<>();
 
         if (!newPassword.equals(confirmPassword)) {
@@ -152,6 +148,21 @@ public class MypageController {
         CustomUser customUser = (CustomUser) auth.getPrincipal();
         long userId = customUser.getUserId();
 
+        // 현재 비밀번호 확인
+        String storedPassword = mypageService.getPassword(userId);
+        if (storedPassword == null) {
+            response.put("success", false);
+            response.put("message", "사용자 정보를 찾을 수 없습니다.");
+            return response;
+        }
+
+        // 현재 비밀번호 검증
+        if (!passwordEncoder.matches(currentPassword, storedPassword)) {
+            response.put("success", false);
+            response.put("message", "현재 비밀번호가 일치하지 않습니다.");
+            return response;
+        }
+
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(newPassword);
 
@@ -164,7 +175,6 @@ public class MypageController {
             response.put("success", false);
             response.put("message", "비밀번호 변경에 실패했습니다.");
         }
-
         return response;
     }
 }

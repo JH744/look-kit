@@ -17,10 +17,10 @@ public class MypageDTO {
     private String userUuid;
 
     @NotEmpty(message = "이름은 필수입니다.")
-    private String name;
+    private String userName;
 
     @Pattern(regexp = "^[0-9]{10,11}$", message = "휴대폰 번호 형식이 올바르지 않습니다.")
-    private String phoneNumber;
+    private String phone;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
