@@ -160,29 +160,29 @@ a {
 .navBox1 {
   max-width: 822px;
   display: flex;
-  gap: 117px;
+  gap: 100px;
   align-items: center;
 }
 
 .navMenu {
   font-family: "InstrumentSans-Bold", sans-serif;
-  text-align: left;
   display: flex;
-  justify-content: space-around;
-  max-width: 544px;
-  gap: 67px;
+  text-align: center;
+  gap: 50px;
+  max-width: fit-content;
+
 }
 
 .logo {
   color: #232b6e;
-  font-size: 34px;
+  font-size: 28px;
   font-weight: 700;
-  width: 160px;
+  min-width: fit-content;
+  max-width: fit-content;
 }
 .menu {
   color: #000000;
-  font-size: 24px;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .navBox2 {
@@ -190,7 +190,7 @@ a {
   width: 535px;
   gap: 45px;
   align-items: center;
-  margin-right: 60px;
+  float: inline-end;
 }
 .searchBox {
   display: flex;
@@ -202,9 +202,10 @@ a {
 
 .searchInput {
   width: 300px;
-  height: 35px;
+  height: 30px;
   border-radius: 50px;
   padding-left: 15px;
+  border: 1px solid #636262;
 }
 
 .searchBtn {
@@ -222,11 +223,10 @@ a {
   gap: 35px;
 }
 
-.iconBtn {
-  padding-top: 10px;
-}
-
-
 .LogoutBtn{
   cursor:pointer;
+}
+
+.header-icon {
+  width : 26px;
 }

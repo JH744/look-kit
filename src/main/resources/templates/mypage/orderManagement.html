@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" th:href="@{/css/header.css}"/>
+  <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+  <link rel="stylesheet" th:href="@{/css/orderManagement.css}"/>
+</head>
+<body>
+<th:block th:replace="~{common/fragments/header :: headerFragment}"></th:block>
+
+<div class="outer-container">
+  <th:block th:replace="~{common/fragments/userHeader :: userHeaderFragment}"></th:block>
+
+  <div class="side-and-main">
+    <!-- 사이드바 추가 -->
+    <th:block th:replace="~{common/fragments/sidebar :: sidebarFragment}"></th:block>
+    <div class="order-container">
+      <div class="status-section">
+        <div class="status-title">진행중인 주문</div>
+
+        <div class="status-box">
+          <div class="status-icons">
+              <!-- 결제 완료 상태 -->
+              <div class="step">
+                <div class="circle-container">
+                  <div class="step-circle"
+                       th:classappend="${countPending > 0} ? 'blue-circle' : 'white-circle'">
+                  </div>
+                  <p class="step-number"
+                     th:classappend="${countPending > 0} ? 'white-text' : 'gray-text'"
+                     th:text="${countPending}"></p>
+                </div>
+                <span class="step-description">결제 완료</span>
+              </div>
+              <div>
+                <img class="status-icon" th:src="@{/images/icon/arrow.svg}" />
+              </div>
+
+              <!-- 배송 준비 상태 -->
+              <div class="step">
+                <div class="circle-container">
+                  <div class="step-circle"
+                       th:classappend="${countShipped > 0} ? 'blue-circle' : 'white-circle'">
+                  </div>
+                  <p class="step-number"
+                     th:classappend="${countShipped > 0} ? 'white-text' : 'gray-text'"
+                     th:text="${countShipped}"></p>
+                </div>
+                <span class="step-description">배송 준비</span>
+              </div>
+              <div>
+                <img class="status-icon" th:src="@{/images/icon/arrow.svg}" />
+              </div>
+
+              <!-- 배송중 상태 -->
+              <div class="step">
+                <div class="circle-container">
+                  <div class="step-circle"
+                       th:classappend="${countDelivered > 0} ? 'blue-circle' : 'white-circle'">
+                  </div>
+                  <p class="step-number"
+                     th:classappend="${countDelivered > 0} ? 'white-text' : 'gray-text'"
+                     th:text="${countDelivered}"></p>
+                </div>
+                <span class="step-description">배송중</span>
+              </div>
+              <div>
+                <img class="status-icon" th:src="@{/images/icon/arrow.svg}" />
+              </div>
+
+              <!-- 배송 완료 상태 -->
+              <div class="step">
+                <div class="circle-container">
+                  <div class="step-circle"
+                       th:classappend="${countCompleted > 0} ? 'blue-circle' : 'white-circle'">
+                  </div>
+                  <p class="step-number"
+                     th:classappend="${countCompleted > 0} ? 'white-text' : 'gray-text'"
+                     th:text="${countCompleted}"></p>
+                </div>
+                <span class="step-description">배송 완료</span>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="shipment-section">
+        <div class="shipment-title">주문 배송 조회</div>
+
+        <!-- 주문 목록을 반복 -->
+        <div class="shipment-header">
+          <p class="shipment-header-item">상품 정보</p>
+          <p class="shipment-header-item">진행 상태</p>
+          <p class="shipment-header-item">구매확정 및 리뷰</p>
+        </div>
+
+        <div th:each="product, stat : ${products}">
+          <!-- 주문 정보는 첫 번째 상품에만 출력 -->
+          <div class="shipment-info" th:if="${stat.index == 0} or ${product.orderId != products[stat.index - 1].orderId}">
+            <div class="shipment-info-item">
+              <span class="shipment-label">주문일자</span>
+              <span class="shipment-value" th:text="${#temporals.format(product.orderDate, 'yyyy-MM-dd')}"></span>
+            </div>
+            <div class="shipment-info-item">
+              <span class="shipment-label">주문번호</span>
+              <span class="shipment-value" th:text="${product.orderId}"></span>
+            </div>
+          </div>
+          <div class="shipment-product">
+            <img class="product-image" th:src="@{'/images/product/' + ${product.productThumbnail}}" alt="제품 이미지" />
+            <div class="product-details">
+              <div class="product-brand" th:text="${product.productDescription}">브랜드</div>
+              <div class="product-name" th:text="${product.productName}">상품명</div>
+              <div class="product-price"> <span th:text="${product.productPrice}">가격</span>
+                <span th:text="'수량: ' + ${product.quantity}"></span>
+              </div>
+            </div>
+
+            <div class="status-section-text">
+              <div class="status-text">배송 시작</div>
+              <button class="inquiry-button">1:1 문의하기</button>
+            </div>
+
+            <div class="actions">
+              <button class="confirm-button">구매확정</button>
+              <button class="review-button">리뷰 작성</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
