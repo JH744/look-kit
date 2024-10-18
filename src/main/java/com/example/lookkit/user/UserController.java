@@ -64,7 +64,25 @@ public class UserController {
     @GetMapping("/findPwd")
     public void findPwd() {
     }
-    @PostMapping("/findPwd")
+
+    // 비밀번호 변경요청
+    @PostMapping("/updatePwd")
+    @ResponseBody
+    public String updatePassword(@RequestBody UserVO user){
+      return  userService.updatePassword(user.getUserUuid(),user.getPassword());
+    }
+
+    // 이름, 이메일로 유저 아이디찾기 api
+    @PostMapping("/findUser")
+    @ResponseBody
+    public String findUserByNameAndEmail(@RequestBody UserVO user) {
+        String userId = userService.findUserUuidByNameAndEmail(user.getUserName(),user.getEmail());
+        if (userId == null) {
+            System.out.println("아이디가 null로 확인");
+            return "fail";
+        }
+        return userId;
+    }
 
 
     @GetMapping("/checkDuplicateId")
@@ -75,11 +93,6 @@ public class UserController {
         //가져온 유저객체가 null이면 중복값이 없으므로 true로 반환.
         return (user == null);
     }
-
-
-
-
-
 
 
 
