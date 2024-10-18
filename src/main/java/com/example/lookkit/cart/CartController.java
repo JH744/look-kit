@@ -15,13 +15,21 @@ public class CartController {
     private CartService cartService;
 
     @GetMapping
-    public String cartPage(Model model) {
-        // 테스트용 데이터로 장바구니 아이템을 추가해서 전달할 수 있습니다.
-        // 예를 들어, 데이터베이스에서 특정 사용자 ID로 장바구니를 불러와야 합니다.
-        int userId = 1; // 예시 userId
+    public String cartPage(@RequestParam(value = "addToCart", required = false) boolean addToCart,
+                           @RequestParam(value = "productId", required = false) Integer productId,
+                           @RequestParam(value = "quantity", required = false) Integer quantity,
+                           Model model) {
+        int userId = 1; 
+        if (addToCart && productId != null && quantity != null) {
+            CartVO cartVO = new CartVO();
+            cartVO.setUserId(userId);
+            cartVO.setProductId(productId);
+            cartVO.setQuantity(quantity);
+            cartService.addItemToCart(cartVO);
+        }
         List<CartVO> cartItems = cartService.getCartItems(userId);
         model.addAttribute("cartItems", cartItems);
-        return "cart";  // `cart.html` 템플릿 반환
+        return "cart"; 
     }
 
     @GetMapping("/{userId}")
@@ -49,5 +57,12 @@ public class CartController {
     public String deleteCartItem(@PathVariable int cartId) {
         cartService.deleteCartItem(cartId);
         return "Item deleted successfully.";
+    }
+
+ 
+    @PostMapping("/selected")
+    @ResponseBody
+    public List<CartVO> getSelectedCartItems(@RequestBody List<Integer> cartIds) {
+        return cartService.getSelectedCartItems(cartIds);
     }
 }

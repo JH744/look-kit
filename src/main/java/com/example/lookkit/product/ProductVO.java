@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
@@ -23,4 +24,7 @@ public class ProductVO {
     private String productThumbnail;
     private LocalDateTime productCreatedAt;
     private LocalDateTime productUpdatedAt;
+    // private List<ProductImageVO> productImages; 
+    private Double discountRate;  
+    
 }

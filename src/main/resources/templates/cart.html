@@ -57,7 +57,6 @@
   justify-content: center;
 }
 
-
 /* 장바구니 헤더 */
 .cart-header {
   width: 100%;
@@ -68,7 +67,6 @@
   border-top: 1px solid #101010;
   padding-top: 20px;
 }
-
 
 .select-delete-button {
   display: flex;
@@ -260,49 +258,54 @@
     <div class="cart-header">
       <h3>상품 정보</h3>
       <div class="cart-actions">
-        <button class="select-delete-button">
+        <button class="select-delete-button" id="delete-selected-button">
           <img class="icon-delete" src="icon1.svg" />
           <span>선택삭제</span>
         </button>
       </div>
     </div>
     <div class="cart-item-list">
-      <div class="store-header">
-        <img class="store-icon" src="icon2.svg" />
-        <span class="store-name">하크어패럴</span>
-      </div>
-      <div class="cart-item">
-        <div class="item-checkbox">
-          <input type="checkbox" class="checkbox-input" />
+      <div th:each="cartItem : ${cartItems}">
+        <div class="store-header">
+          <img class="store-icon" src="icon2.svg" />
+          <span class="store-name" th:text="${cartItem.storeName}"></span>
         </div>
-        <div class="item-thumbnail">
-          <img class="thumbnail-img" src="image0.png" />
-        </div>
-        <div class="item-description">
-          <div class="brand-name">Siyazu</div>
-          <div class="product-name">[단독~10.6][10/10예약발송]SITP5162 루즈핏 포멀 ST 셔츠_Light blue ST</div>
-          <div class="product-variant">Light blue ST ONE / 1개</div>
-        </div>
-        <div class="item-like-button">
-          <button class="like-button">
-            <img class="like-icon" src="goods-like-off-svg0.svg" />
-          </button>
-        </div>
-        <div class="item-price">
-          <strong>58,302원</strong>
-        </div>
-        <div class="item-options-button">
-          <button class="options-button">
-            <span>옵션/수량 변경</span>
-            <img class="options-icon" src="icon4.svg" />
-          </button>
-        </div>
-        <div class="item-purchase-buttons">
-          <button class="purchase-now-button">바로구매</button>
-          <button class="delete-item-button">
-            <img class="delete-icon" src="icon5.svg" />
-            <span>삭제</span>
-          </button>
+        <div class="cart-item" th:attr="data-cart-id=${cartItem.cartId}">
+          <div class="item-checkbox">
+            <input type="checkbox" class="checkbox-input" />
+          </div>
+          <div class="item-thumbnail">
+            <img class="thumbnail-img" th:src="@{/images/product/look1/productThumbnail.jpg}" />
+          </div>
+          <div class="item-description">
+            <div class="brand-name" th:text="${cartItem.productName}"></div>
+            <div class="product-name" th:text="${cartItem.productName}"></div>
+            <div class="product-variant" th:text="${cartItem.quantity} + '개'"></div>
+            <div>
+              <input type="number" class="quantity-input" th:value="${cartItem.quantity}" min="1" data-cart-id="${cartItem.cartId}" />
+            </div>
+          </div>
+          <div class="item-like-button">
+            <button class="like-button">
+              <img class="like-icon" src="goods-like-off-svg0.svg" />
+            </button>
+          </div>
+          <div class="item-price">
+            <strong th:text="${cartItem.productPrice} + '원'"></strong>
+          </div>
+          <div class="item-options-button">
+            <button class="options-button" data-cart-id="${cartItem.cartId}">
+              <span>옵션/수량 변경</span>
+              <img class="options-icon" src="icon4.svg" />
+            </button>
+          </div>
+          <div class="item-purchase-buttons">
+            <button class="purchase-now-button">바로구매</button>
+            <button class="delete-item-button" data-cart-id="${cartItem.cartId}">
+              <img class="delete-icon" src="icon5.svg" />
+              <span>삭제</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -313,7 +316,7 @@
       <div class="summary-details">
         <div class="summary-item">
           <span>총 상품금액</span>
-          <strong>58,302원</strong>
+          <strong th:text="${totalPrice} + '원'"></strong>
         </div>
         <div class="summary-item">
           <span>배송비</span>
@@ -321,12 +324,12 @@
         </div>
         <div class="summary-item">
           <span>최종 결제 예상 금액</span>
-          <strong>58,302원</strong>
+          <strong th:text="${totalPrice} + '원'"></strong>
         </div>
       </div>
       <div class="checkout-button-container">
         <button class="checkout-button" id="checkout-button">
-          <span>총 1개 / 58,302원 주문하기</span>
+          <span th:text="'총 ' + ${totalQuantity} + '개 / ' + ${totalPrice} + '원 주문하기'"></span>
           <img class="checkout-icon" src="icon7.svg" />
         </button>
       </div>
@@ -337,9 +340,88 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script>
     $(document).ready(function () {
+      // 주문하기 버튼 클릭
       $("#checkout-button").click(function () {
-        location.href = "/order";
+        let selectedItems = [];
+        $(".checkbox-input:checked").each(function () {
+            selectedItems.push($(this).closest(".cart-item").data("cart-id"));
+        });
+    
+        if (selectedItems.length === 0) {
+            alert("주문할 상품을 선택해주세요.");
+            return;
+        }
+    
+        $.ajax({
+            url: "/cart/order",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ selectedItems: selectedItems }),
+            success: function () {
+                location.href = "/order";
+            }
+        });
+    });
+    
+
+      // 선택 삭제 버튼 클릭
+      $("#delete-selected-button").click(function () {
+        $(".checkbox-input:checked").each(function () {
+          const cartId = $(this).closest(".cart-item").data("cart-id");
+          $.ajax({
+            url: `/cart/delete/${cartId}`,
+            type: 'DELETE',
+            success: function () {
+              $(`[data-cart-id='${cartId}']`).remove();
+              updateTotalPrice();
+            }
+          });
+        });
       });
+
+      // 삭제 버튼 클릭
+      $(document).on("click", ".delete-item-button", function () {
+        const cartId = $(this).data("cart-id");
+        $.ajax({
+          url: `/cart/delete/${cartId}`,
+          type: 'DELETE',
+          success: function () {
+            $(`[data-cart-id='${cartId}']`).remove();
+            updateTotalPrice();
+          }
+        });
+      });
+
+      // 수량 변경
+      $(document).on("change", ".quantity-input", function () {
+        const cartId = $(this).data("cart-id");
+        const newQuantity = $(this).val();
+        $.ajax({
+          url: "/cart/update",
+          type: 'PUT',
+          data: JSON.stringify({ cartId: cartId, quantity: newQuantity }),
+          contentType: "application/json",
+          success: function () {
+            updateTotalPrice();
+          }
+        });
+      });
+
+      
+      // 총 금액 업데이트
+      function updateTotalPrice() {
+        let totalPrice = 0;
+        let totalQuantity = 0;
+        $(".cart-item").each(function () {
+          const quantity = $(this).find(".quantity-input").val();
+          const price = parseInt($(this).find(".item-price").text().replace(/\D/g, ""));
+          totalPrice += quantity * price;
+          totalQuantity += parseInt(quantity);
+        });
+        $(".summary-item strong").first().text(`${totalPrice}원`);
+        $(".summary-item strong").last().text(`${totalPrice}원`);
+        $("#checkout-button span").text(`총 ${totalQuantity}개 / ${totalPrice}원 주문하기`);
+      }
     });
   </script>
 </th:block>

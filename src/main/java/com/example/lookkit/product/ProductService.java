@@ -2,6 +2,8 @@ package com.example.lookkit.product;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
     private final ProductMapper productMapper;
@@ -11,6 +13,9 @@ public class ProductService {
     }
 
     public ProductVO getProductById(long productId) {
-        return productMapper.getProductById(productId);
+        ProductVO product = productMapper.getProductById(productId);
+        // List<ProductImageVO> images = productMapper.getProductImagesByProductId(productId);
+        // product.setProductImages(images); 
+        return product;
     }
 }

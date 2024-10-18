@@ -18,10 +18,24 @@
       padding: 0px 280px 140px 280px;
       display: flex;
       flex-direction: column;
-      gap: 94px;
-      align-items: flex-start;
+      gap: 0px;
+      align-items: center;
       justify-content: flex-start;
       position: relative;
+      flex: 1;
+    }
+    .order-title {
+      color: #101010;
+      text-align: center;
+      font-family: "Inter-Regular", sans-serif;
+      font-size: 20px;
+      line-height: 34px;
+      font-weight: 400;
+      width: 100%;
+      margin: 40px 0; /* 제목이 최상단에 위치하도록 여백 추가 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .recipient-info-section {
       display: flex;
@@ -58,169 +72,6 @@
       font-family: "Inter-Regular", sans-serif;
       font-size: 18.75px;
       line-height: 28px;
-      font-weight: 400;
-      position: relative;
-      align-self: stretch;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-    }
-    .info-table {
-      width: 1536px;
-      display: flex;
-      flex-direction: column;
-      gap: 0px;
-      align-items: flex-start;
-      justify-content: flex-start;
-      width: 100%;
-      flex-shrink: 0;
-      max-width: 1360px;
-      position: relative;
-      border-top: 1px solid #101010;
-    }
-    .info-body {
-      display: flex;
-      flex-direction: column;
-      gap: 0px;
-      align-items: flex-start;
-      justify-content: flex-start;
-      flex-shrink: 0;
-      position: relative;
-    }
-    .info-row {
-      flex-shrink: 0;
-      width: 1360px;
-      height: 56px;
-      position: relative;
-    }
-    .info-label {
-      color: #101010;
-      text-align: left;
-      font-family: "Inter-Regular", sans-serif;
-      font-size: 14.0625px;
-      line-height: 21px;
-      font-weight: 400;
-      position: absolute;
-      left: 23px;
-      top: 11.5px;
-      width: 69.2px;
-      height: 21px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-    }
-    .info-data {
-      padding: 0px 886px 10px 0px;
-      display: flex;
-      flex-direction: column;
-      gap: 0px;
-      align-items: flex-start;
-      justify-content: flex-start;
-      position: absolute;
-      left: 174px;
-      top: 15px;
-    }
-    .input-container {
-      display: flex;
-      flex-direction: column;
-      gap: 0px;
-      align-items: flex-start;
-      justify-content: flex-start;
-      width: 100%;
-      flex-shrink: 0;
-      max-width: 300px;
-      position: relative;
-    }
-    .input-wrapper {
-      padding: 13px 0px 0px 0px;
-      display: flex;
-      flex-direction: column;
-      gap: 0px;
-      align-items: flex-start;
-      justify-content: flex-start;
-      align-self: stretch;
-      flex-shrink: 0;
-      height: 46px;
-      position: relative;
-    }
-    .background-border {
-      background: #ffffff;
-      border-radius: 3px;
-      border-style: solid;
-      border-color: #cdcdcd;
-      border-width: 2px;
-      flex-shrink: 0;
-      width: 100%;
-      position: absolute;
-      right: 0%;
-      left: 0%;
-      bottom: 0px;
-      top: 0px;
-    }
-    .input-field {
-      padding: 0px 40px 0px 14px;
-      display: flex;
-      flex-direction: row;
-      gap: 0px;
-      align-items: flex-start;
-      justify-content: center;
-      align-self: stretch;
-      flex-shrink: 0;
-      position: relative;
-      overflow: hidden;
-    }
-    .input-text {
-      display: flex;
-      flex-direction: column;
-      gap: 0px;
-      align-items: flex-start;
-      justify-content: flex-start;
-      flex: 1;
-      position: relative;
-      overflow: auto;
-    }
-    .action-button {
-      padding: 0px 14px 0px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 0px;
-      align-items: center;
-      justify-content: flex-start;
-      flex-shrink: 0;
-      width: 44px;
-      height: 46px;
-      position: absolute;
-      right: 0px;
-      top: calc(50% - 23px);
-    }
-    .icon {
-      flex-shrink: 0;
-      width: 16px;
-      height: 46px;
-      position: relative;
-      overflow: visible;
-    }
-    .memo-list {
-      flex-shrink: 0;
-      height: 94px;
-      position: relative;
-      width: 886px;
-      gap: 15px;
-    }
-    .memo-item {
-      display: flex;
-      flex-direction: row;
-      gap: 0px;
-      align-items: flex-start;
-      justify-content: flex-start;
-      position: absolute;
-    }
-    .memo-text {
-      color: #101010;
-      text-align: left;
-      font-family: "Inter-Regular", sans-serif;
-      font-size: 13.015625px;
-      line-height: 18px;
       font-weight: 400;
       position: relative;
       align-self: stretch;
@@ -278,7 +129,6 @@
       height: 200px;
     }
     .summary-title {
-
       height: 30px;
     }
     .summary-value {
@@ -321,6 +171,9 @@
 <body>
   <th:block layout:fragment="content">
   <div class="main-container">
+    <div class="order-title">
+      <h2>결제/주문</h2>
+    </div>
     <section class="recipient-info-section">
       <header class="section-header">
         <h2 class="section-title">받는 분 정보</h2>
@@ -331,7 +184,7 @@
             <div class="info-label">이메일 주소</div>
             <div class="info-data">
               <div class="input-container">
-                <input type="text" class="input-field" value="lxxeugene@naver.com" readonly />
+                <input type="text" class="input-field" th:value="${user?.email}" readonly />
                 <button class="action-button">
                   <img src="icon0.svg" alt="Edit Email" class="icon" />
                 </button>
@@ -341,35 +194,37 @@
           <div class="info-row">
             <div class="info-label">
               <span class="label-title">배송지 정보</span>
-              <span class="item-count">1개</span>
+              <span th:text="${user?.addresses != null ? #lists.size(user.addresses) + '개' : '0개'}" class="item-count">1개</span>
             </div>
             <div class="info-data">
               <div class="address-list">
-                <div class="address-item">
-                  <button class="address-link" onclick="openAddressRegistration()">
-                    <span class="link-text">배송지를 등록하세요</span>
-                    <div class="link-icon-container">
-                      <img src="icon1.svg" alt="Add Address" />
-                    </div>
-                  </button>
+                <div th:if="${user?.addresses == null || #lists.isEmpty(user.addresses)}">
+                  <div class="address-item">
+                    <button class="address-link" onclick="openAddressRegistration()">
+                      <span class="link-text">배송지를 등록하세요</span>
+                      <div class="link-icon-container">
+                        <img src="icon1.svg" alt="Add Address" />
+                      </div>
+                    </button>
+                  </div>
                 </div>
-                <div class="address-item">
+                <div th:each="address : ${user?.addresses}" class="address-item">
                   <div class="address-details">
                     <div class="address-info">
                       <div class="address-title">
-                        <span class="address-label">집</span>
+                        <span th:text="${address.label}">집</span>
                       </div>
                       <div class="recipient-details">
-                        <span class="recipient-name">이유진 / 01051026304</span>
+                        <span th:text="${user?.userName} + ' / ' + ${user?.phone}">이름 / 전화번호</span>
                       </div>
                       <div class="address-text">
-                        <span>13260 경기도 성남시 수정구 수정로 31<br />9 (신흥동, 산성역포레스티아아파트) 1<br />16-801</span>
+                        <span th:text="${address.fullAddress}">주소 정보</span>
                       </div>
                     </div>
                     <button class="action-button">
                       <img src="icon1.svg" alt="Edit Address" class="icon" />
                     </button>
-                    <span class="recent-address-label">최근배송지</span>
+                    <span class="recent-address-label" th:if="${address.isRecent}">최근배송지</span>
                   </div>
                   <button class="delete-button">삭제</button>
                 </div>
@@ -412,18 +267,16 @@
         <h2 class="section-title">상품 정보</h2>
       </header>
       <div class="product-container">
-        <div class="product-item">
-          <img src="image0.png" alt="Product Thumbnail" class="product-image" />
-          <div class="product-details">
-            <h3 class="brand-name">CERESHOME</h3>
-            <p class="product-description">[세레스홈] 화이트 멀티탭 전선 2구 (10A) 1.5M 3M 5M 10M</p>
-            <p class="product-variant">전선길이 1.5M - / 1개</p>
+        <div th:each="item : ${selectedItems}">
+          <div class="product-item">
+              <img th:src="@{/images/product/look1/productThumbnail.jpg}" alt="Product Thumbnail" class="product-image" />
+              <div class="product-details">
+                  <h3 th:text="${item.productName}" class="brand-name"></h3>
+                  <p th:text="${item.quantity + '개'}" class="product-variant"></p>
+              </div>
+              <div class="product-price" th:text="${item.productPrice + '원'}"></div>
           </div>
-          <button class="like-button">
-            <img src="goods-like-off-svg0.svg" alt="Like Product" class="like-icon" />
-          </button>
-          <div class="product-price">4,800원</div>
-        </div>
+        </div>      
       </div>
     </section>
 
@@ -469,7 +322,7 @@
       </section>
       <div class="summary-row">
         <span class="summary-title">최종 결제금액</span>
-        <span class="summary-value">4,800원</span>
+        <span class="summary-value" th:text="${totalPrice} + '원'"></span>
         <button class="pay-button" id="pay-button">
       결제하기
         </button>
@@ -484,58 +337,140 @@
     <script>
       $(document).ready(function () {
         console.log("jQuery 로드 성공!");
-
-        // 결제하기 버튼 클릭 이벤트
-        $("#pay-button").click(function () {
-          console.log("결제하기 버튼 클릭됨");
-
-          let count = 2;
-          let products = ["Product1", "Product2"];
-          let name = count === 1 ? "상품" : '상품 외 ' + (count - 1) + '개';
-
-
-          // 결제 수단이 선택되었는지 확인
-          if (!$("input[name='payment-method']:checked").val()) {
-            alert("결제 수단을 선택해주세요.");
-            return;
-          }
-
-          // 필수 동의 항목이 모두 체크되었는지 확인
-          if (!$("input[name='agreement1']").is(":checked") ||
-              !$("input[name='agreement2']").is(":checked") ||
-              !$("input[name='agreement3']").is(":checked") ||
-              !$("input[name='final-agreement']").is(":checked")) {
-            alert("모든 필수 동의 항목에 체크해주세요.");
-            return;
-          }
-
-          // 포트원 결제 API 초기화
-          IMP.init("imp41634154"); // 테스트 가맹점 식별코드 사용
-
-          // 결제 요청
-          IMP.request_pay({
-            pg: 'kcp', // PG사 선택 (테스트 가능한 PG사 사용)
-            pay_method: 'card', // 결제 방식
-            merchant_uid: 'merchant_' + new Date().getTime(), // 임의의 고유 주문번호 생성
-            name: '상품 결제 테스트',
-            amount: 10000, // 결제 금액 (테스트용)
-            buyer_email: 'testuser@example.com',
-            buyer_name: '테스트 사용자',
-            buyer_tel: '010-1234-5678',
-            buyer_addr: '서울특별시 강남구 테헤란로',
-            buyer_postcode: '123-456'
-          }, function (rsp) {
-            if (rsp.success) {
-              alert("결제가 완료되었습니다.\n고유ID: " + rsp.imp_uid);
-          
-              $("#pay").submit();
-            } else {
-              alert("결제에 실패하였습니다. 실패사유: " + rsp.error_msg);
-            }
+    
+        $(document).ready(function () {
+          console.log("jQuery 로드 성공!");
+      
+          // 결제하기 버튼 클릭 이벤트
+          $("#pay-button").click(function () {
+              console.log("결제하기 버튼 클릭됨");
+      
+              let selectedItems = [];
+              let totalAmount = 0;
+              let productNames = [];
+      
+              // 선택된 상품 정보 수집
+              $(".product-item").each(function () {
+                  const productName = $(this).find(".product-description").text().trim();
+                  const productPrice = parseInt($(this).find(".product-price").text().replace(/\D/g, ""));
+                  const quantity = parseInt($(this).find(".quantity-input").val());
+      
+                  totalAmount += productPrice * quantity;
+                  productNames.push(productName);
+      
+                  // 선택된 상품 정보를 배열에 추가
+                  selectedItems.push({
+                      productName: productName,
+                      productPrice: productPrice,
+                      quantity: quantity
+                  });
+              });
+      
+              let orderName = productNames.length === 1 ? productNames[0] : `${productNames[0]} 외 ${productNames.length - 1}개`;
+      
+              let buyerEmail = $("#buyer-email").val();
+              let buyerName = $("#buyer-name").val();
+              let buyerTel = $("#buyer-tel").val();
+              let buyerAddr = $("#buyer-address").val();
+              let buyerPostcode = $("#buyer-postcode").val();
+      
+              if (!$("input[name='payment-method']:checked").val()) {
+                  alert("결제 수단을 선택해주세요.");
+                  return;
+              }
+      
+              if (!$("input[name='agreement1']").is(":checked") ||
+                  !$("input[name='agreement2']").is(":checked") ||
+                  !$("input[name='agreement3']").is(":checked") ||
+                  !$("input[name='final-agreement']").is(":checked")) {
+                  alert("모든 필수 동의 항목에 체크해주세요.");
+                  return;
+              }
+      
+              IMP.init("imp41634154");
+      
+              IMP.request_pay({
+                  pg: 'kcp',
+                  pay_method: 'card',
+                  merchant_uid: 'merchant_' + new Date().getTime(),
+                  name: orderName,
+                  amount: totalAmount,
+                  buyer_email: buyerEmail,
+                  buyer_name: buyerName,
+                  buyer_tel: buyerTel,
+                  buyer_addr: buyerAddr,
+                  buyer_postcode: buyerPostcode
+              }, function (rsp) {
+                  if (rsp.success) {
+                      alert("결제가 완료되었습니다.\n고유ID: " + rsp.imp_uid);
+      
+                      $.ajax({
+                          url: "/order/complete",
+                          type: "POST",
+                          contentType: "application/json",
+                          data: JSON.stringify({
+                              imp_uid: rsp.imp_uid,
+                              merchant_uid: rsp.merchant_uid,
+                              paid_amount: rsp.paid_amount,
+                              buyer_name: rsp.buyer_name,
+                              buyer_email: rsp.buyer_email,
+                              buyer_tel: rsp.buyer_tel,
+                              buyer_addr: rsp.buyer_addr,
+                              buyer_postcode: rsp.buyer_postcode,
+                              products: selectedItems
+                          }),
+                          success: function () {
+                              location.href = "/order/success";
+                          },
+                          error: function () {
+                              alert("결제 정보 전송 중 오류가 발생했습니다.");
+                          }
+                      });
+                  } else {
+                      alert("결제에 실패하였습니다. 실패사유: " + rsp.error_msg);
+                  }
+              });
           });
-        });
-      });
-
+      
+          // 수량 변경 이벤트
+          $(document).on("change", ".quantity-input", function () {
+              const cartId = $(this).data("cart-id");
+              const newQuantity = $(this).val();
+              $.ajax({
+                  url: `/cart/update`,
+                  type: 'PUT',
+                  contentType: "application/json",
+                  data: JSON.stringify({ cartId: cartId, quantity: newQuantity }),
+                  success: function () {
+                      alert("수량이 업데이트되었습니다.");
+                      location.reload(); // 업데이트 후 페이지 새로고침
+                  },
+                  error: function () {
+                      alert("수량 업데이트 중 오류가 발생했습니다.");
+                  }
+              });
+          });
+      
+          // 삭제 버튼 클릭 이벤트
+          $(document).on("click", ".delete-item-button", function () {
+              const cartId = $(this).data("cart-id");
+              $.ajax({
+                  url: `/cart/delete/${cartId}`,
+                  type: 'DELETE',
+                  success: function () {
+                      alert("상품이 삭제되었습니다.");
+                      location.reload(); // 삭제 후 페이지 새로고침
+                  },
+                  error: function () {
+                      alert("상품 삭제 중 오류가 발생했습니다.");
+                  }
+              });
+          });
+      });      
+    });
+    
+        
+    
       function openAddressRegistration() {
         window.open('/order/addAddress', '주소 등록', 'width=500,height=700');
       }
