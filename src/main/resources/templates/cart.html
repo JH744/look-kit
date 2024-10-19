@@ -340,25 +340,28 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script>
     $(document).ready(function () {
-      // 주문하기 버튼 클릭
       $("#checkout-button").click(function () {
         let selectedItems = [];
         $(".checkbox-input:checked").each(function () {
             selectedItems.push($(this).closest(".cart-item").data("cart-id"));
         });
-    
+
         if (selectedItems.length === 0) {
             alert("주문할 상품을 선택해주세요.");
             return;
         }
-    
+
         $.ajax({
-            url: "/cart/order",
+            url: "/order",
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify({ selectedItems: selectedItems }),
+            data: JSON.stringify(selectedItems),
             success: function () {
-                location.href = "/order";
+                location.href = "/order?selectedItems=" + selectedItems.join(",");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("Error: " + textStatus + ", " + errorThrown);
+                alert("주문 처리 중 오류가 발생했습니다.");
             }
         });
     });

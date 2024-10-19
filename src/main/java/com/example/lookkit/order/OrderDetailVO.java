@@ -8,14 +8,14 @@ import lombok.*;
 @Getter
 @Setter
 public class OrderDetailVO {
-    private long orderItemId;
-    private long orderId;
-    private Long productId;
-    private Long codiId;
-    private long userId;
+    private int orderItemId;
+    private int orderId;
+    private int productId;
+    private int codiId;
+    private int userId;
     private int quantity;
 
-    public void setOrderId(long orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 }

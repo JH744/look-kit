@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/order")
 public class OrderController {
@@ -13,8 +15,32 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping
-    public String orderPage(Model model) {
-        return "order"; 
+    public String orderPage(@RequestParam List<Integer> selectedItems, Model model) {
+        // selectedItems로 주문할 아이템 목록을 가져옵니다.
+        List<OrderDetailVO> items = orderService.getOrderDetails(selectedItems);
+
+        OrderVO orderVO = OrderVO.builder()
+                .userId(1) // 예시로 사용자 ID 지정, 실제 서비스에서는 세션 등에서 가져와야 함
+                .orderDetails(items)
+                .build();
+
+        model.addAttribute("order", orderVO);
+        return "order";
+    }
+
+    @PostMapping
+    @ResponseBody
+    public String createOrder(@RequestBody List<Integer> selectedItems) {
+        try {
+            OrderVO orderVO = OrderVO.builder()
+                    .userId(1) // 실제 서비스에서는 사용자 ID를 세션에서 가져와야 함
+                    .build();
+            orderService.createOrder(orderVO, selectedItems);
+            return "Order successfully created";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error creating order";
+        }
     }
 
     @PostMapping("/payment")
@@ -23,30 +49,26 @@ public class OrderController {
         boolean paymentResult = orderService.processPayment(orderId, paymentMethod);
         return paymentResult ? "Payment successful" : "Payment failed";
     }
-    
+
     @PostMapping("/payment/complete")
-    public String completePayment(@RequestParam("imp_uid") String impUid, 
+    public String completePayment(@RequestParam("imp_uid") String impUid,
                                   @RequestParam("merchant_uid") String merchantUid,
                                   @RequestParam("amount") int amount, Model model) {
-        // 결제 완료 정보를 주문DB에 넣어야할까
         boolean result = orderService.processPayment(impUid, merchantUid, amount);
-        
+
         if (result) {
-            // 결제 완료 정보를 모델에 추가하여 `orderComplete` 페이지로 전달
             model.addAttribute("message", "결제가 완료되었습니다.");
             model.addAttribute("orderId", merchantUid);
             model.addAttribute("amount", amount);
-            return "orderComplete"; 
+            return "orderComplete";
         } else {
-            // 결제 실패 시에도 `order.html` 페이지를 렌더링하도록 설정
             model.addAttribute("paymentFailed", true);
-            return "order"; 
+            return "order";
         }
     }
 
     @GetMapping("/addAddress")
     public String addAddressPage() {
-        return "addAddress"; 
+        return "addAddress";
     }
-    
 }

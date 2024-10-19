@@ -305,7 +305,7 @@
                 <div class="review-header">
                     <span class="review-rating" th:text="${review.rating} + '점'">5점</span>
                     <span class="review-user" th:text="${review.userId}">유저 아이디</span>
-                    <span class="review-date" th:text="${#dates.format(review.createdAt, 'yy.MM.dd')}">24.10.08</span>
+                    <span class="review-date" th:text="${#temporals.format(review.createdAt, 'yy.MM.dd')}">24.10.08</span>
                 </div>
                 <div class="review-content">
                     <p th:text="${review.reviewText}">리뷰 내용</p>

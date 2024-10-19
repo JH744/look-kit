@@ -184,46 +184,38 @@
             <div class="info-label">이메일 주소</div>
             <div class="info-data">
               <div class="input-container">
-                <input type="text" class="input-field" th:value="${user?.email}" readonly />
-                <button class="action-button">
-                  <img src="icon0.svg" alt="Edit Email" class="icon" />
-                </button>
+                <input type="text" class="input-field" th:value="${user.email}" readonly />
               </div>
             </div>
           </div>
           <div class="info-row">
             <div class="info-label">
               <span class="label-title">배송지 정보</span>
-              <span th:text="${user?.addresses != null ? #lists.size(user.addresses) + '개' : '0개'}" class="item-count">1개</span>
+              <span th:text="${user.addresses != null ? #lists.size(user.addresses) + '개' : '0개'}" class="item-count"></span>
             </div>
             <div class="info-data">
               <div class="address-list">
-                <div th:if="${user?.addresses == null || #lists.isEmpty(user.addresses)}">
+                <div th:if="${user.addresses == null || #lists.isEmpty(user.addresses)}">
                   <div class="address-item">
                     <button class="address-link" onclick="openAddressRegistration()">
                       <span class="link-text">배송지를 등록하세요</span>
-                      <div class="link-icon-container">
-                        <img src="icon1.svg" alt="Add Address" />
-                      </div>
                     </button>
                   </div>
                 </div>
-                <div th:each="address : ${user?.addresses}" class="address-item">
+                <div th:each="address : ${user.addresses}" class="address-item">
                   <div class="address-details">
                     <div class="address-info">
                       <div class="address-title">
                         <span th:text="${address.label}">집</span>
                       </div>
                       <div class="recipient-details">
-                        <span th:text="${user?.userName} + ' / ' + ${user?.phone}">이름 / 전화번호</span>
+                        <span th:text="${user.userName} + ' / ' + ${user.phone}">이름 / 전화번호</span>
                       </div>
                       <div class="address-text">
                         <span th:text="${address.fullAddress}">주소 정보</span>
                       </div>
                     </div>
-                    <button class="action-button">
-                      <img src="icon1.svg" alt="Edit Address" class="icon" />
-                    </button>
+                    <button class="action-button">수정</button>
                     <span class="recent-address-label" th:if="${address.isRecent}">최근배송지</span>
                   </div>
                   <button class="delete-button">삭제</button>
@@ -239,22 +231,7 @@
                   <input type="radio" name="memo-option" class="memo-checkbox" />
                   <span class="memo-text">선택 안 함</span>
                 </label>
-                <label class="memo-item">
-                  <input type="radio" name="memo-option" class="memo-checkbox" />
-                  <span class="memo-text">부재 시 경비실에 맡겨주세요</span>
-                </label>
-                <label class="memo-item">
-                  <input type="radio" name="memo-option" class="memo-checkbox" />
-                  <span class="memo-text">부재 시 집 앞에 놔주세요</span>
-                </label>
-                <label class="memo-item">
-                  <input type="radio" name="memo-option" class="memo-checkbox" />
-                  <span class="memo-text">부재 시 핸드폰으로 연락 바랍니다</span>
-                </label>
-                <label class="memo-item">
-                  <input type="radio" name="memo-option" class="memo-checkbox" />
-                  <span class="memo-text">배송 전 연락 바랍니다</span>
-                </label>
+                <!-- 추가 옵션들 -->
               </div>
             </div>
           </div>
@@ -272,205 +249,105 @@
               <img th:src="@{/images/product/look1/productThumbnail.jpg}" alt="Product Thumbnail" class="product-image" />
               <div class="product-details">
                   <h3 th:text="${item.productName}" class="brand-name"></h3>
-                  <p th:text="${item.quantity + '개'}" class="product-variant"></p>
+                  <p th:text="${item.quantity} + '개'" class="product-variant"></p>
               </div>
-              <div class="product-price" th:text="${item.productPrice + '원'}"></div>
+              <div class="product-price" th:text="${item.productPrice} + '원'"></div>
           </div>
         </div>      
       </div>
     </section>
 
     <section class="payment-frame">
-      <header class="section-header">
-        <h2 class="section-title">결제수단 선택</h2>
-      </header>
-      <div class="payment-method-list">
-        <label class="payment-method-item">
-          <input type="radio" name="payment-method" class="method-radio">
-          <img src="image2.png" alt="Credit/Debit Card" class="method-icon">
-          <span class="method-title">신용/체크카드</span>
-        </label>
-      </div>
-      <header class="section-header">
-        <h2 class="section-title">최종 결제금액</h2>
-      </header>
-      <section class="total-payment-section">
-        <div class="summary-table">
-        <div class="agreement-section">
-         <div class="agreement-list">
-          <label class="agreement-item">
-            <input type="checkbox" name="agreement1" class="agreement-checkbox">
-            <span class="agreement-text">주문상품정보 및 서비스 이용약관에 동의</span>
-          </label>
-          <label class="agreement-item">
-              <input type="checkbox" name="agreement2" class="agreement-checkbox">
-              <span class="agreement-text">구매조건 확인 및 결제 진행 동의(필수)</span>
-          </label>
-          <label class="agreement-item">
-              <input type="checkbox" name="agreement3" class="agreement-checkbox">
-              <span class="agreement-text">개인정보 제 3자 제공 동의(필수)</span>
-              <button class="details-button">
-                자세히
-              </button>
-          </label>
-          <label class="final-agreement">
-          <input type="checkbox" name="final-agreement" class="agreement-checkbox">
-          <span class="agreement-text">위 주문 내용을 확인하였으며, 결제에 모두 동의합니다</span>
-          </label>
-         </div>
-        </div>
-      </section>
+      <!-- 결제 관련 정보 -->
       <div class="summary-row">
         <span class="summary-title">최종 결제금액</span>
         <span class="summary-value" th:text="${totalPrice} + '원'"></span>
-        <button class="pay-button" id="pay-button">
-      결제하기
-        </button>
+        <button class="pay-button" id="pay-button">결제하기</button>
       </div>
-      </section>
     </section>
   </div>
-</th:block>
-<th:block layout:fragment="script">
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+  </th:block>
+
+  <th:block layout:fragment="script">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
     <script>
       $(document).ready(function () {
-        console.log("jQuery 로드 성공!");
-    
-        $(document).ready(function () {
-          console.log("jQuery 로드 성공!");
-      
-          // 결제하기 버튼 클릭 이벤트
-          $("#pay-button").click(function () {
-              console.log("결제하기 버튼 클릭됨");
-      
-              let selectedItems = [];
-              let totalAmount = 0;
-              let productNames = [];
-      
-              // 선택된 상품 정보 수집
-              $(".product-item").each(function () {
-                  const productName = $(this).find(".product-description").text().trim();
-                  const productPrice = parseInt($(this).find(".product-price").text().replace(/\D/g, ""));
-                  const quantity = parseInt($(this).find(".quantity-input").val());
-      
-                  totalAmount += productPrice * quantity;
-                  productNames.push(productName);
-      
-                  // 선택된 상품 정보를 배열에 추가
-                  selectedItems.push({
-                      productName: productName,
-                      productPrice: productPrice,
-                      quantity: quantity
-                  });
-              });
-      
-              let orderName = productNames.length === 1 ? productNames[0] : `${productNames[0]} 외 ${productNames.length - 1}개`;
-      
-              let buyerEmail = $("#buyer-email").val();
-              let buyerName = $("#buyer-name").val();
-              let buyerTel = $("#buyer-tel").val();
-              let buyerAddr = $("#buyer-address").val();
-              let buyerPostcode = $("#buyer-postcode").val();
-      
-              if (!$("input[name='payment-method']:checked").val()) {
-                  alert("결제 수단을 선택해주세요.");
-                  return;
-              }
-      
-              if (!$("input[name='agreement1']").is(":checked") ||
-                  !$("input[name='agreement2']").is(":checked") ||
-                  !$("input[name='agreement3']").is(":checked") ||
-                  !$("input[name='final-agreement']").is(":checked")) {
-                  alert("모든 필수 동의 항목에 체크해주세요.");
-                  return;
-              }
-      
-              IMP.init("imp41634154");
-      
-              IMP.request_pay({
-                  pg: 'kcp',
-                  pay_method: 'card',
-                  merchant_uid: 'merchant_' + new Date().getTime(),
-                  name: orderName,
-                  amount: totalAmount,
-                  buyer_email: buyerEmail,
-                  buyer_name: buyerName,
-                  buyer_tel: buyerTel,
-                  buyer_addr: buyerAddr,
-                  buyer_postcode: buyerPostcode
-              }, function (rsp) {
-                  if (rsp.success) {
-                      alert("결제가 완료되었습니다.\n고유ID: " + rsp.imp_uid);
-      
-                      $.ajax({
-                          url: "/order/complete",
-                          type: "POST",
-                          contentType: "application/json",
-                          data: JSON.stringify({
-                              imp_uid: rsp.imp_uid,
-                              merchant_uid: rsp.merchant_uid,
-                              paid_amount: rsp.paid_amount,
-                              buyer_name: rsp.buyer_name,
-                              buyer_email: rsp.buyer_email,
-                              buyer_tel: rsp.buyer_tel,
-                              buyer_addr: rsp.buyer_addr,
-                              buyer_postcode: rsp.buyer_postcode,
-                              products: selectedItems
-                          }),
-                          success: function () {
-                              location.href = "/order/success";
-                          },
-                          error: function () {
-                              alert("결제 정보 전송 중 오류가 발생했습니다.");
-                          }
-                      });
-                  } else {
-                      alert("결제에 실패하였습니다. 실패사유: " + rsp.error_msg);
-                  }
-              });
+        console.log("jQuery 로드 성공");
+
+        $("#pay-button").click(function () {
+          console.log("결제하기 버튼 클릭됨");
+
+          let selectedItems = [];
+          let totalAmount = 0;
+
+          $(".product-item").each(function () {
+            const productName = $(this).find(".brand-name").text().trim();
+            const productPrice = parseInt($(this).find(".product-price").text().replace(/\D/g, ""));
+            const quantity = parseInt($(this).find(".product-variant").text().replace(/\D/g, ""));
+
+            totalAmount += productPrice * quantity;
+
+            selectedItems.push({
+              productName: productName,
+              productPrice: productPrice,
+              quantity: quantity
+            });
           });
-      
-          // 수량 변경 이벤트
-          $(document).on("change", ".quantity-input", function () {
-              const cartId = $(this).data("cart-id");
-              const newQuantity = $(this).val();
+
+          if (!$("input[name='payment-method']:checked").val()) {
+            alert("결제 수단을 선택해주세요.");
+            return;
+          }
+
+          if (!$("input[name='agreement1']").is(":checked") ||
+              !$("input[name='agreement2']").is(":checked") ||
+              !$("input[name='agreement3']").is(":checked") ||
+              !$("input[name='final-agreement']").is(":checked")) {
+            alert("모든 필수 동의 항목에 체크해주세요.");
+            return;
+          }
+
+          IMP.init("imp41634154");
+
+          IMP.request_pay({
+            pg: 'kcp',
+            pay_method: 'card',
+            merchant_uid: 'merchant_' + new Date().getTime(),
+            name: selectedItems[0].productName,
+            amount: totalAmount,
+            buyer_email: $("#buyer-email").val(),
+            buyer_name: $("#buyer-name").val(),
+            buyer_tel: $("#buyer-tel").val(),
+            buyer_addr: $("#buyer-address").val(),
+            buyer_postcode: $("#buyer-postcode").val()
+          }, function (rsp) {
+            if (rsp.success) {
+              alert("결제가 완료되었습니다.\n고유ID: " + rsp.imp_uid);
               $.ajax({
-                  url: `/cart/update`,
-                  type: 'PUT',
-                  contentType: "application/json",
-                  data: JSON.stringify({ cartId: cartId, quantity: newQuantity }),
-                  success: function () {
-                      alert("수량이 업데이트되었습니다.");
-                      location.reload(); // 업데이트 후 페이지 새로고침
-                  },
-                  error: function () {
-                      alert("수량 업데이트 중 오류가 발생했습니다.");
-                  }
+                url: "/order/complete",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                  imp_uid: rsp.imp_uid,
+                  merchant_uid: rsp.merchant_uid,
+                  paid_amount: rsp.paid_amount,
+                  products: selectedItems
+                }),
+                success: function () {
+                  location.href = "/order/success";
+                },
+                error: function () {
+                  alert("결제 정보 전송 중 오류가 발생했습니다.");
+                }
               });
+            } else {
+              alert("결제에 실패하였습니다. 실패사유: " + rsp.error_msg);
+            }
           });
-      
-          // 삭제 버튼 클릭 이벤트
-          $(document).on("click", ".delete-item-button", function () {
-              const cartId = $(this).data("cart-id");
-              $.ajax({
-                  url: `/cart/delete/${cartId}`,
-                  type: 'DELETE',
-                  success: function () {
-                      alert("상품이 삭제되었습니다.");
-                      location.reload(); // 삭제 후 페이지 새로고침
-                  },
-                  error: function () {
-                      alert("상품 삭제 중 오류가 발생했습니다.");
-                  }
-              });
-          });
-      });      
-    });
-    
-        
-    
+        });
+      });
+
       function openAddressRegistration() {
         window.open('/order/addAddress', '주소 등록', 'width=500,height=700');
       }

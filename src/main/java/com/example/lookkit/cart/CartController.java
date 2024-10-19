@@ -59,10 +59,11 @@ public class CartController {
         return "Item deleted successfully.";
     }
 
- 
-    @PostMapping("/selected")
-    @ResponseBody
-    public List<CartVO> getSelectedCartItems(@RequestBody List<Integer> cartIds) {
-        return cartService.getSelectedCartItems(cartIds);
+    @PostMapping("/order")
+    public String createOrder(@RequestBody List<Integer> selectedItems, Model model) {
+        // 선택된 장바구니 아이템들로 주문 페이지로 이동
+        List<CartVO> items = cartService.getSelectedCartItems(selectedItems);
+        model.addAttribute("selectedItems", items);
+        return "redirect:/order?selectedItems=" + String.join(",", selectedItems.stream().map(String::valueOf).toArray(String[]::new));
     }
 }

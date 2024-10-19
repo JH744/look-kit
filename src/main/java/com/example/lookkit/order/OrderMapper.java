@@ -11,20 +11,23 @@ public interface OrderMapper {
     void createOrder(OrderVO orderVO);
 
     @Select("SELECT * FROM orders WHERE user_id = #{userId}")
-    List<OrderVO> getOrdersByUser(long userId);
+    List<OrderVO> getOrdersByUser(int userId);
 
-    @Select("SELECT * FROM order_items WHERE order_id = #{orderId}")
-    List<OrderDetailVO> getOrderDetails(long orderId);
+    @Select("<script>" +
+            "SELECT * FROM order_items WHERE order_id IN " +
+            "<foreach item='item' index='index' collection='orderIds' open='(' separator=',' close=')'>" +
+            "#{item}" +
+            "</foreach>" +
+            "</script>")
+    List<OrderDetailVO> getOrderDetails(@Param("orderIds") List<Integer> orderIds);
 
     @Insert("INSERT INTO order_items (order_id, product_id, codi_id, user_id, quantity) VALUES (#{orderId}, #{productId}, #{codiId}, #{userId}, #{quantity})")
     @Options(useGeneratedKeys = true, keyProperty = "orderItemId")
     void createOrderDetail(OrderDetailVO orderDetailVO);
 
     @Delete("DELETE FROM orders WHERE order_id = #{orderId}")
-    void deleteOrder(long orderId);
+    void deleteOrder(int orderId);
 
     @Delete("DELETE FROM order_items WHERE order_id = #{orderId}")
-    void deleteOrderItems(long orderId); 
+    void deleteOrderItems(int orderId); 
 }
-
-
