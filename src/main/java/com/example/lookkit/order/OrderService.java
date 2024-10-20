@@ -20,20 +20,20 @@ public class OrderService {
     public void createOrder(OrderVO orderVO, List<Integer> selectedCartIds) {
         orderMapper.createOrder(orderVO);
 
-        List<CartVO> selectedCartItems = cartService.getSelectedCartItems(selectedCartIds);
-        List<OrderDetailVO> orderDetails = selectedCartItems.stream().map(cartItem -> OrderDetailVO.builder()
-                    .orderId(orderVO.getOrderId())
-                    .productId(cartItem.getProductId())
-                    .userId(cartItem.getUserId())
-                    .quantity(cartItem.getQuantity())
-                    .build()
-        ).collect(Collectors.toList());
+        // List<CartVO> selectedCartItems = cartService.getSelectedCartItems(selectedCartIds);
+        // List<OrderDetailVO> orderDetails = selectedCartItems.stream().map(cartItem -> OrderDetailVO.builder()
+        //             .orderId(orderVO.getOrderId())
+        //             .productId(cartItem.getProductId())
+        //             .userId(cartItem.getUserId())
+        //             .quantity(cartItem.getQuantity())
+        //             .build()
+        // ).collect(Collectors.toList());
 
-        for (OrderDetailVO orderDetail : orderDetails) {
-            orderMapper.createOrderDetail(orderDetail);
-        }
+        // for (OrderDetailVO orderDetail : orderDetails) {
+    //     //     orderMapper.createOrderDetail(orderDetail);
+    //     // }
 
-        selectedCartItems.forEach(cartItem -> cartService.deleteCartItem(cartItem.getCartId()));
+    //     selectedCartItems.forEach(cartItem -> cartService.deleteCartItem(cartItem.getCartId()));
     }
 
     public List<OrderVO> getOrdersByUser(int userId) {

@@ -15,16 +15,15 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping
-    public String orderPage(@RequestParam List<Integer> selectedItems, Model model) {
-        // selectedItems로 주문할 아이템 목록을 가져옵니다.
-        List<OrderDetailVO> items = orderService.getOrderDetails(selectedItems);
-
-        OrderVO orderVO = OrderVO.builder()
-                .userId(1) // 예시로 사용자 ID 지정, 실제 서비스에서는 세션 등에서 가져와야 함
-                .orderDetails(items)
-                .build();
-
-        model.addAttribute("order", orderVO);
+    public String orderPage(@RequestParam(required = false) List<Integer> selectedItems, Model model) {
+        if (selectedItems != null) {
+            List<OrderDetailVO> items = orderService.getOrderDetails(selectedItems);
+            OrderVO orderVO = OrderVO.builder()
+                    .userId(1) // 실제 서비스에서는 사용자 ID를 세션에서 가져와야 함
+                    .orderDetails(items)
+                    .build();
+            model.addAttribute("order", orderVO);
+        }
         return "order";
     }
 

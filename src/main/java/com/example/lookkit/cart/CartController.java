@@ -15,32 +15,22 @@ public class CartController {
     private CartService cartService;
 
     @GetMapping
-    public String cartPage(@RequestParam(value = "addToCart", required = false) boolean addToCart,
-                           @RequestParam(value = "productId", required = false) Integer productId,
-                           @RequestParam(value = "quantity", required = false) Integer quantity,
-                           Model model) {
-        int userId = 1; 
-        if (addToCart && productId != null && quantity != null) {
-            CartVO cartVO = new CartVO();
-            cartVO.setUserId(userId);
-            cartVO.setProductId(productId);
-            cartVO.setQuantity(quantity);
-            cartService.addItemToCart(cartVO);
-        }
+    public String cartPage(Model model) {
+        int userId = 1; // 사용자 ID는 실제 서비스에서는 인증 정보로 가져와야 합니다
         List<CartVO> cartItems = cartService.getCartItems(userId);
         model.addAttribute("cartItems", cartItems);
-        return "cart"; 
-    }
-
-    @GetMapping("/{userId}")
-    @ResponseBody
-    public List<CartVO> getCartItems(@PathVariable int userId) {
-        return cartService.getCartItems(userId);
+        return "cart";
     }
 
     @PostMapping("/add")
     @ResponseBody
-    public String addItemToCart(@RequestBody CartVO cartVO) {
+    public String addItemToCart(@RequestParam("productId") int productId,
+                                @RequestParam("quantity") int quantity) {
+        int userId = 1; // 사용자 ID는 실제 서비스에서는 인증 정보로 가져와야 합니다
+        CartVO cartVO = new CartVO();
+        cartVO.setUserId(userId);
+        cartVO.setProductId(productId);
+        cartVO.setQuantity(quantity);
         cartService.addItemToCart(cartVO);
         return "Item added to cart successfully.";
     }
@@ -61,9 +51,8 @@ public class CartController {
 
     @PostMapping("/order")
     public String createOrder(@RequestBody List<Integer> selectedItems, Model model) {
-        // 선택된 장바구니 아이템들로 주문 페이지로 이동
         List<CartVO> items = cartService.getSelectedCartItems(selectedItems);
         model.addAttribute("selectedItems", items);
-        return "redirect:/order?selectedItems=" + String.join(",", selectedItems.stream().map(String::valueOf).toArray(String[]::new));
+        return "order";
     }
 }

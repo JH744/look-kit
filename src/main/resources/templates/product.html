@@ -31,18 +31,17 @@
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 50px;
+      gap: 40px;
       padding: 50px 0;
     }
     .image-section {
       flex: 1;
-      width: 500px;
-      height: 350px;
+      width: 600px;
+      height: 400px;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-
     }
     .image-section img {
       width: auto;
@@ -51,23 +50,6 @@
       object-fit: contain;
   }
   
-    .copy-address {
-      position: absolute;
-      top: 360px;
-      left: 200px;
-      display: flex;
-      align-items: center;
-      background-color: #fff;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 14px;
-      color: #333;
-      cursor: pointer;
-    }
-    .copy-address img {
-      margin-right: 5px;
-    }
     .details-section {
       flex: 1;
       display: flex;
@@ -175,7 +157,7 @@
     .tab-section {
         
         display: flex;
-        gap: 20px;
+        gap: 80px;
         margin-top: 20px;
         cursor: pointer;
     }
@@ -192,61 +174,63 @@
     .tab-content {
         display: none;
         position: relative;
-        display: flex;
         align-items: center;
         justify-content: center;
     }
     .tab-content.active {
-        display: block;
-        align-items: center;
-        justify-content: center;
+      display: flex;
+      flex-direction: column;
     }
     .review-filters {
       display: flex;
       gap: 15px;
       margin-bottom: 20px;
-  }
-  .filter-button {
+      justify-content: flex-end;
+    }
+    .filter-button {
       background-color: #ffffff;
       border: 1px solid #ccc;
       padding: 10px;
       cursor: pointer;
       font-size: 14px;
-  }
-  .filter-button:hover {
+    }
+    .filter-button:hover {
       background-color: #f0f0f0;
-  }
-  .review-list {
+    }
+    .review-list {
       display: flex;
       flex-direction: column;
       gap: 20px;
-  }
-  .review-item {
+    }
+    .review-item {
       border-bottom: 1px solid #ddd;
-      padding-bottom: 15px;
-  }
-  .review-header {
+      padding: 15px;
       display: flex;
-      justify-content: space-between;
+      flex-direction: row;
+      gap: 20px;
+    }
+    .review-header {
+      display: flex;
+      gap: 40px;
       align-items: center;
       margin-bottom: 10px;
-  }
-  .review-rating {
+    }
+    .review-rating {
       font-weight: bold;
       color: #ff5c28;
-  }
-  .review-user {
+    }
+    .review-user {
       color: #666;
       font-size: 14px;
-  }
-  .review-date {
+    }
+    .review-date {
       color: #999;
       font-size: 12px;
-  }
-  .review-content {
+    }
+    .review-content {
       font-size: 16px;
       color: #333;
-  }
+    }
   </style>
   <title>Product Page</title>
 </head>
@@ -255,9 +239,6 @@
   <div class="container">
     <div class="image-section">
       <img th:src="@{/images/product/look1/look1.jpg}" alt="상품 이미지">
-      <div class="copy-address">
-        <img src="icon.png" alt="아이콘"> 주소 복사하기
-      </div>
     </div>
     <div class="details-section">
       <div>
@@ -273,25 +254,25 @@
       </div>
       <div class="buttons">
         <a href="#" id="cart-link" class="btn btn-cart">장바구니</a>
-        <a href="/order" class="btn btn-buy">구매하기</a>
+        <a href="#" id="buy-link" class="btn btn-buy">구매하기</a>
       </div>
     </div>
   </div>
   <div class="container2">
     <div class="container">
       <div class="tab-section">
-        <div class="active">상세정보</div>
-        <div>리뷰</div>
-        <div>상품 Q&A</div>
-        <div>판매자 정보</div>
+        <div class="active" data-target="details">상세정보</div>
+        <div data-target="reviews">리뷰</div>
+        <div data-target="qna">상품 Q&A</div>
+        <div data-target="seller">판매자 정보</div>
       </div>
     </div>
     <div class="container">
-      <div class="tab-content active">
+      <div class="tab-content active" id="details">
         <img th:src="@{/images/product/look1/detail1.jpg}" alt="상품 디테일">
         <img th:src="@{/images/product/look1/info.jpg}" alt="상품 정보">
       </div>
-      <div class="tab-content">
+      <div class="tab-content" id="reviews">
         <div class="review-filters">
             <button class="filter-button" onclick="sortReviews('latest')">최신순</button>
             <button class="filter-button" onclick="sortReviews('highRating')">별점 높은 순</button>
@@ -313,10 +294,10 @@
             </div>
         </div>
       </div>
-      <div class="tab-content">
+      <div class="tab-content" id="qna">
         <p>상품 Q&A 내용이 여기에 표시됩니다.</p>
       </div>
-      <div class="tab-content">
+      <div class="tab-content" id="seller">
         <p>판매자 정보가 여기에 표시됩니다.</p>
       </div>
     </div>
@@ -329,7 +310,7 @@
     <div class="total-price" th:text="'총 상품 금액 ' + ${product.productPrice} + '원'">총 상품 금액 58,302원</div>
     <div class="buttons">
       <a href="#" id="cart-link-bottom" class="btn btn-cart">장바구니</a>
-      <a href="/order" class="btn btn-buy">구매하기</a>
+      <a href="#" id="buy-link-bottom" class="btn btn-buy">구매하기</a>
     </div>
   </div>
   </th:block>
@@ -340,32 +321,70 @@
         const tabs = document.querySelectorAll(".tab-section div");
         const contents = document.querySelectorAll(".tab-content");
         
-        tabs.forEach((tab, index) => {
+        tabs.forEach((tab) => {
           tab.addEventListener("click", () => {
             tabs.forEach(t => t.classList.remove("active"));
             tab.classList.add("active");
             
             contents.forEach(c => c.classList.remove("active"));
-            contents[index].classList.add("active");
+            document.getElementById(tab.getAttribute("data-target")).classList.add("active");
           });
         });
-
+    
         const cartLink = document.getElementById("cart-link");
+        const cartLinkBottom = document.getElementById("cart-link-bottom");
+        const buyLink = document.getElementById("buy-link");
+        const buyLinkBottom = document.getElementById("buy-link-bottom");
         const quantityInput = document.getElementById("quantity");
         const productId = window.location.pathname.split("/").pop();
-
-        cartLink.addEventListener("click", function(event) {
+    
+        // 장바구니로 이동 (쿼리 파라미터 없이 깔끔하게 처리)
+        function addToCart(event) {
           event.preventDefault();
           const quantity = quantityInput.value;
-          window.location.href = `/cart?addToCart=true&productId=${productId}&quantity=${quantity}`;
-        });
-
-        const cartLinkBottom = document.getElementById("cart-link-bottom");
-        cartLinkBottom.addEventListener("click", function(event) {
+    
+          $.ajax({
+            url: "/cart/add",
+            type: "POST",
+            data: {
+              productId: productId,
+              quantity: quantity
+            },
+            success: function() {
+              location.href = "/cart";
+            },
+            error: function() {
+              alert("장바구니 추가 중 오류가 발생했습니다.");
+            }
+          });
+        }
+    
+        cartLink.addEventListener("click", addToCart);
+        cartLinkBottom.addEventListener("click", addToCart);
+    
+        // 구매하기로 이동 (데이터 전달 필요)
+        function buyNow(event) {
           event.preventDefault();
           const quantity = quantityInput.value;
-          window.location.href = `/cart?addToCart=true&productId=${productId}&quantity=${quantity}`;
-        });
+    
+          $.ajax({
+            url: "/order/add",
+            type: "POST",
+            data: {
+              productId: productId,
+              quantity: quantity
+            },
+            success: function() {
+              location.href = "/order";
+            },
+            error: function() {
+              alert("구매 중 오류가 발생했습니다.");
+            }
+          });
+        }
+    
+        buyLink.addEventListener("click", buyNow);
+        buyLinkBottom.addEventListener("click", buyNow);
       });
     </script>
   </th:block>
