@@ -45,12 +45,23 @@ public class MainController {
 
 
     @GetMapping("/main/category")
-    public String mainCategoryPage(Model model, @RequestParam("type")String type){
+    public String mainCategoryPage(Model model, @RequestParam String type){
         System.out.println("카테고리: "+type);
         List<ProductVO> productsList= productService.getProductsByCategory(type);
         model.addAttribute("type", type);
         model.addAttribute("productsList", productsList);
         return "/home/category";
+    }
+
+
+
+    @GetMapping("/main/search")
+    public String mainSearchPage(Model model, @RequestParam String keyword){
+        System.out.println("키워드: "+keyword);
+        List<ProductVO> productsList= productService.searchProductsByKeyword(keyword);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("productsList", productsList);
+        return "/home/search";
     }
 
 

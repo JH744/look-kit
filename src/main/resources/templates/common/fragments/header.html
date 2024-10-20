@@ -9,7 +9,12 @@
   <div th:fragment="headerFragment">
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script>
-
+      $(document).ready(function () {
+        $(".searchBtn").click(()=>{
+         let keyword = $(".searchInput").val();
+          location.href=`/main/search?keyword=${keyword}`;
+        })
+      });
     </script>
     <div class="header">
       <div class="headerWrapper">

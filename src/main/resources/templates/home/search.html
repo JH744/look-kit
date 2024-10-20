@@ -122,6 +122,17 @@
             color: #5c5c5c;
         }
 
+        .title-box{
+            display:flex;
+            justify-content:center;
+            margin:0 auto;
+            gap:20px;
+            padding: 80px 120px;
+        }
+        .title-box h1:nth-child(2){
+            color:#7d7c7c;
+        }
+
     </style>
 </head>
 <body>
@@ -130,7 +141,10 @@
     <div class="page-container">
         <div class="page-container">
             <div class="title-section">
-                <h1 th:text="${type}">아우터</h1>
+                <div class="title-box">
+                    <h1 th:text="'\'' + ${keyword} + '\' 검색완료'">검색어</h1>
+                    <h1 th:text="${productsList.size()}">검색결과수</h1>
+                </div>
                 <div class="filter-section">
                     <div class="filter-btn">
                         <img src="/images/icon/filterIcon.svg" alt="" />

@@ -19,4 +19,8 @@ public class ProductService {
     public List<ProductVO> getProductsByCategory(String type) {
         return productMapper.getProductsByCategoryType(type);
     }
+
+    public List<ProductVO> searchProductsByKeyword(String keyword) {
+        return productMapper.searchProductsByKeyword(keyword);
+    }
 }

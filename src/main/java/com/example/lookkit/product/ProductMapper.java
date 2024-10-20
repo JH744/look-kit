@@ -17,4 +17,12 @@ public interface ProductMapper {
             "WHERE c.category_type = #{categoryType}")
     List<ProductVO> getProductsByCategoryType(String categoryType);
 
+
+    // 키워드로 상품명 or 설명에서 검색
+    @Select("SELECT * FROM products " +
+            "WHERE product_name " +
+            "LIKE CONCAT('%', #{keyword}, '%') " +
+            "OR product_description " +
+            "LIKE CONCAT('%', #{keyword}, '%')")
+    List<ProductVO> searchProductsByKeyword(String keyword);
 }
