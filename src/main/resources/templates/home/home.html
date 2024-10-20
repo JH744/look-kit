@@ -13,13 +13,13 @@
         <div class="main-content">
             <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active" data-bs-interval="5000">
+                    <div class="carousel-item active" data-bs-interval="3000">
                         <img src="./images/products/carousel-item1.jpg" class="d-block w-100 " alt="...">
                     </div>
-                    <div class="carousel-item" data-bs-interval="5000">
+                    <div class="carousel-item" data-bs-interval="3000">
                         <img src="./images/products/pc.jpg" class="d-block w-100 " alt="...">
                     </div>
-                    <div class="carousel-item" data-bs-interval="5000">
+                    <div class="carousel-item" data-bs-interval="3000">
                         <img src="./images/products/carousel-item3.jpg" class="d-block w-100 " alt="...">
                     </div>
                 </div>
@@ -68,114 +68,26 @@
                 <span class="view-more">+ VIEW MORE</span>
             </div>
             <div class="codi-main-container">
-                <!--반복 시작-->
-                <div class="codi-block">
-                    <img class="codi-sumnail" src="./images/coordi/04/4_thumbnail.webp"/>
-                    <div class="codi-product">
-                        <img class="codi-product-img" src="./images/coordi/codi_sumnail.png"/>
+                <!--코디&상품 반복 시작-->
+                <div th:each="codi:${coordiList}" class="codi-block">
+                    <img class="codi-sumnail" th:src="@{'./images/coordi/0' + ${codi.codiId} + '/' + ${codi.codiId} + '_thumbnail.webp'}" alt="코디 썸네일"/>
+                    <div class="codi-product"  th:each="product : ${codi.products}">
+                        <img class="codi-product-img" th:src="@{'./images/products/0' + ${product.productId} + '/'+ ${product.productThumbnail}}" alt="코디 썸네일"/>
                         <div class="codi-text">
-                            <p>DIEMME</p>
-                            <p>FOUND TIE FRONT PANT (BLACK)</p>
-                        </div>
-                    </div>
-                    <div class="codi-product">
-                        <img class="codi-product-img" src="./img/codi_pd.png"/>
-                        <div class="codi-text">
-                            <p>DIEMME</p>
-                            <p>FOUND TIE FRONT PANT (BLACK)</p>
-                        </div>
-                    </div>
-                    <div class="codi-product">
-                        <img class="codi-product-img" src="./img/codi_pd.png"/>
-                        <div class="codi-text">
-                            <p>DIEMME</p>
-                            <p>FOUND TIE FRONT PANT (BLACK)</p>
+                            <p th:text="${product.productName}">DIEMME</p>
+                            <p th:text="${product.productPrice}">FOUND TIE FRONT PANT (BLACK)</p>
                         </div>
                     </div>
                 </div>
                 <!--반복 끝-->
-                <div class="codi-block">
-                    <img class="codi-sumnail" src="./images/coordi/codi_sumnail.png"/>
-                    <div class="codi-product">
-                        <img class="codi-product-img" src="./img/codi_pd.png"/>
-                        <div class="codi-text">
-                            <p>DIEMME</p>
-                            <p>FOUND TIE FRONT PANT (BLACK)</p>
-                        </div>
-                    </div>
-                    <div class="codi-product">
-                        <img class="codi-product-img" src="./img/codi_pd.png"/>
-                        <div class="codi-text">
-                            <p>DIEMME</p>
-                            <p>FOUND TIE FRONT PANT (BLACK)</p>
-                        </div>
-                    </div>
-                    <div class="codi-product">
-                        <img class="codi-product-img" src="./img/codi_pd.png"/>
-                        <div class="codi-text">
-                            <p>DIEMME</p>
-                            <p>FOUND TIE FRONT PANT (BLACK)</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="codi-block">
-                    <img class="codi-sumnail" src="./images/coordi/codi_sumnail.png"/>
-                    <div class="codi-product">
-                        <img class="codi-product-img" src="./img/codi_pd.png"/>
-                        <div class="codi-text">
-                            <p>DIEMME</p>
-                            <p>FOUND TIE FRONT PANT (BLACK)</p>
-                        </div>
-                    </div>
-                    <div class="codi-product">
-                        <img class="codi-product-img" src="./img/codi_pd.png"/>
-                        <div class="codi-text">
-                            <p>DIEMME</p>
-                            <p>FOUND TIE FRONT PANT (BLACK)</p>
-                        </div>
-                    </div>
-                    <div class="codi-product">
-                        <img class="codi-product-img" src="./img/codi_sumnail.png"/>
-                        <div class="codi-text">
-                            <p>DIEMME</p>
-                            <p>FOUND TIE FRONT PANT (BLACK)</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="codi-block">
-                    <img class="codi-sumnail" src="./images/coordi/01/1_thumbnail.webp"/>
-                    <div class="codi-product">
-                        <img class="codi-product-img" src="./images/coordi/01/1_thumbnail.webp"/>
-                        <div class="codi-text">
-                            <p>DIEMME</p>
-                            <p>FOUND TIE FRONT PANT (BLACK)</p>
-                        </div>
-                    </div>
-                    <div class="codi-product">
-                        <img class="codi-product-img" src="./images/coordi/2/2_thumbnail.webp"/>
-                        <div class="codi-text">
-                            <p>DIEMME</p>
-                            <p>FOUND TIE FRONT PANT (BLACK)</p>
-                        </div>
-                    </div>
-                    <div class="codi-product">
-                        <img class="codi-product-img" src="./images/coordi/3/3_thumbnail.webp"/>
-                        <div class="codi-text">
-                            <p>DIEMME</p>
-                            <p>FOUND TIE FRONT PANT (BLACK)</p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="new-container">
             <p>NEW-IN</p>
             <div class="new-product-block">
-                <img class="new-product-img" src="./images/coordi/codi_sumnail.png"/>
-                <img class="new-product-img" src="./images/coordi/codi_sumnail.png"/>
-                <img class="new-product-img" src="./images/coordi/codi_sumnail.png"/>
+                <img class="new-product-img" src="./images/products/038/38_thumbnail.webp"/>
+                <img class="new-product-img" src="./images/products/039/39_thumbnail.webp"/>
+                <img class="new-product-img" src="./images/products/040/40_thumbnail.webp"/>
             </div>
         </div>
 </th:block>

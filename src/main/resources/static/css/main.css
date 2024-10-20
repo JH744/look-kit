@@ -93,7 +93,10 @@
 .codi-main-container {
     display: flex;
     justify-content: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    flex-wrap:wrap;
+    padding: 0px 50px;
+    gap: 25px;
 }
 
 .codi-title {
@@ -120,6 +123,7 @@
 
 .codi-sumnail {
     width: 250px;
+    margin-bottom:10px;
 }
 
 .view-more {
@@ -140,13 +144,16 @@
 }
 
 .codi-block {
-    display: grid;
+    display: flex;
+    flex-direction:column;
     justify-items: center;
+
 }
 
 .codi-text p {
     margin: 0px;
     font-size: 15px;
+    width:180px;
     /* margin-left: 10px; */
 }
 
@@ -156,17 +163,27 @@
 
 /* new-in */
 .new-container {
+    width: 90%;
     margin-top: 50px;
     display: grid;
     justify-content: center;
+    margin: 40px auto;
 }
-
+.new-container p{
+    font-size: 20px;
+    text-align: center;
+    margin: 40px 0;
+    font-weight: bold;
+}
 .new-product-img {
-    width: 200px;
+    width: 400px;
+    height:500px;
 }
 
 .new-product-block {
+    width:100%;
     display: flex;
+    justify-content:space-between;
     gap: 25px;
 }
 

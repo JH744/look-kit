@@ -17,7 +17,7 @@ public class ProductVO {
     private Long codiId;
     private String productName;
     private String productDescription;
-    private double productPrice;
+    private int productPrice;
     private int productStock;
     private String genderTarget;
     private String productThumbnail;
