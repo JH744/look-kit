@@ -14,12 +14,14 @@
     <div class="header">
       <div class="headerWrapper">
         <div class="navBox1">
-          <a href="#" class="logo">LOOK KIT</a>
+          <a th:href="@{/main}" class="logo">LOOK KIT</a>
           <ul class="navMenu">
-            <li><a href="#" class="menu">HOME</a></li>
-            <li><a href="#" class="menu">APPEAREL</a></li>
-            <li><a href="#" class="menu">SHOES</a></li>
-            <li><a href="#" class="menu">ACC</a></li>
+            <li><a th:href="@{/main/category?type=outer}" class="menu">OUTER</a></li>
+            <li><a th:href="@{/main/category?type=top}" class="menu">TOP</a></li>
+            <li><a th:href="@{/main/category?type=bottom}" class="menu">BOTTOM</a></li>
+            <li><a th:href="@{/main/category?type=bag}" class="menu">BAG</a></li>
+            <li><a th:href="@{/main/category?type=shoes}" class="menu">SHOES</a></li>
+            <li><a th:href="@{/main/category?type=etc}" class="menu">ETC</a></li>
           </ul>
         </div>
         <div class="navBox2">
@@ -31,7 +33,7 @@
           <div class="navIcon">
               <!-- 비로그인시 로그인버튼 노출-->
             <div id="LoginBtn" class="iconBtn" sec:authorize="isAnonymous()">
-              <a th:href="@{/auth/login}" class="simptip-position-top simptip-success" data-tooltip="Login">
+              <a th:href="@{/auth/login}" class="simptip-position-top" data-tooltip="Login">
               <img th:src="@{/images/icon/LoginIcon.svg}" width="30" height="30" />
               </a>
             </div>

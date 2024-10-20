@@ -22,4 +22,5 @@ public class CoordisetService {
         return coordisetMapper.getLatestEightCodiSets();
     }
 
+
 }

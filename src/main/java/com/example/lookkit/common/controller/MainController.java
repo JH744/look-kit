@@ -2,6 +2,8 @@ package com.example.lookkit.common.controller;
 
 import com.example.lookkit.coordiset.CoordiProductsDTO;
 import com.example.lookkit.coordiset.CoordisetService;
+import com.example.lookkit.product.ProductService;
+import com.example.lookkit.product.ProductVO;
 import com.example.lookkit.user.CustomUser;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -18,6 +21,7 @@ import java.util.List;
 public class MainController {
 
     private final CoordisetService coordisetService;
+    private final ProductService productService;
 
     @GetMapping("/main")
     public String mainPage(Authentication auth, HttpSession session, Model model){
@@ -38,4 +42,16 @@ public class MainController {
         model.addAttribute("coordiList", coordiList);
         return "/home/home.html";
     }
+
+
+    @GetMapping("/main/category")
+    public String mainCategoryPage(Model model, @RequestParam("type")String type){
+        System.out.println("카테고리: "+type);
+        List<ProductVO> productsList= productService.getProductsByCategory(type);
+        model.addAttribute("type", type);
+        model.addAttribute("productsList", productsList);
+        return "/home/category";
+    }
+
+
 }
