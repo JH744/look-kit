@@ -155,7 +155,8 @@
             <div class="main-content">
                 <div class="product-list">
                     <div th:each="product :${productsList}" class="product-item">
-                        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productThumbnail} }" alt="" />
+<!--                        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productThumbnail} }" alt="" />-->
+                        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_detail_1.webp'}" alt="" />
                         <div class="product-info">
                             <div class="product-name" th:text="${product.productName}">아우터</div>
                             <div class="product-price-box">
