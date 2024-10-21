@@ -220,6 +220,7 @@ a {
   height: 20px;
   left: -30px;
   top: 1px;
+  cursor:pointer;
 }
 
 .navIcon {

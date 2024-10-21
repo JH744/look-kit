@@ -6,6 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class WishlistVO {
     private long wishlistId;
     private long userId;

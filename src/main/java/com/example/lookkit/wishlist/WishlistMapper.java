@@ -1,9 +1,6 @@
 package com.example.lookkit.wishlist;
 
 import com.example.lookkit.common.dto.ProductWishlistDTO;
-import com.example.lookkit.common.dto.UserOrderDTO;
-import com.example.lookkit.inquiry.InquiryImageVO;
-import com.example.lookkit.inquiry.InquiryVO;
 import com.example.lookkit.user.UserVO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -23,5 +20,19 @@ public interface WishlistMapper {
             "WHERE w.user_id = #{userId}\n" +
             "GROUP BY p.product_id")
     public List<ProductWishlistDTO> getWishList(long userId);
+
+    // 찜하기
+    @Insert("INSERT INTO wishlist (user_id, product_id, codi_id) " +
+            "VALUES (#{userId}, #{productId}, #{codiId})")
+    @Options(useGeneratedKeys = true, keyProperty = "wishlistId")
+    public int addWishlistItem(WishlistVO wishlistVO);
+
+    //찜삭제
+    @Insert("DELETE FROM wishlist WHERE user_id = #{userId} AND product_id = #{productId}")
+    public int removeWishlistItem(WishlistVO wishlistVO);
+
+    // 상품이 해당유저의 찜목록에 있는지
+    @Select("SELECT user_id, product_id, codi_id FROM wishlist WHERE user_id = #{userId} AND product_id = #{productId}")
+    public WishlistVO getWishlistItem(WishlistVO wishlistVO);
 
 }
