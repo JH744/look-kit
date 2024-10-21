@@ -165,22 +165,39 @@
 
       /**폼제출 이벤트 */
       $("#signUpForm").submit(function(e){
-        e.preventDefault();
-        let userId = $("#userUuid").val().trim();
-        let password = $("#password").val().trim();
-        let phone = $("#phone").val().trim();
-        let birthDate = $("#birthDate").val().trim();
-        let email = $("#email").val().trim();
-        let addr1 = $("#user_address").val().trim();
+          e.preventDefault();
+          let userId = $("#userUuid").val().trim();
+          let password = $("#password").val().trim();
+          let phone = $("#phone").val().trim();
+          let birthDate = $("#birthDate").val().trim();
+          let email = $("#email").val().trim();
+          let addr1 = $("#user_address").val().trim();
 
-        if(!userId || !password || !phone || !birthDate || !email || !addr1){
-            alert("입력하지 않은 항목이 있습니다. 확인 후 입력해주세요.");
-        }else if(!idDuplicateChecked){
-          alert("아이디 중복확인을 해주세요.")
-        }else{
-          this.submit();
-        }
+          if(!userId || !password || !phone || !birthDate || !email || !addr1){
+              alert("입력하지 않은 항목이 있습니다. 확인 후 입력해주세요.");
+          }else if(!idDuplicateChecked){
+            alert("아이디 중복확인을 해주세요.")
+          }else{
+            this.submit();
+          }
       })
+
+      /**성별 선택 클릭이벤트 */
+      $(".genderBtn").click((e) => {
+        let target = e.currentTarget;
+        let gender = $(target).text();
+        if(gender === 'Man') {
+          let isChecked = $('#genderInputMan').prop('checked');
+          $('#genderInputMan').prop('checked', !isChecked);
+        } else{
+          let isChecked = $('#genderInputWoman').prop('checked');
+          $('#genderInputWoman').prop('checked', !isChecked);
+        }
+        $(".genderBtn").removeClass("checked-option"); // 일단 모두 제거 후 현재 선택요소에 재설정
+        $(target).toggleClass("checked-option");
+      });
+
+
     });
 
   </script>
@@ -674,14 +691,14 @@
       position: static;
     }
     .genderMaleButton {
-      background: #d8d8d8;
       border-style: solid;
       border-color: #c5c5c5;
       border-width: 1px;
+      border-radius:3px;
       width: 84px;
       height: 57px;
       position: absolute;
-      left: 332px;
+      left: 324px;
       top: 533px;
       display:flex;
       align-items:center;
@@ -694,21 +711,23 @@
       position: static;
     }
     .genderFemaleButton {
-      background: #fffcfc;
       border-style: solid;
       border-color: #c5c5c5;
       border-width: 1px;
+      border-radius:3px;
       width: 84px;
       height: 57px;
       position: absolute;
-      left: 415px;
+      left: 409px;
       top: 533px;
       display:flex;
       justify-content:center;
       align-items:center;
-      margin-left:10px;
+      margin-left:5px;
     }
-
+    .checked-option{
+      background: #d8d8d8;
+    }
 
     .addrBox {
       position: relative;
@@ -859,9 +878,9 @@
                     name="gender"
                     class="hidden-input"
                     value="M"
-
+                    id="genderInputMan"
             />
-            <div class="genderMaleButton">Man</div>
+            <div class="genderMaleButton genderBtn checked-option">Man</div>
           </div>
           <div class="genderFemaleContainer">
             <input
@@ -869,8 +888,9 @@
                     name="gender"
                     class="hidden-input"
                     value="F"
+                    id="genderInputWoman"
             />
-            <div class="genderFemaleButton">Woman</div>
+            <div class="genderFemaleButton genderBtn">Woman</div>
           </div>
         </form>
       </div>
