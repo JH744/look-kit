@@ -278,7 +278,7 @@
                         <label for="email">이메일 주소</label>
                         <div class="inline">
                             <input id="email" type="email" th:field="*{email}" >
-                            <button type="button" class="btn-email-check" onclick="checkDuplicateEmail()">중복확인</button>
+                            <button type="button" class="btn-email-check">중복확인</button>
                         </div>
                         <span id="email-check-result"></span>
                         <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">이메일 오류</div>
@@ -350,29 +350,33 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
     $(document).ready(function() {
-        // 이메일 중복 확인
-        function checkDuplicateEmail() {
-            const email = document.getElementById('email').value;
-            if (!email) {
-                alert('이메일을 입력해주세요.');
-                return;
-            }
-            fetch(`/mypage/checkDuplicateEmail?email=${encodeURIComponent(email)}`)
-                .then(response => response.json())
-                .then(data => {
-                const resultSpan = document.getElementById('email-check-result');
-                if (data) {
-                    resultSpan.style.color = 'green';
-                    resultSpan.textContent = '사용 가능한 이메일입니다.';
-                } else {
-                    resultSpan.style.color = 'red';
-                    resultSpan.textContent = '이미 사용 중인 이메일입니다.';
+
+
+
+        $(".btn-email-check").click(function(){
+            console.log("이메일중복확인");
+            // 이메일 중복 확인
+                const email = document.getElementById('email').value;
+                if (!email) {
+                    alert('이메일을 입력해주세요.');
+                    return;
                 }
-            })
-                .catch(error => {
-                console.error('Error:', error);
-            });
-        }
+                fetch(`/mypage/checkDuplicateEmail?email=${encodeURIComponent(email)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                    const resultSpan = document.getElementById('email-check-result');
+                    if (data) {
+                        resultSpan.style.color = 'green';
+                        resultSpan.textContent = '사용 가능한 이메일입니다.';
+                    } else {
+                        resultSpan.style.color = 'red';
+                        resultSpan.textContent = '이미 사용 중인 이메일입니다.';
+                    }
+                })
+                    .catch(error => {
+                    console.error('Error:', error);
+                });
+        })
 
         // 우편번호 검색 (Placeholder)
         $("#addressSearch").click(function () {
@@ -436,13 +440,6 @@
 
 
 
-
-
-
-
-
-
-
         // 비밀번호 변경 모달 표시
         function showPwChangeModal() {
             document.getElementById('pw-change-modal-container').style.display = 'flex';
@@ -493,7 +490,6 @@
                 alert('비밀번호 변경 중 오류가 발생했습니다.');
             });
         }
-            // --  [submit 이벤트]  --
 
             /**폼제출 버튼 이벤트*/
             $("#updateBtn").click((e) => {
@@ -511,7 +507,6 @@
                 $("#user_address").val('');
                 $("#updateForm").submit();
             });
-
     });
 </script>
 </body>
