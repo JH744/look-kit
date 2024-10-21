@@ -1,5 +1,6 @@
 package com.example.lookkit.common.exception;
 
+import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,6 +23,18 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ErrorResponse handleException(Exception ex) {
+        ex.getMessage();
         return new ErrorResponse("500", "서버 내부 오류가 발생했습니다.");
     }
+
+    // MyBatisSystemException 처리
+    @ExceptionHandler(MyBatisSystemException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ErrorResponse handleMyBatisException(MyBatisSystemException ex) {
+        ex.getMessage();
+        ex.printStackTrace();
+        return new ErrorResponse("500", "데이터베이스 처리 중 오류가 발생했습니다.");
+    }
+
 }
