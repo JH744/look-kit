@@ -80,6 +80,9 @@
             width: 240px;
             height: 40px;
         }
+        .product-name:hover{
+            text-decoration: underline;
+        }
         .product-price {
             font-size: 20px;
             font-weight: 700;
@@ -165,9 +168,12 @@
                 <div class="product-list">
                     <div th:each="product :${productsList}" class="product-item">
                         <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_detail_1.webp'}" alt="상품썸네일" />
-                        <img th:src="@{/images/icon/heart2.svg}" class="like-btn" alt="좋아요버튼"/>
+                    <!--좋아요버튼(로그인시에만 표시)-->
+                        <img th:src="@{/images/icon/heart2.svg}" class="like-btn" alt="좋아요버튼" sec:authorize="isAuthenticated()"/>
                         <div class="product-info">
+                            <a th:href="@{|/product/${product.productId}|}">
                             <div class="product-name" th:text="${product.productName}">아우터</div>
+                            </a>
                             <div class="product-price-box">
                                 <div class="product-price" th:text="${product.productPrice}+'원'">120,000원</div>
                                 <div class="product-price-discount">20%</div>
