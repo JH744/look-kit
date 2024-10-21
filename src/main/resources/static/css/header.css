@@ -155,56 +155,63 @@ a {
   padding: 0 35px;
   justify-content: space-between;
   align-items: center;
-  gap: 418px;
 }
 .navBox1 {
-  max-width: 822px;
   display: flex;
-  gap: 117px;
+  gap: 100px;
   align-items: center;
+  flex-basis: 60%; /* 헤더의 60% 차지 */
+}
+
+.navBox1-menu {
+  width: fit-content;
+}
+
+.navBox1-logo {
+  min-width: fit-content;
+  max-width: fit-content;
 }
 
 .navMenu {
   font-family: "InstrumentSans-Bold", sans-serif;
-  text-align: left;
   display: flex;
-  justify-content: space-around;
-  max-width: 544px;
-  gap: 67px;
+  text-align: center;
+  gap: 50px;
+  max-width: fit-content;
+
 }
 
 .logo {
   color: #232b6e;
-  font-size: 34px;
+  font-size: 28px;
   font-weight: 700;
-  width: 160px;
 }
 .menu {
   color: #000000;
-  font-size: 24px;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .navBox2 {
   display: flex;
-  width: 535px;
-  gap: 45px;
+  justify-content: flex-end;
   align-items: center;
-  margin-right: 60px;
+  flex-basis: 40%;
+  gap: 20px;
 }
 .searchBox {
   display: flex;
   position: relative;
   align-items: center;
-  width: 300px;
+  width: 250px;
   height: 35px;
 }
 
 .searchInput {
-  width: 300px;
-  height: 35px;
-  border-radius: 50px;
+  width: 250px;
+  height: 30px;
+  border-radius: 10px;
   padding-left: 15px;
+  border: 1px solid #a9a9a9;
 }
 
 .searchBtn {
@@ -216,17 +223,30 @@ a {
 }
 
 .navIcon {
+
   display: flex;
   align-items: center;
   text-align: center;
-  gap: 35px;
+  gap: 20px;
+  width: fit-content;
 }
-
-.iconBtn {
-  padding-top: 10px;
-}
-
 
 .LogoutBtn{
   cursor:pointer;
 }
+
+.iconBtn img{
+  width: 15px;
+}
+
+.btn-text {
+  font-size: 11px;
+}
+
+.btn-a {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  width: max-content;
+}
+

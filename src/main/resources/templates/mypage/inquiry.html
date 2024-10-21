@@ -27,14 +27,15 @@
           <img th:src="@{/images/inquiries/question.png}" alt=""/>
           <div>
               <p class="inquiry-subject" th:text="${inquiry.inquiryTitle}">문의명</p>
-              <span class="inquiry-date" th:text="${inquiry.inquiryCreatedAt}">문의날짜</span>
+            <span class="inquiry-date" th:text="${#temporals.format(inquiry.inquiryCreatedAt, 'yyyy-MM-dd HH:mm')}">문의날짜</span>
+
           </div>
           <span th:if="${inquiry.answerState eq 'Y'}" class="inquiry-status" th:text="답변 완료">답변 완료</span>
         </div>
         <div class="inquiry-content">
           <p class="inquiry-text" th:text="${inquiry.inquiryContents}">문의 내용</p>
           <div th:if="${not #lists.isEmpty(inquiry.inquiryImages)}">
-            <div th:each="image : ${inquiry.inquiryImages}">
+            <div class="inquiry-image-container" th:each="image : ${inquiry.inquiryImages}">
               <img class="inquiry-image" th:src="${image.imagePath}" alt=""/>
             </div>
           </div>
@@ -56,7 +57,7 @@
       </div>
 
       <div class="inquiry-btn-block">
-        <button class="back-to-inquiry">문의 페이지로</button>
+        <a class="back-to-inquiry" th:href="@{/mypage/inquiry/list}">문의 페이지로</a>
       </div>
 
     </div>

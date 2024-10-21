@@ -53,7 +53,7 @@
 
         <div class="button-group">
           <div class="btn-submit">등록하기</div>
-          <div class="btn-cancel">취소하기</div>
+          <div class="btn-cancel" onclick="history.back()">취소하기</div>
         </div>
         <div class="notice">
           <div class="notice-icon-block">
@@ -76,23 +76,6 @@
 
 <script>
   $(document).ready(function() {
-    // 삭제 이벤트
-    $('.delete-btn').on('click', function() {
-      var inquiryId = $(this).attr('data-id');
-
-      if (confirm("정말로 삭제하시겠습니까?")) {
-        $.ajax({
-          url: '/mypage/inquiry/delete/' + inquiryId,
-          type: 'DELETE',
-          success: function() {
-            location.reload();
-          },
-          error: function() {
-            alert("삭제에 실패했습니다.");
-          }
-        });
-      }
-    });
     var selectedFiles = []; // 선택한 파일들
     // 단일 이미지 업로드
     $('.image-placeholder').on('click', function() {

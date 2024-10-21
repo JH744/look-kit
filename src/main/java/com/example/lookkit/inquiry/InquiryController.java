@@ -1,6 +1,8 @@
 package com.example.lookkit.inquiry;
 
 import com.example.lookkit.common.dto.InquiryImagesDTO;
+import com.example.lookkit.common.util.FileUtil;
+import com.example.lookkit.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,23 +19,29 @@ import java.util.List;
 @RequestMapping("/mypage/inquiry")
 public class InquiryController {
     @Autowired
-    InquiryService service;
+    InquiryService inquiryService;
+    @Autowired
+    UserService userService;
 
     @GetMapping("/list")
     public String getInquiryList(Model model, HttpSession session){
-        model.addAttribute("inquiries", service.getInquiryList((long)session.getAttribute("userid")));
+        long userId = (long)session.getAttribute("userid");
+        model.addAttribute("inquiries", inquiryService.getInquiryList(userId));
+        model.addAttribute("username", userService.searchUserName(userId));
         return "mypage/inquiryList";
     }
 
     @DeleteMapping("/delete/{inquiryId}")
     public ResponseEntity<Void> deleteInquiry(@PathVariable int inquiryId){
-        service.deleteInquiry(inquiryId);
+        inquiryService.deleteInquiry(inquiryId);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/new")
     public String inquiryForm(Model model, HttpSession session){
-        model.addAttribute("user_id", (long) session.getAttribute("userid"));
+        long userId = (long)session.getAttribute("userid");
+        model.addAttribute("user_id", userId);
+        model.addAttribute("username", userService.searchUserName(userId));
         return "mypage/inquiryForm";
     }
 
@@ -46,7 +54,7 @@ public class InquiryController {
         long userId = (long) session.getAttribute("userid");
 
         try {
-            service.uploadInquiry(userId, inquiryTitle, inquiryContents, files);
+            inquiryService.uploadInquiry(userId, inquiryTitle, inquiryContents, files);
             return ResponseEntity.ok("문의가 성공적으로 등록되었습니다.");
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,10 +64,11 @@ public class InquiryController {
     }
 
     @GetMapping("/view/{inquiryId}")
-    public ModelAndView getInquiry(@PathVariable long inquiryId){
+    public ModelAndView getInquiry(@PathVariable long inquiryId, HttpSession session){
         ModelAndView mv = new ModelAndView("mypage/inquiry");
-        InquiryImagesDTO dto = service.getInquiry(inquiryId);
+        InquiryImagesDTO dto = inquiryService.getInquiry(inquiryId);
         mv.addObject("inquiry", dto);
+        mv.addObject("username", userService.searchUserName((long) session.getAttribute("userid")));
         return mv;
     }
 

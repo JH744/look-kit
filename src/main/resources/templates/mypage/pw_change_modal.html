@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>비밀번호 변경</title>
+    <link rel="stylesheet" th:href="@{/css/changePassword.css}">
+    <style>
+        /* 간단한 스타일 추가 */
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+
+        .change-password-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+<div class="change-password-container">
+    <h2>비밀번호 변경</h2>
+    <form action="/mypage/changePassword" method="post">
+        <div class="form-group">
+            <label for="newPassword">새 비밀번호:</label>
+            <input type="password" id="newPassword" name="newPassword" required>
+        </div>
+        <div class="form-group">
+            <label for="confirmPassword">비밀번호 확인:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+        </div>
+        <div class="button-group">
+            <button type="button" onclick="window.location.href='/mypage/userinfo'">취소하기</button>
+            <button type="submit">변경하기</button>
+        </div>
+    </form>
+    <div th:if="${message}" th:text="${message}"
+         th:classappend="${message.contains('성공') ? 'success' : 'error'}"></div>
+</div>
+
+<script>
+    // 비밀번호 확인 스크립트
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(event) {
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (newPassword !== confirmPassword) {
+            alert('비밀번호가 일치하지 않습니다.');
+            event.preventDefault();
+        }
+    });
+</script>
+</body>
+</html>
