@@ -24,7 +24,7 @@
 #section-title {
     font-size: 24px;
     margin-top: 65px;
-    margin-bottom: 0px;
+    margin-bottom: 17px;
 }
 
 .inquiry-meta {
@@ -36,6 +36,11 @@
 
 .inquiry-content {
     margin-left: 54px;
+}
+
+.inquiry-image-container {
+    display: inline-flex;
+    gap: 7px;
 }
 
 .inquiry-btn-block {
@@ -68,6 +73,7 @@
 .inquiry-date {
     font-size: 15px;
     color: #8b8b8b;
+    margin-left : 2px;
 }
 
 .inquiry-status {
@@ -78,21 +84,23 @@
 }
 
 .inquiry-subject {
-    font-size: 20px;
+    font-size: 19px;
     color: #000000;
     font-weight: 500;
     margin : 0px;
+    margin-bottom: 5px;
 }
 
 .inquiry-text,
 .reply-text {
     font-size: 18px;
     line-height: 1.6;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    margin-top: 50px;
 }
 
 .inquiry-image {
-    width : 100px;
+    width : 130px;
 }
 
 .reply {

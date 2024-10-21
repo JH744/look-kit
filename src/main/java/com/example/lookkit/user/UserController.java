@@ -91,11 +91,7 @@ public class UserController {
         System.out.println("중복체크 컨트롤러 전달"+id);
         UserVO user =  userService.getUserByUuid(id);
         //가져온 유저객체가 null이면 중복값이 없으므로 true로 반환.
+
         return (user == null);
     }
-
-
-
-
-
 }

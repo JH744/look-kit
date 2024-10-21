@@ -11,8 +11,8 @@ public interface UserMapper {
     @Select("SELECT USER_ID, USER_UUID, PASSWORD, USER_NAME, GENDER, BIRTHDATE, EMAIL, CREATED_AT, PHONE, LAST_UPDATE, ROLE, ADDRESS FROM USERS WHERE USER_UUID = #{userUuid}")
     public UserVO getUserByUuid(String userUuid);
 
-
     @Select("SELECT USER_ID, USER_UUID, PASSWORD, USER_NAME, GENDER, BIRTHDATE, EMAIL, CREATED_AT, PHONE, LAST_UPDATE, ROLE, ADDRESS FROM USERS WHERE USER_ID = #{userid}")
+
     public UserVO getUserById(Long userid);
 
 
@@ -23,6 +23,6 @@ public interface UserMapper {
     @Select("SELECT USER_UUID FROM USERS WHERE USER_NAME = #{userName} AND EMAIL = #{email}")
     public String findUserUuidByNameAndEmail(String userName, String email);
 
-
-
+    @Select("SELECT USER_NAME FROM USERS WHERE USER_ID = #{userId}")
+    public String searchUserName(long userId);
 }

@@ -32,31 +32,37 @@
         <div class="navBox2">
           <div class="searchBox">
             <input id="searchInputEl" class="searchInput" />
-            <span class="searchBtn"> <img th:src="@{/images/icon/searchIcon.svg}" /> </span>
+            <span class="searchBtn"> <img src="/images/icon/search.png" /> </span>
           </div>
 
           <div class="navIcon">
-              <!-- 비로그인시 로그인버튼 노출-->
-            <div id="LoginBtn" class="iconBtn" sec:authorize="isAnonymous()">
-              <a th:href="@{/auth/login}" class="simptip-position-top" data-tooltip="Login">
-              <img th:src="@{/images/icon/LoginIcon.svg}" width="30" height="30" />
+
+            <!-- 비로그인시 로그인버튼 노출-->
+             <div id="LoginBtn" class="iconBtn" sec:authorize="isAnonymous()">
+              <a th:href="@{/auth/login}" class="btn-a">
+                <img th:src="@{/images/icon/login.png}" class="simptip-position-top simptip-success" data-tooltip="Login" width="26px"/>
+                <p class="btn-text">LOG IN</p>
               </a>
             </div>
-              <!-- 로그인시 로그아웃버튼 노출-->
+            <!-- 로그인시 로그아웃버튼 노출-->
             <div id="LogoutBtn" class="iconBtn" sec:authorize="isAuthenticated()">
-              <a th:href="@{/logout}" class="simptip-position-top " data-tooltip="Logout">
-                <img th:src="@{/images/icon/logoutIcon.svg}" width="30" height="30" />
+              <a th:href="@{/logout}" class="btn-a">
+                <img src="/images/icon/logout.png" class="simptip-position-top " data-tooltip="Logout" width="26px"/>
+                <p class="btn-text">LOG OUT</p>
               </a>
             </div>
             <div class="iconBtn">
-              <a th:href="@{/mypage/wishlist}" class="simptip-position-top " data-tooltip="My Page">
-                <img th:src="@{/images/icon/profileIcon.svg}" width="35" height="35" />
+              <a th:href="@{/mypage/manage}" class="btn-a">
+                <img src="/images/icon/user.png" class="simptip-position-top " data-tooltip="My Page" width="26px"/>
+                <p class="btn-text">MY PAGE</p>
               </a>
             </div>
-              <a th:href="@{/}" class="simptip-position-top" data-tooltip="Cart">
-                  <img th:src="@{/images/icon/cartIcon.svg}" width="30" height="30" />
-<!--          경진님아이콘   <img th:src="@{/images/icon/CartIcon.svg}" width="35" height="35" />-->
+            <div class="iconBtn">
+              <a th:href="@{/mypage/wishlist}" class="btn-a">
+                <img src="/images/icon/cart.png" class="simptip-position-top" data-tooltip="Cart"/>
+                <p class="btn-text">CART</p>
               </a>
+            </div>
           </div>
         </div>
       </div>
