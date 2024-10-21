@@ -41,6 +41,8 @@
             align-items: center;
             border: 1px solid #555353;
             color: #555353;
+            height: 91.74px; /* 높이 추가 */
+            box-sizing: border-box; /* 패딩 포함 */
         }
 
         .welcome-message {
@@ -109,50 +111,88 @@
         }
 
         .pw-check-modal, .pw-change-modal {
+            display: grid;
             background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            width: 400px;
+            width: 530px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
         }
 
         .modal-title {
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: #555;
+            font-size: 16px;
+            margin-bottom: 50px;
+            margin-left: 3px;
+            padding: 5px;
+            color: #555353;
         }
 
         .modal-subtitle {
-            font-size: 16px;
-            margin-bottom: 20px;
-            color: #777;
+            font-size: 21px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #555;
         }
 
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .input-group label {
+             font-size: 14px;
+            margin-bottom: 8px;
             display: block;
-            margin-bottom: 5px;
-            font-size: 14px;
         }
 
         .input-group input {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
+           width: 350px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .input-container {
+            justify-self: center;
         }
 
         .modal-footer {
-            text-align: right;
+            text-align: center;
+            margin: 20px 0px;
         }
 
         .modal-footer button {
-            padding: 8px 15px;
-            margin-left: 10px;
+            padding: 12px 30px;
+            background-color: #0d1134;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 15px;
             cursor: pointer;
+            width: 200px;
+            height: 42px
         }
+
+        .modal-footer button:hover {
+            background-color: #1a1b5d;
+        }
+
+        /* .profile-options 내 <a> 태그 스타일 조정 */
+        .profile-options a {
+           display: inline-grid; /* 그리드 레이아웃 사용 */
+           justify-items: center; /* 수평 중앙 정렬 */
+           align-items: center; /* 수직 중앙 정렬 */
+           gap: 3px; /* 아이콘과 텍스트 간 간격 */
+           text-decoration: none; /* 링크의 기본 밑줄 제거 */
+           color: inherit; /* 부모 요소의 색상 상속 */
+           width: 100%; /* 전체 너비 사용 */
+           height: 100%; /* 전체 높이 사용 */
+        }
+
+        /* 아이콘과 텍스트를 중앙에 배치 */
+        .profile-options a img.icon-settings {
+           margin: 0; /* 기본 마진 제거 */
+        }
+
     </style>
 </head>
 <body>
@@ -160,8 +200,10 @@
     <div class="welcome-header">
         <span class="welcome-message" th:text="${userInfo.userName} + ' 님 환영합니다.'">USER 님 환영합니다.</span>
         <div class="profile-options">
-            <img class="icon-settings" src="./img/setting.png" alt="설정 아이콘"/>
+            <a href="/mypage/enter-password">
+            <img class="icon-settings" src="/images/icon/setting.png" alt="설정 아이콘"/>
             <span>개인정보 변경</span>
+            </a>
         </div>
     </div>
 
@@ -240,7 +282,7 @@
                     <div class="address-group">
                         <label>주소 정보</label>
                         <div class="inline">
-                            <input type="text" th:field="*{address}" readonly>
+                            <input type="text" th:field="*{address}" >
                             <button type="button" class="btn-postcode-search" onclick="searchPostcode()">우편번호 검색</button>
                         </div>
                     </div>
@@ -249,7 +291,13 @@
                     <button type="button" class="btn-cancel" onclick="window.location.href='/mypage/userinfo'">취소하기</button>
                     <button type="submit" class="btn-save">저장하기</button>
                 </div>
-                <div th:if="${message}" th:text="${message}"></div>
+                <!-- 메시지 표시 부분을 alert으로 대체 -->
+                <!-- <div th:if="${message}" th:text="${message}"></div> -->
+                <script th:if="${message}" th:inline="javascript">
+                    /*<![CDATA[*/
+                    alert([[${message}]]);
+                    /*]]>*/
+                </script>
             </form>
         </div>
     </div>

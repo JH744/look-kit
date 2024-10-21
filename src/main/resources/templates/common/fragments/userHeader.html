@@ -4,15 +4,49 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>sidebar</title>
+    <style>
+      /* 기존 스타일 유지 또는 수정 */
+      .welcome-header {
+        padding: 20px;
+        background-color: #ffffff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #555353;
+        color: #555353;
+      }
+
+      .welcome-message {
+        font-size: 23px;
+        color: #555;
+      }
+
+      .profile-options {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        text-decoration: none;
+        color: #555353;
+        cursor: pointer;
+      }
+
+      .profile-options:hover {
+        color: #000;
+      }
+
+      .icon-settings {
+        width: 25px;
+        height: 25px;
+      }
+    </style>
   </head>
   <body>
   <div th:fragment="userHeaderFragment" class="welcome-header">
     <span class="welcome-message">USER 님 환영합니다.</span>
-    <div class="profile-options">
-      <img class="icon-settings" src="/images/icon/setting.png"  alt=""/>
+    <a href="/mypage/enter-password" class="profile-options">
+      <img class="icon-settings" src="/images/icon/setting.png" alt="설정 아이콘"/>
       <span>개인정보 변경</span>
-    </div>
+    </a>
   </div>
-
   </body>
 </html>
