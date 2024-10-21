@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 public class CategoryVO {
-    private long categoryId;
+    private int categoryId;
     private String categoryName;
     private String categoryType;
 }

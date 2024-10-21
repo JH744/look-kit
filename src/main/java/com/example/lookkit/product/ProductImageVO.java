@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 public class ProductImageVO {
-    private long productImageId;
-    private long productId;
+    private int productImageId;
+    private int productId;
     private String imagePath;
 }

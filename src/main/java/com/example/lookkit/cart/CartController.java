@@ -16,32 +16,29 @@ public class CartController {
 
     @GetMapping
     public String cartPage(Model model) {
-        // 테스트용 데이터로 장바구니 아이템을 추가해서 전달할 수 있습니다.
-        // 예를 들어, 데이터베이스에서 특정 사용자 ID로 장바구니를 불러와야 합니다.
-        int userId = 1; // 예시 userId
+        int userId = 1; // 사용자 ID는 실제 서비스에서는 인증 정보로 가져와야 합니다
         List<CartVO> cartItems = cartService.getCartItems(userId);
         model.addAttribute("cartItems", cartItems);
-        return "cart";  // `cart.html` 템플릿 반환
+        return "cart";
     }
 
-    @GetMapping("/{userId}")
-    @ResponseBody
-    public List<CartVO> getCartItems(@PathVariable int userId) {
-        return cartService.getCartItems(userId);
-    }
-
-    @PostMapping("/add")
+    @PostMapping
     @ResponseBody
     public String addItemToCart(@RequestBody CartVO cartVO) {
-        cartService.addItemToCart(cartVO);
-        return "Item added to cart successfully.";
-    }
+    cartService.addItemToCart(cartVO);
+    return "Item added to cart successfully.";
+}
+
 
     @PutMapping("/update")
     @ResponseBody
     public String updateCartItem(@RequestBody CartVO cartVO) {
-        cartService.updateCartItem(cartVO);
-        return "Item updated successfully.";
+        try {
+            cartService.updateCartItem(cartVO);
+           return "Item updated successfully.";
+        } catch (Exception e) {
+            return "Error updating item in cart.";
+        }
     }
 
     @DeleteMapping("/delete/{cartId}")
@@ -49,5 +46,12 @@ public class CartController {
     public String deleteCartItem(@PathVariable int cartId) {
         cartService.deleteCartItem(cartId);
         return "Item deleted successfully.";
+    }
+
+    @PostMapping("/order")
+    public String createOrder(@RequestBody List<Integer> selectedItems, Model model) {
+        List<CartVO> items = cartService.getSelectedCartItems(selectedItems);
+        model.addAttribute("selectedItems", items);
+        return "order";
     }
 }

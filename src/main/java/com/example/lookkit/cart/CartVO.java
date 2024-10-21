@@ -6,11 +6,17 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class CartVO {
     private int cartId;
     private int userId;
     private int productId;
     private int quantity;
+    private String storeName;
+    private String productName;
+    private String productThumbnail;
+    private int productPrice;
+    private int codiId;
 
     public int getCartId() {
         return cartId;
@@ -36,11 +42,15 @@ public class CartVO {
         this.productId = productId;
     }
 
-    // public int getCodiId() {
-    //     return codiId;
-    // }
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }    
 
-    // public void setCodiId(int codiId) {
-    //     this.codiId = codiId;
-    // }
+    public int getCodiId() {
+        return codiId;
+    }
+    
+    public void setCodiId(int codiId) {
+        this.codiId = codiId;
+    }
 }

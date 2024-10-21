@@ -11,8 +11,8 @@ import java.util.List;
 @Getter
 @Setter
 public class OrderVO {
-    private long orderId;
-    private long userId;
+    private int orderId;
+    private int userId;
     private int totalAmount;
     private String orderStatus;
     private String orderComment;
@@ -29,4 +29,5 @@ public class OrderVO {
     public void setOrderDetails(List<OrderDetailVO> orderDetails) {
         this.orderDetails = orderDetails;
     }
+
 }
