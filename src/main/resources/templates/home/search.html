@@ -244,7 +244,37 @@
                     console.error('위시리스트 추가 중 에러 발생 : ', error);
                 });
             })
-        });
+
+            // 찜한 상품 확인
+            $('.hidden-id').each(function() {
+                var $this = $(this); // 현재 요소를 $this에 저장
+                var id = parseFloat($(this).text()); // 현재 요소의 텍스트를 숫자로 변환하여 반환
+                console.log("id",id);
+                // Fetch API 사용
+                fetch('/wishlist/check?itemId=' + id, {
+                    method: 'GET'
+                })
+                    .then(response => {
+                    if (!response.ok) {
+                        throw new Error('응답에러 ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                    .then(result => {
+                    console.log('결과 : ', result);
+                    if ( result.message == 'addedItem') {
+                        console.log("추가된상품");
+                        var $heart = $this.closest('.product-item').find('.like-btn');
+                        $heart.attr("src", "/images/icon/heart1.svg");
+                    }else {
+                        return;
+                    }
+                })
+                    .catch(error => {
+                    console.error('위시리스트 상품 확인 중 에러 발생 : ', error);
+                });
+            });
+        })
     </script>
 </th:block>
 </body>

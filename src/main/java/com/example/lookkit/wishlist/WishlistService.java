@@ -26,13 +26,14 @@ public class WishlistService {
     }
 
 
-    // 위시리스트 삭제만 구현
+    // 위시리스트 삭제
     public int removeWishlistItem(WishlistVO wishlistVO){
         return wishlistMapper.removeWishlistItem(wishlistVO);
     };
-
+    // 위시리스트 상품 확인
     public String checkWishItem(WishlistVO wishlistVO){
         WishlistVO wishlistItem = wishlistMapper.getWishlistItem(wishlistVO);
+        System.out.println("가져온것"+wishlistItem);
         if(wishlistItem != null){
             return "addedItem";
         }else {

@@ -102,12 +102,16 @@ public class MainController {
     @GetMapping("/wishlist/check")
     @ResponseBody
     public Map<String, Object> checkWishItem(@RequestParam("itemId") long productId, HttpSession session) {
+        System.out.println("전달된 상품id:"+productId);
         Map<String, Object> response = new HashMap<>();
         WishlistVO wishlistVO = new WishlistVO();
         long userId = (long) session.getAttribute("userid");
         wishlistVO.setUserId(userId);
         wishlistVO.setProductId(productId);
-        response.put("message", wishlistService.addWishlistItem(wishlistVO));
+        String result= wishlistService.checkWishItem(wishlistVO);
+        System.out.println(productId+"-result:"+result);
+        response.put("status", "success");
+        response.put("message",result);
         return response;
     }
 }
