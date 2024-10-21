@@ -1,11 +1,8 @@
 package com.example.lookkit.review;
 
-import com.example.lookkit.review.ReviewService;
-import com.example.lookkit.review.ReviewVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import java.security.Principal;
 import java.util.List;
 
@@ -14,7 +11,6 @@ import java.util.List;
 public class ReviewController {
     private final ReviewService reviewService;
 
-    @Autowired
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
     }

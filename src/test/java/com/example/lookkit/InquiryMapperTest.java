@@ -1,14 +1,12 @@
 package com.example.lookkit;
 
 import com.example.lookkit.common.dto.InquiryImagesDTO;
-import com.example.lookkit.inquiry.InquiryImageVO;
 import com.example.lookkit.inquiry.InquiryMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

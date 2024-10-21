@@ -2,8 +2,8 @@ package com.example.lookkit.cart;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
-import java.security.Principal;
 
 @Service
 public class CartService {
@@ -27,8 +27,15 @@ public class CartService {
         cartMapper.deleteCartItem(cartId);
     }
 
-    // private int getUserIdFromPrincipal(Principal principal) {
-    //     // Principal을 통해 사용자 ID를 가져오는 로직 구현
-    //     return 1; // 예시로 사용자 ID 1 반환 (실제 구현 필요)
-    // }
+    public List<CartVO> getSelectedCartItems(List<Integer> cartIds) {
+        return cartMapper.getSelectedCartItems(cartIds);
+    }
+
+    public double calculateTotalAmount(int userId) {
+        List<CartVO> cartItems = cartMapper.getCartItems(userId);
+        return cartItems.stream()
+                .mapToDouble(item -> item.getProductPrice() * item.getQuantity())
+                .sum();
+    }
+    
 }

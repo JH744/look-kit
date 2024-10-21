@@ -22,34 +22,34 @@
       flex-direction: row;
       gap: 50px;
       padding: 50px 0;
+      align-items: center;
+      justify-content: center;
+    }
+    .container2 {
+      top: 50px;
+      width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      padding: 50px 0;
     }
     .image-section {
       flex: 1;
-      width: 500px;
-      height: 350px;
+      width: 600px;
+      height: 400px;
       position: relative;
-    }
-    .image-section img {
-      width: 100%;
-      object-fit: cover;
-    }
-    .copy-address {
-      position: absolute;
-      top: 300px;
-      left: 200px;
       display: flex;
       align-items: center;
-      background-color: #fff;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 14px;
-      color: #333;
-      cursor: pointer;
+      justify-content: center;
     }
-    .copy-address img {
-      margin-right: 5px;
-    }
+    .image-section img {
+      width: auto;
+      max-width: 100%;
+      height: 100%;
+      object-fit: contain;
+  }
+  
     .details-section {
       flex: 1;
       display: flex;
@@ -71,21 +71,10 @@
       display: flex;
       align-items: center;
     }
-    .discount {
-      font-size: 20px;
-      color: #ff5c28;
-      margin-right: 10px;
-    }
     .price {
       font-size: 28px;
       font-weight: bold;
       color: #062236;
-    }
-    .original-price {
-      font-size: 16px;
-      text-decoration: line-through;
-      color: #999;
-      margin-left: 10px;
     }
     .quantity-section {
       margin: 20px 0;
@@ -166,8 +155,9 @@
       gap: 10px;
     }
     .tab-section {
+        
         display: flex;
-        gap: 20px;
+        gap: 80px;
         margin-top: 20px;
         cursor: pointer;
     }
@@ -183,10 +173,63 @@
     }
     .tab-content {
         display: none;
-        margin-top: 20px;
+        position: relative;
+        align-items: center;
+        justify-content: center;
     }
     .tab-content.active {
-        display: block;
+      display: flex;
+      flex-direction: column;
+    }
+    .review-filters {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      justify-content: flex-end;
+    }
+    .filter-button {
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .filter-button:hover {
+      background-color: #f0f0f0;
+    }
+    .review-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .review-item {
+      border-bottom: 1px solid #ddd;
+      padding: 15px;
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+    }
+    .review-header {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .review-rating {
+      font-weight: bold;
+      color: #ff5c28;
+    }
+    .review-user {
+      color: #666;
+      font-size: 14px;
+    }
+    .review-date {
+      color: #999;
+      font-size: 12px;
+    }
+    .review-content {
+      font-size: 16px;
+      color: #333;
     }
   </style>
   <title>Product Page</title>
@@ -195,19 +238,14 @@
   <th:block layout:fragment="content">
   <div class="container">
     <div class="image-section">
-      <img src="image.png" alt="상품 이미지">
-      <div class="copy-address">
-        <img src="icon.png" alt="아이콘"> 주소 복사하기
-      </div>
+      <img th:src="@{/images/product/look1/look1.jpg}" alt="상품 이미지">
     </div>
     <div class="details-section">
       <div>
-        <div class="brand">Siyazu</div>
-        <div class="product-title">[단독~10.6][10/10예약발송]SITP5162 루즈핏 포멀 ST 셔츠_Light blue ST</div>
+        <div class="brand" th:text="${product.productName}"></div>
+        <div class="product-title" th:text="${product.productName}"></div>
         <div class="price-section">
-          <span class="discount">26%</span>
-          <span class="price">58,302원</span>
-          <span class="original-price">79,000원</span>
+          <span class="price" id="price" th:text="${product.productPrice} + '원'"></span>
         </div>
         <div class="quantity-section">
           <label for="quantity" class="quantity-label">수량:</label>
@@ -215,70 +253,166 @@
         </div>
       </div>
       <div class="buttons">
-        <a href="/cart" class="btn btn-cart">장바구니</a>
-        <a href="/order" class="btn btn-buy">구매하기</a>
+        <a href="#" id="cart-link" class="btn btn-cart">장바구니</a>
+        <a href="#" id="buy-link" class="btn btn-buy">구매하기</a>
       </div>
     </div>
   </div>
-  <div class="tab-section">
-    <div class="active">상세정보</div>
-    <div>리뷰</div>
-    <div>상품 Q&A</div>
-    <div>판매자 정보</div>
-  </div>
-  <div class="tab-content active">
-    <p>상세정보 내용이 여기에 표시됩니다.</p>
-  </div>
-  <div class="tab-content">
-    <h3>리뷰</h3>
-  <div th:if="${#lists.isEmpty(reviews)}">
-    <p>작성된 리뷰가 없습니다.</p>
-  </div>
-  <div th:each="review : ${reviews}">
-    <div class="review-item">
-      <p th:text="${review.userId} + ' 님의 리뷰'">유저 리뷰</p>
-      <p th:text="${review.rating} + '점'">5점</p>
-      <p th:text="${review.reviewText}">리뷰 내용</p>
-      <p th:text="${review.createdAt}">리뷰 작성일</p>
+  <div class="container2">
+    <div class="container">
+      <div class="tab-section">
+        <div class="active" data-target="details">상세정보</div>
+        <div data-target="reviews">리뷰</div>
+        <div data-target="qna">상품 Q&A</div>
+        <div data-target="seller">판매자 정보</div>
+      </div>
     </div>
-  </div>
-  </div>
-  <div class="tab-content">
-    <p>상품 Q&A 내용이 여기에 표시됩니다.</p>
-  </div>
-  <div class="tab-content">
-    <p>판매자 정보가 여기에 표시됩니다.</p>
+    <div class="container">
+      <div class="tab-content active" id="details">
+        <img th:src="@{/images/product/look1/detail1.jpg}" alt="상품 디테일">
+        <img th:src="@{/images/product/look1/info.jpg}" alt="상품 정보">
+      </div>
+      <div class="tab-content" id="reviews">
+        <div class="review-filters">
+            <button class="filter-button" onclick="sortReviews('latest')">최신순</button>
+            <button class="filter-button" onclick="sortReviews('highRating')">별점 높은 순</button>
+            <button class="filter-button" onclick="sortReviews('lowRating')">별점 낮은 순</button>
+        </div>
+        <div th:if="${#lists.isEmpty(reviews)}">
+            <p>작성된 리뷰가 없습니다.</p>
+        </div>
+        <div th:each="review : ${reviews}" class="review-list">
+            <div class="review-item">
+                <div class="review-header">
+                    <span class="review-rating" th:text="${review.rating} + '점'">5점</span>
+                    <span class="review-user" th:text="${review.userId}">유저 아이디</span>
+                    <span class="review-date" th:text="${#temporals.format(review.createdAt, 'yy.MM.dd')}">24.10.08</span>
+                </div>
+                <div class="review-content">
+                    <p th:text="${review.reviewText}">리뷰 내용</p>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="tab-content" id="qna">
+        <p>상품 Q&A 내용이 여기에 표시됩니다.</p>
+      </div>
+      <div class="tab-content" id="seller">
+        <p>판매자 정보가 여기에 표시됩니다.</p>
+      </div>
+    </div>
   </div>
   <div class="bottom-fixed-bar">
     <div class="product-info">
-      <img src="image.png" alt="상품 이미지">
-      <div class="product-description">[단독~10.6][10/10예약발송]SITP5162 루즈핏 포멀 ST 셔츠_Light blue ST</div>
+      <img th:src="@{/images/product/look1/productThumbnail.jpg}" alt="상품 이미지">
+      <div class="product-description" th:text="${product.productName}">[단독~10.6][10/10예약발송]SITP5162 루즈핏 포멀 ST 셔츠_Light blue ST</div>
     </div>
-    <div class="total-price">총 상품 금액 58,302원</div>
+    <div class="quantity-section">
+      <label for="quantity-bottom" class="quantity-label">수량:</label>
+      <input type="number" id="quantity-bottom" class="quantity-input" value="1" min="1">
+    </div>
+    <div class="total-price" id="total-price" th:text="'총 상품 금액 ' + ${product.productPrice} * 1 + '원'">총 상품 금액 58,302원</div>
     <div class="buttons">
-      <a href="/cart" class="btn btn-cart">장바구니</a>
-      <a href="/order" class="btn btn-buy">구매하기</a>
+      <a href="#" id="cart-link-bottom" class="btn btn-cart">장바구니</a>
+      <a href="#" id="buy-link-bottom" class="btn btn-buy">구매하기</a>
     </div>
   </div>
-
   </th:block>
   <th:block layout:fragment="script">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-  
     <script>
       document.addEventListener("DOMContentLoaded", function() {
         const tabs = document.querySelectorAll(".tab-section div");
         const contents = document.querySelectorAll(".tab-content");
-  
-        tabs.forEach((tab, index) => {
+        const quantityInput = document.getElementById("quantity");
+        const quantityInputBottom = document.getElementById("quantity-bottom");
+        const totalPriceElement = document.getElementById("total-price");
+        const priceElement = document.getElementById("price");
+        const productPrice = parseInt(priceElement.innerText.replace(/\D/g, ""));
+        
+        tabs.forEach((tab) => {
           tab.addEventListener("click", () => {
             tabs.forEach(t => t.classList.remove("active"));
             tab.classList.add("active");
-  
+            
             contents.forEach(c => c.classList.remove("active"));
-            contents[index].classList.add("active");
+            document.getElementById(tab.getAttribute("data-target")).classList.add("active");
           });
+        });
+    
+        const cartLink = document.getElementById("cart-link");
+        const cartLinkBottom = document.getElementById("cart-link-bottom");
+        const buyLink = document.getElementById("buy-link");
+        const buyLinkBottom = document.getElementById("buy-link-bottom");
+        const productId = window.location.pathname.split("/").pop();
+    
+        function addToCart(event) {
+          event.preventDefault();
+          const quantity = parseInt(quantityInput.value);
+          const productData = {
+              productId: productId,
+              quantity: quantity
+          };
+      
+          $.ajax({
+              url: "/product/addToCart",
+              type: "POST",
+              data: productData, // 데이터를 직렬화하지 않고 객체로 전달
+              success: function (response) {
+                  alert(response); // 성공 메시지 알림
+                  location.href = "/cart"; // 장바구니 페이지로 이동
+              },
+              error: function () {
+                  alert("장바구니 추가 중 오류가 발생했습니다.");
+              }
+          });
+      }
+    
+        cartLink.addEventListener("click", addToCart);
+        cartLinkBottom.addEventListener("click", addToCart);
+    
+        function buyNow(event) {
+          event.preventDefault();
+          const quantity = parseInt(quantityInput.value);
+      
+          $.ajax({
+              url: "/product/buyNow",
+              type: "POST",
+              data: {
+                  productId: productId,
+                  quantity: quantity
+              },
+              success: function (response) {
+                  alert(response); // 성공 메시지 알림
+                  location.href = "/order"; // 주문 페이지로 이동
+              },
+              error: function () {
+                  alert("구매 중 오류가 발생했습니다.");
+              }
+          });
+      }
+    
+        buyLink.addEventListener("click", buyNow);
+        buyLinkBottom.addEventListener("click", buyNow);
+
+        // 수량 변경 시 총 상품 금액 업데이트
+        function updateTotalPrice() {
+          const quantity = parseInt(quantityInput.value);
+          const totalPrice = productPrice * quantity;
+          totalPriceElement.innerText = `총 상품 금액 ${totalPrice.toLocaleString()}원`;
+          priceElement.innerText = `${(productPrice * quantity).toLocaleString()}원`;
+        }
+
+        quantityInput.addEventListener("change", function() {
+          const quantity = parseInt(quantityInput.value);
+          quantityInputBottom.value = quantity;
+          updateTotalPrice();
+        });
+
+        quantityInputBottom.addEventListener("change", function() {
+          const quantity = parseInt(quantityInputBottom.value);
+          quantityInput.value = quantity;
+          updateTotalPrice();
         });
       });
     </script>

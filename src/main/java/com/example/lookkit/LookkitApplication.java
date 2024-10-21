@@ -13,3 +13,4 @@ public class LookkitApplication {
 		SpringApplication.run(LookkitApplication.class, args);
 	}
 }
+ 
