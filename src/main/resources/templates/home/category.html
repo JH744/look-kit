@@ -193,17 +193,14 @@
     </div>
     <script>
         $(document).ready(function () {
-            // 좋아요버튼 클릭이벤트
+            // 좋아요 추가 및 삭제 클릭이벤트
             $(".like-btn").click( function (){
                 let $this = $(this);
                 let productItem= $(this).closest('.product-item');
                 let productID = parseInt(productItem.find('.hidden-id').text().trim());  // 숫자타입으로 변환
                 console.log("productID",productID);
-                fetchAddWishList(productID);
-            })
 
-            const fetchAddWishList = (productId)=>{
-                fetch(`/wishlist/item?productId=${productId}`, {
+                fetch(`/wishlist/item?productId=${productID}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -217,18 +214,49 @@
                 })
                     .then(result => {
                     console.log('결과 : ', result);
-                    if (result) {
+                    if ( result.message == '상품추가') {
                         //성공
-
-                    } else {
+                        $this.attr("src", "/images/icon/heart1.svg");
+                    }else if(result.message == '상품삭제')
+                        //삭제
+                      $this.attr("src", "/images/icon/heart2.svg");
+                    else {
                         //실패
+                        console.log("상품 찜하기 추가&삭제  실패");
                     }
                 })
                     .catch(error => {
                     console.error('위시리스트 추가 중 에러 발생 : ', error);
                 });
-            }
-        });
+            })
+
+
+
+
+            // 찜한 상품 확인
+            $('.hidden-id').each(function() {
+                var $this = $(this); // 현재 요소를 $this에 저장
+                var id = parseFloat($(this).text()); // 현재 요소의 텍스트를 숫자로 변환하여 반환
+
+                // Fetch API 사용
+                fetch('/wishlist/check?itemId=' + id, {
+                    method: 'GET'
+                })
+                    body: JSON.stringify({ Id: id }) // POST 요청에 필요한 데이터를 JSON 형식으로 전달
+                })
+                    .then(response => response.text()) // 서버에서 문자열을 반환한다고 가정
+                    .then(responseText => {
+                console.log(response);
+                    if(responseText === '저장됨') {
+                        // 찜목록에 담겨있다면 나타낼 UI
+                        var $heart = $this.closest('.recipeItem_info').find('.heartIcon');
+                        $heart.attr('src', '/static/images/icon/heart3.png');
+                    }
+                })
+                    .catch(error => {
+                    console.error('에러 발생:', error); // 에러 처리
+                });
+            });
     </script>
 </th:block>
 </body>

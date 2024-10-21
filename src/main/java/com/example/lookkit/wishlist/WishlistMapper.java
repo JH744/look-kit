@@ -33,6 +33,6 @@ public interface WishlistMapper {
 
     // 상품이 해당유저의 찜목록에 있는지
     @Select("SELECT user_id, product_id, codi_id FROM wishlist WHERE user_id = #{userId} AND product_id = #{productId}")
-    ProductWishlistDTO getWishlistItem(WishlistVO wishlistVO);
+    public WishlistVO getWishlistItem(WishlistVO wishlistVO);
 
 }

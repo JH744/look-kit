@@ -1,6 +1,5 @@
 package com.example.lookkit.wishlist;
 
-import com.example.lookkit.common.dto.ProductWishlistDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,7 @@ public class WishlistService {
     // 위시리스트 추가&삭제
     public String addWishlistItem(WishlistVO wishlistVO){
         // 해당 상품이 찜 목록에 있는지 확인
-        ProductWishlistDTO wishlistItem = wishlistMapper.getWishlistItem(wishlistVO);
+        WishlistVO wishlistItem = wishlistMapper.getWishlistItem(wishlistVO);
 //         new WishlistVO(userId,productId,);
         if (wishlistItem != null) {
             // 찜 목록 있다면 삭제
@@ -31,4 +30,15 @@ public class WishlistService {
     public int removeWishlistItem(WishlistVO wishlistVO){
         return wishlistMapper.removeWishlistItem(wishlistVO);
     };
+
+    public String checkWishItem(WishlistVO wishlistVO){
+        WishlistVO wishlistItem = wishlistMapper.getWishlistItem(wishlistVO);
+        if(wishlistItem != null){
+            return "addedItem";
+        }else {
+            return "NotAddedItem";
+        }
+    }
+
+
 }

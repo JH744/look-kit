@@ -98,5 +98,16 @@ public class MainController {
         return response;
     }
 
-
+    // 좋아요된 상품확인
+    @GetMapping("/wishlist/check")
+    @ResponseBody
+    public Map<String, Object> checkWishItem(@RequestParam("itemId") long productId, HttpSession session) {
+        Map<String, Object> response = new HashMap<>();
+        WishlistVO wishlistVO = new WishlistVO();
+        long userId = (long) session.getAttribute("userid");
+        wishlistVO.setUserId(userId);
+        wishlistVO.setProductId(productId);
+        response.put("message", wishlistService.addWishlistItem(wishlistVO));
+        return response;
+    }
 }
