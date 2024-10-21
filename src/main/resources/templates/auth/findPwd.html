@@ -357,7 +357,7 @@
 
     // 비밀번호 수정 버튼 클릭이벤트
     $("#ModifyBtn").click( async () => {
-      alert("비밀번호 수정요청")
+//      alert("비밀번호 수정요청")
       let newPwd = $("#newPwd").val();
       console.log("새비번:"+newPwd);
       let newPwd2 = $("#newPwd2").val();
@@ -380,7 +380,7 @@
             .then(data => {
           console.log("비밀번호 변경요청으로 응답받음 ")
             //폼체인지
-            alert(data);
+//            alert(data);
             $(".formContainer3").css("display", "none");
             $(".formContainer4").css("display", "block");
         })
