@@ -5,6 +5,8 @@ import com.example.lookkit.coordiset.CoordisetService;
 import com.example.lookkit.product.ProductService;
 import com.example.lookkit.product.ProductVO;
 import com.example.lookkit.user.CustomUser;
+import com.example.lookkit.wishlist.WishlistService;
+import com.example.lookkit.wishlist.WishlistVO;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -12,8 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -22,6 +27,7 @@ public class MainController {
 
     private final CoordisetService coordisetService;
     private final ProductService productService;
+    private final WishlistService wishlistService;
 
     @GetMapping("/main")
     public String mainPage(Authentication auth, HttpSession session, Model model){
@@ -62,6 +68,34 @@ public class MainController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("productsList", productsList);
         return "/home/search";
+    }
+
+
+
+    // 좋아요 추가 및 삭제
+    @GetMapping("/wishlist/item")
+    @ResponseBody
+    public Map<String, Object> addWishList(@RequestParam long productId, HttpSession session){
+        Map<String, Object> response = new HashMap<>();
+        long userId = (long) session.getAttribute("userid");
+        System.out.println("위시리스트컨트롤러 동작");
+        WishlistVO wishlistVO = new WishlistVO();
+        wishlistVO.setUserId(userId);
+        wishlistVO.setProductId(productId);
+        wishlistVO.setCodiId(null);
+         String result=wishlistService.addWishlistItem(wishlistVO);
+
+        if ("addOK".equals(result)) {
+            response.put("status", "success");
+            response.put("message", "상품추가");
+        } else if ("deleteOK".equals(result)) {
+            response.put("status", "success");
+            response.put("message", "상품삭제");
+        } else {
+            response.put("status", "error");
+            response.put("message", "오류발생");
+        }
+        return response;
     }
 
 
