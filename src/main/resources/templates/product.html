@@ -238,11 +238,11 @@
   <th:block layout:fragment="content">
   <div class="container">
     <div class="image-section">
-      <img th:src="@{/images/product/look1/look1.jpg}" alt="상품 이미지">
+      <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_thumbnail.webp'}" alt="상품썸네일" />
     </div>
     <div class="details-section">
       <div>
-        <div class="brand" th:text="${product.productName}"></div>
+        <div class="brand" th:text="${product.brandName}"></div>
         <div class="product-title" th:text="${product.productName}"></div>
         <div class="price-section">
           <span class="price" id="price" th:text="${product.productPrice} + '원'"></span>
@@ -269,8 +269,12 @@
     </div>
     <div class="container">
       <div class="tab-content active" id="details">
-        <img th:src="@{/images/product/look1/detail1.jpg}" alt="상품 디테일">
-        <img th:src="@{/images/product/look1/info.jpg}" alt="상품 정보">
+        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_detail_1.webp'}" alt="상품사진1" />
+        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_detail_2.webp'}" alt="상품사진2" />
+        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_detail_3.webp'}" alt="상품사진3" />
+        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_detail_4.webp'}" alt="상품사진4" />
+        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_detail_5.webp'}" alt="상품사진5" />
+        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_detail_6.webp'}" alt="상품사진6" />
       </div>
       <div class="tab-content" id="reviews">
         <div class="review-filters">

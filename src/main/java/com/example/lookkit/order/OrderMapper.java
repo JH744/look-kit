@@ -27,8 +27,10 @@ public interface OrderMapper {
             "</script>")
     List<OrderDetailDTO> getOrderDetails(@Param("orderIds") List<Integer> orderIds);
 
-    @Insert("INSERT INTO order_items (order_id, product_id, codi_id, user_id, quantity) VALUES (#{orderId}, #{productId}, #{codiId}, #{userId}, #{quantity})")
-    void createOrderDetail(OrderDetailVO orderDetailVO);
+    @Insert("INSERT INTO order_items (order_id, product_id, quantity) VALUES (#{orderId}, #{productId}, #{quantity})")
+    void createOrderDetail(OrderDetailDTO orderDetailDTO);
+
+
 
     @Delete("DELETE FROM orders WHERE order_id = #{orderId}")
     void deleteOrder(int orderId);

@@ -3,8 +3,9 @@ package com.example.lookkit.order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.lookkit.product.ProductVO;
-import com.example.lookkit.cart.CartMapper;
 import com.example.lookkit.product.ProductMapper;
+import com.example.lookkit.cart.CartService;
+import com.example.lookkit.cart.CartVO;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,33 +14,27 @@ public class OrderService {
 
     @Autowired
     private OrderMapper orderMapper;
-    private ProductMapper productMapper;
-    private CartMapper cartMapper;
+    private final ProductMapper productMapper;
+    private final CartService cartService;
 
-
-    public OrderService(OrderMapper orderMapper, ProductMapper productMapper, CartMapper cartMapper) {
+    @Autowired
+    public OrderService(OrderMapper orderMapper, ProductMapper productMapper, CartService cartService) {
         this.orderMapper = orderMapper;
         this.productMapper = productMapper;
-        this.cartMapper = cartMapper;
+        this.cartService = cartService;
     }
 
-    public void createOrder(OrderVO orderVO, List<OrderDetailVO> orderDetails) {
-        // 주문 생성
+    public void createOrder(OrderVO orderVO, List<OrderDetailDTO> orderDetails) {
+        // 주문 정보 저장
         orderMapper.createOrder(orderVO);
-
-        // 주문 상세 생성
-        for (OrderDetailVO detail : orderDetails) {
-            ProductVO product = productMapper.getProductById(detail.getProductId());
-            if (product == null) {
-                throw new RuntimeException("Invalid productId: " + detail.getProductId());
-            }
-            detail.setOrderId(orderVO.getOrderId());
-            detail.setProductName(product.getProductName());
-            detail.setProductThumbnail(product.getProductThumbnail());
-            orderMapper.createOrderDetail(detail);
+    
+        // 주문 상세 정보 저장
+        for (OrderDetailDTO detail : orderDetails) {
+            detail.setOrderId(orderVO.getOrderId()); // 주문 ID 설정
+            orderMapper.createOrderDetail(detail); // 주문 상세 정보 생성
         }
     }
-
+    
     public void createOrder(OrderVO orderVO, List<Integer> productIds, int quantity) {
         // 주문 생성
         orderMapper.createOrder(orderVO);
@@ -50,10 +45,9 @@ public class OrderService {
             if (product == null) {
                 throw new RuntimeException("Invalid productId: " + productId);
             }
-            OrderDetailVO orderDetail = OrderDetailVO.builder()
+            OrderDetailDTO orderDetail = OrderDetailDTO.builder()
                     .orderId(orderVO.getOrderId())
                     .productId(productId)
-                    .userId(orderVO.getUserId())
                     .quantity(quantity)
                     .productPrice(product.getProductPrice())
                     .productName(product.getProductName())
@@ -63,19 +57,8 @@ public class OrderService {
         }
     }
 
-    public List<OrderDetailVO> getOrderDetails(List<Integer> selectedItems) {
-        // 장바구니에서 선택된 상품 정보를 가져와서 주문 상세 목록으로 변환
-        return cartMapper.getSelectedCartItems(selectedItems).stream()
-                .map(cartItem -> OrderDetailVO.builder()
-                        .productId(cartItem.getProductId())
-                        .codiId(cartItem.getCodiId())
-                        .userId(cartItem.getUserId())
-                        .quantity(cartItem.getQuantity())
-                        .productPrice(cartItem.getProductPrice())
-                        .productName(cartItem.getProductName())
-                        .productThumbnail(cartItem.getProductThumbnail())
-                        .build())
-                .collect(Collectors.toList());
+    public List<OrderDetailDTO> getOrderDetails(List<Integer> orderIds) {
+        return orderMapper.getOrderDetails(orderIds);
     }
 
     public boolean processPayment(int orderId, String paymentMethod) {
@@ -98,5 +81,9 @@ public class OrderService {
         if (product == null) {
             throw new RuntimeException("Invalid productId: " + productId);
         }
+    }
+
+    public List<CartVO> getSelectedCartItems(List<Integer> selectedItems) {
+        return cartService.getSelectedCartItems(selectedItems);
     }
 }

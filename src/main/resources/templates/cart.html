@@ -124,7 +124,10 @@
   flex: 1; /* 남는 공간 차지 */
   margin-left: 20px;
 }
-
+.brand-name2 {
+  color: #212529;
+  font-size: 11px;
+}
 .product-name {
   font-size: 14px;
   color: #767676;
@@ -188,7 +191,11 @@
   display: flex;
   gap: 10px;
 }
+.item-quantity {
+  width: 30px;
+  margin-left: 18px;
 
+}
 .purchase-now-button {
   background-color: #062236;
   color: #ffffff;
@@ -281,13 +288,17 @@
               <input type="checkbox" class="checkbox-input" checked />
           </div>
           <div class="item-thumbnail">
-              <img class="thumbnail-img" th:src="@{/images/product/look1/productThumbnail.jpg}" alt="상품 이미지"/>
-          </div>
-          <div class="item-description">
-              <div class="brand-name" th:text="${cartItem.productName}">상품명</div>
-              <div class="product-name" th:text="${cartItem.productName}">상품명</div>
-              <div class="product-variant" th:text="${cartItem.quantity} + '개'">수량</div>
-          </div>
+    <a th:href="@{/product/{id}(id=${cartItem.productId})}">
+        <img class="thumbnail-img" th:src="@{'/images/products/0'+${cartItem.productId}+'/'+${cartItem.productId}+'_thumbnail.webp'}" alt="상품썸네일" />
+    </a>
+</div>
+<div class="item-description">
+    <div class="brand-name2" th:text="${cartItem.productName}">상품명</div>
+    <a th:href="@{/product/{id}(id=${cartItem.productId})}">
+        <div class="product-name" th:text="${cartItem.productName}">상품명</div>
+    </a>
+    <div class="product-variant" th:text="${cartItem.quantity} + '개'">수량</div>
+</div>
           <div class="item-like-button">
             <button class="like-button">
               <img class="like-icon" th:src="@{/images/icon/goods-like-off-svg0.svg}"/>
@@ -297,7 +308,7 @@
             <strong th:text="${cartItem.productPrice} + '원'">상품 가격</strong>
         </div>
         <div>
-          <input type="number" class="" th:value="${cartItem.quantity}" min="1" data-cart-id="${cartItem.cartId}" />
+          <input class="item-quantity" type="number" th:value="${cartItem.quantity}" min="1" data-cart-id="${cartItem.cartId}" />
         </div>
           <div class="item-options-button">
             <button class="options-button" data-cart-id="${cartItem.cartId}">
@@ -311,23 +322,24 @@
     <div class="cart-summary">
       <div class="summary-header">
         <h3>최종 결제 예상 금액</h3>
-      </div>
-      <div class="summary-details">
+    </div>
+    <div class="summary-details">
         <div class="summary-item">
-          <span>총 상품금액</span>
-          <strong th:text="${totalPrice} + '원'"></strong>
+            <span>총 상품금액</span>
+            <strong>0원</strong> 
         </div>
         <div class="summary-item">
-          <span>최종 결제 예상 금액</span>
-          <strong th:text="${totalPrice} + '원'"></strong>
+            <span>최종 결제 예상 금액</span>
+            <strong>0원</strong> 
         </div>
-      </div>
-      <div class="checkout-button-container">
+    </div>
+    <div class="checkout-button-container">
         <button class="checkout-button" id="checkout-button">
-          <span th:text="'총 ' + ${totalQuantity} + '개 / ' + ${totalPrice} + '원 주문하기'"></span>
-          <img class="checkout-icon"/>
+            <span>총 0개 / 0원 주문하기</span>
+            <img class="checkout-icon"/>
         </button>
-      </div>
+    </div>
+    
     </div>
   </div>
 </th:block>
@@ -335,104 +347,100 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script>
     $(document).ready(function () {
-      // 주문하기 버튼 클릭
-      $("#checkout-button").click(function () {
-        let selectedItems = [];
-        $(".checkbox-input:checked").each(function () {
-          selectedItems.push($(this).closest(".cart-item").data("cart-id"));
-        });
+        // 주문하기 버튼 클릭
+        $("#checkout-button").click(function () {
+            let selectedItems = [];
+            $(".checkbox-input:checked").each(function () {
+                selectedItems.push($(this).closest(".cart-item").data("cart-id"));
+            });
     
-        if (selectedItems.length === 0) {
-          alert("주문할 상품을 선택해주세요.");
-          return;
-        }
-    
-        $.ajax({
-          url: "/order",
-          type: "POST",
-          contentType: "application/json",
-          data: JSON.stringify(selectedItems),
-          success: function () {
-            // 주문 데이터가 서버에 저장된 후, 단순히 /order URL로 이동
-            location.href = "/order";
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            console.error("Error: " + textStatus + ", " + errorThrown);
-            alert("주문 처리 중 오류가 발생했습니다.");
-          }
-        });
-      });
-    
-      // 선택 삭제 버튼 클릭
-      $("#delete-selected-button").click(function () {
-        $(".checkbox-input:checked").each(function () {
-          const cartId = $(this).closest(".cart-item").data("cart-id");
-          $.ajax({
-            url: `/cart/delete/${cartId}`,
-            type: 'DELETE',
-            success: function () {
-              $(`[data-cart-id='${cartId}']`).remove();
-              updateTotalPrice();
+            if (selectedItems.length === 0) {
+                alert("주문할 상품을 선택해주세요.");
+                return;
             }
-          });
+    
+            $.ajax({
+                url: "/order",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(selectedItems),
+                success: function () {
+                    location.href = "/order"; // 주문 페이지로 이동
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error("Error: " + textStatus + ", " + errorThrown);
+                    alert("주문 처리 중 오류가 발생했습니다.");
+                }
+            });
         });
-      });
     
-      // 삭제 버튼 클릭
-      $(document).on("click", ".delete-item-button", function () {
-        const cartId = $(this).data("cart-id");
-        $.ajax({
-          url: `/cart/delete/${cartId}`,
-          type: 'DELETE',
-          success: function () {
-            $(`[data-cart-id='${cartId}']`).remove();
-            updateTotalPrice();
-          }
-        });
-      });
-    
-      document.addEventListener("DOMContentLoaded", function() {
-        const quantityInputs = document.querySelectorAll(".quantity-input");
-    
-        quantityInputs.forEach((input) => {
-            input.addEventListener("change", function() {
-                const cartId = this.dataset.cartId;  // cartId를 데이터 속성으로 설정했다고 가정
-                const quantity = parseInt(this.value);
-    
-                // 서버로 수량 업데이트 요청 보내기
+        // 선택 삭제 버튼 클릭
+        $("#delete-selected-button").click(function () {
+            $(".checkbox-input:checked").each(function () {
+                const cartId = $(this).closest(".cart-item").data("cart-id");
                 $.ajax({
-                    url: `/cart/update`,
-                    type: "PUT",
-                    contentType: "application/json",
-                    data: JSON.stringify({ cartId: cartId, quantity: quantity }),
-                    success: function() {
-                        alert("수량이 업데이트되었습니다.");
-                        location.reload(); // 페이지 새로고침으로 변경된 내용을 반영
+                    url: `/cart/delete/${cartId}`,
+                    type: 'DELETE',
+                    success: function () {
+                        $(`[data-cart-id='${cartId}']`).remove();
+                        updateTotalPrice(); // 삭제 후 금액 및 수량 업데이트
                     },
-                    error: function() {
-                        alert("수량 업데이트 중 오류가 발생했습니다.");
+                    error: function () {
+                        alert("선택한 상품 삭제 중 오류가 발생했습니다.");
                     }
                 });
             });
         });
-      });
     
+        // 수량 변경 버튼 클릭
+        $(document).on("change", ".quantity-input", function () {
+            const cartId = $(this).closest(".cart-item").data("cart-id");
+            const newQuantity = parseInt($(this).val());
     
+            if (newQuantity <= 0) {
+                alert("수량은 1 이상이어야 합니다.");
+                return;
+            }
+    
+            $.ajax({
+                url: "/cart/update",
+                type: "PUT",
+                contentType: "application/json",
+                data: JSON.stringify({ cartId: cartId, quantity: newQuantity }),
+                success: function () {
+                    alert("수량이 업데이트되었습니다.");
+                    updateTotalPrice(); // 수량 업데이트 후 합산 금액 업데이트
+                },
+                error: function () {
+                    alert("수량 업데이트 중 오류가 발생했습니다.");
+                }
+            });
+        });
+    
+        // 페이지 로드 시 초기 총 가격 및 수량 업데이트
+        updateTotalPrice();
+    
+        // 총 가격 및 총 수량 업데이트 함수
         function updateTotalPrice() {
             let totalPrice = 0;
             let totalQuantity = 0;
+    
             $(".cart-item").each(function () {
-                const quantity = $(this).find(".quantity-input").val();
+                const quantity = parseInt($(this).find(".quantity-input").val());
                 const price = parseInt($(this).find(".item-price").text().replace(/\D/g, ""));
-                totalPrice += quantity * price;
-                totalQuantity += parseInt(quantity);
+    
+                if (!isNaN(quantity) && !isNaN(price)) {
+                    totalPrice += quantity * price;
+                    totalQuantity += quantity;
+                }
             });
-            $(".summary-item strong").first().text(`${totalPrice.toLocaleString()}원`);
-            $(".summary-item strong").last().text(`${totalPrice.toLocaleString()}원`);
+    
+            $(".summary-details .summary-item strong").first().text(`${totalPrice.toLocaleString()}원`);
+            $(".summary-details .summary-item strong").last().text(`${totalPrice.toLocaleString()}원`);
             $("#checkout-button span").text(`총 ${totalQuantity}개 / ${totalPrice.toLocaleString()}원 주문하기`);
         }
     });
-  </script>
+    </script>       
 </th:block>
 </body>
 </html>

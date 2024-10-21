@@ -17,6 +17,7 @@ public class ProductVO {
     private int categoryId;
     private int codiId;
     private String productName;
+    private String brandName;
     private String productDescription;
     private int productPrice;
     private int productStock;
