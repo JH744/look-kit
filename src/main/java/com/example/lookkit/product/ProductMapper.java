@@ -17,9 +17,6 @@ public interface ProductMapper {
     @Update("UPDATE products SET product_stock = product_stock - #{quantity} WHERE product_id = #{productId} AND product_stock >= #{quantity}")
     int updateProductStock(int productId, int quantity);
 
-    @Select("SELECT * FROM products WHERE product_id = #{productId}")
-    ProductVO getProductById(long productId);
-
 
     @Select("SELECT p.* " +
             "FROM products p " +

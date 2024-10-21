@@ -69,7 +69,6 @@
       });
 
 
-
       // --  [유효성 검사]  --
 
       /**아이디 중복체크 클릭이벤트 **/
@@ -182,6 +181,16 @@
           this.submit();
         }
       })
+
+
+
+
+
+
+
+
+
+
     });
 
   </script>
@@ -654,6 +663,7 @@
       position: absolute;
       left: 0px;
       top: 533px;
+      padding-right:10px;
     }
     .birthdatePlaceholder {
       color: #797979;
@@ -676,13 +686,17 @@
     .genderMaleButton {
       background: #d8d8d8;
       border-style: solid;
-      border-color: #424242;
+      border-color: #c5c5c5;
       border-width: 1px;
       width: 84px;
       height: 57px;
       position: absolute;
       left: 332px;
       top: 533px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
     }
     .genderFemaleContainer {
       width: 84px;
@@ -692,40 +706,20 @@
     .genderFemaleButton {
       background: #fffcfc;
       border-style: solid;
-      border-color: #555553;
+      border-color: #c5c5c5;
       border-width: 1px;
       width: 84px;
       height: 57px;
       position: absolute;
       left: 415px;
       top: 533px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      margin-left:10px;
+      cursor:pointer;
     }
-    .genderMaleText {
-      color: #797979;
-      text-align: left;
-      font-family: "Inter-Medium", sans-serif;
-      font-size: 20px;
-      font-weight: 500;
-      position: absolute;
-      left: 365px;
-      top: 550px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-    }
-    .genderFemaleText {
-      color: #797979;
-      text-align: left;
-      font-family: "Inter-Medium", sans-serif;
-      font-size: 20px;
-      font-weight: 500;
-      position: absolute;
-      left: 451px;
-      top: 550px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-    }
+
 
     .addrBox {
       position: relative;
@@ -750,6 +744,12 @@
       display:none;
     }
 
+.passwordLabel,.label,.nameLabel,.phoneLabel,.birthdateLabel,.emailLabel,.addressLabel{
+  min-width:120px;
+}
+.hidden-input{
+  display:none;
+}
 
 
 
@@ -860,7 +860,7 @@
           </div>
           <div class="birthdateLabel">생년월일</div>
           <input
-                  type="text"
+                  type="date"
                   id="birthDate"
                   class="birthdateInput"
                   name="birthDate"
@@ -870,17 +870,19 @@
             <input
                     type="radio"
                     name="gender"
-                    class="genderMaleButton"
+                    class="hidden-input"
                     value="M"
             />
+            <div class="genderMaleButton">Man</div>
           </div>
           <div class="genderFemaleContainer">
             <input
                     type="radio"
                     name="gender"
-                    class="genderFemaleButton"
+                    class="hidden-input"
                     value="F"
             />
+            <div class="genderFemaleButton">Woman</div>
           </div>
         </form>
       </div>
