@@ -23,6 +23,7 @@ public interface UserMapper {
     @Select("SELECT USER_UUID FROM USERS WHERE USER_NAME = #{userName} AND EMAIL = #{email}")
     public String findUserUuidByNameAndEmail(String userName, String email);
 
-
+    @Select("SELECT USER_NAME FROM USERS WHERE USER_ID = #{userId}")
+    public String searchUserName(long userId);
 
 }

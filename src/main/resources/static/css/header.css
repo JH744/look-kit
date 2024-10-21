@@ -155,13 +155,21 @@ a {
   padding: 0 35px;
   justify-content: space-between;
   align-items: center;
-  gap: 418px;
 }
 .navBox1 {
-  max-width: 822px;
   display: flex;
   gap: 100px;
   align-items: center;
+  flex-basis: 60%; /* 헤더의 60% 차지 */
+}
+
+.navBox1-menu {
+  width: fit-content;
+}
+
+.navBox1-logo {
+  min-width: fit-content;
+  max-width: fit-content;
 }
 
 .navMenu {
@@ -177,8 +185,6 @@ a {
   color: #232b6e;
   font-size: 28px;
   font-weight: 700;
-  min-width: fit-content;
-  max-width: fit-content;
 }
 .menu {
   color: #000000;
@@ -187,33 +193,25 @@ a {
 
 .navBox2 {
   display: flex;
-  width: 535px;
-  gap: 45px;
+  justify-content: flex-end;
   align-items: center;
-  float: inline-end;
+  flex-basis: 40%;
+  gap: 20px;
 }
 .searchBox {
   display: flex;
   position: relative;
   align-items: center;
-  width: 300px;
+  width: 250px;
   height: 35px;
 }
 
 .searchInput {
-  width: 300px;
-<<<<<<< HEAD
+  width: 250px;
   height: 30px;
-  border-radius: 50px;
+  border-radius: 10px;
   padding-left: 15px;
-  border: 1px solid #636262;
-=======
-  height: 35px;
-  padding-left: 15px;
-  border-radius:50px;
-  border :2px solid #575757
-/*  border-color :#C5C5C5;*/
->>>>>>> fd451b57f26e0a3a99878f47647fd08bd77071f2
+  border: 1px solid #a9a9a9;
 }
 
 .searchBtn {
@@ -229,19 +227,26 @@ a {
   display: flex;
   align-items: center;
   text-align: center;
-  gap: 35px;
-  padding-bottom:10px;
+  gap: 20px;
+  width: fit-content;
 }
 
 .LogoutBtn{
   cursor:pointer;
 }
 
-<<<<<<< HEAD
-.header-icon {
-  width : 26px;
+.iconBtn img{
+  width: 15px;
 }
-=======
 
+.btn-text {
+  font-size: 11px;
+}
 
->>>>>>> fd451b57f26e0a3a99878f47647fd08bd77071f2
+.btn-a {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  width: max-content;
+}
+

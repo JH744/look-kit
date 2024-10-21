@@ -48,4 +48,8 @@ public class UserService {
         result = (changedRow == 1) ? "OK" : "FAIL";  // 삼항 연산자로 결과 할당
         return result;
    }
+
+    public String searchUserName(long userId) {
+        return userMapper.searchUserName(userId);
+    }
 }

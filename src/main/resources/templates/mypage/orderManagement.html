@@ -2,10 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>주문 관리</title>
   <link rel="stylesheet" th:href="@{/css/header.css}"/>
   <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
   <link rel="stylesheet" th:href="@{/css/orderManagement.css}"/>
+  <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css}">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 <th:block th:replace="~{common/fragments/header :: headerFragment}"></th:block>
@@ -22,66 +24,66 @@
 
         <div class="status-box">
           <div class="status-icons">
-              <!-- 결제 완료 상태 -->
-              <div class="step">
-                <div class="circle-container">
-                  <div class="step-circle"
-                       th:classappend="${countPending > 0} ? 'blue-circle' : 'white-circle'">
-                  </div>
-                  <p class="step-number"
-                     th:classappend="${countPending > 0} ? 'white-text' : 'gray-text'"
-                     th:text="${countPending}"></p>
+            <!-- 결제 완료 상태 -->
+            <div class="step">
+              <div class="circle-container">
+                <div class="step-circle"
+                     th:classappend="${countPending > 0} ? 'blue-circle' : 'white-circle'">
                 </div>
-                <span class="step-description">결제 완료</span>
+                <p class="step-number"
+                   th:classappend="${countPending > 0} ? 'white-text' : 'gray-text'"
+                   th:text="${countPending}"></p>
               </div>
-              <div>
-                <img class="status-icon" th:src="@{/images/icon/arrow.svg}" />
-              </div>
+              <span class="step-description">결제 완료</span>
+            </div>
+            <div>
+              <img class="status-icon" th:src="@{/images/icon/arrow.svg}" />
+            </div>
 
-              <!-- 배송 준비 상태 -->
-              <div class="step">
-                <div class="circle-container">
-                  <div class="step-circle"
-                       th:classappend="${countShipped > 0} ? 'blue-circle' : 'white-circle'">
-                  </div>
-                  <p class="step-number"
-                     th:classappend="${countShipped > 0} ? 'white-text' : 'gray-text'"
-                     th:text="${countShipped}"></p>
+            <!-- 배송 준비 상태 -->
+            <div class="step">
+              <div class="circle-container">
+                <div class="step-circle"
+                     th:classappend="${countShipped > 0} ? 'blue-circle' : 'white-circle'">
                 </div>
-                <span class="step-description">배송 준비</span>
+                <p class="step-number"
+                   th:classappend="${countShipped > 0} ? 'white-text' : 'gray-text'"
+                   th:text="${countShipped}"></p>
               </div>
-              <div>
-                <img class="status-icon" th:src="@{/images/icon/arrow.svg}" />
-              </div>
+              <span class="step-description">배송 준비</span>
+            </div>
+            <div>
+              <img class="status-icon" th:src="@{/images/icon/arrow.svg}" />
+            </div>
 
-              <!-- 배송중 상태 -->
-              <div class="step">
-                <div class="circle-container">
-                  <div class="step-circle"
-                       th:classappend="${countDelivered > 0} ? 'blue-circle' : 'white-circle'">
-                  </div>
-                  <p class="step-number"
-                     th:classappend="${countDelivered > 0} ? 'white-text' : 'gray-text'"
-                     th:text="${countDelivered}"></p>
+            <!-- 배송중 상태 -->
+            <div class="step">
+              <div class="circle-container">
+                <div class="step-circle"
+                     th:classappend="${countDelivered > 0} ? 'blue-circle' : 'white-circle'">
                 </div>
-                <span class="step-description">배송중</span>
+                <p class="step-number"
+                   th:classappend="${countDelivered > 0} ? 'white-text' : 'gray-text'"
+                   th:text="${countDelivered}"></p>
               </div>
-              <div>
-                <img class="status-icon" th:src="@{/images/icon/arrow.svg}" />
-              </div>
+              <span class="step-description">배송중</span>
+            </div>
+            <div>
+              <img class="status-icon" th:src="@{/images/icon/arrow.svg}" />
+            </div>
 
-              <!-- 배송 완료 상태 -->
-              <div class="step">
-                <div class="circle-container">
-                  <div class="step-circle"
-                       th:classappend="${countCompleted > 0} ? 'blue-circle' : 'white-circle'">
-                  </div>
-                  <p class="step-number"
-                     th:classappend="${countCompleted > 0} ? 'white-text' : 'gray-text'"
-                     th:text="${countCompleted}"></p>
+            <!-- 배송 완료 상태 -->
+            <div class="step">
+              <div class="circle-container">
+                <div class="step-circle"
+                     th:classappend="${countCompleted > 0} ? 'blue-circle' : 'white-circle'">
                 </div>
-                <span class="step-description">배송 완료</span>
+                <p class="step-number"
+                   th:classappend="${countCompleted > 0} ? 'white-text' : 'gray-text'"
+                   th:text="${countCompleted}"></p>
               </div>
+              <span class="step-description">배송 완료</span>
+            </div>
           </div>
         </div>
       </div>
@@ -113,7 +115,7 @@
             <div class="product-details">
               <div class="product-brand" th:text="${product.productDescription}">브랜드</div>
               <div class="product-name" th:text="${product.productName}">상품명</div>
-              <div class="product-price"> <span th:text="${product.productPrice}">가격</span>
+              <div class="product-price"> <span th:text="${product.productPrice} + '원 / '">가격</span>
                 <span th:text="'수량: ' + ${product.quantity}"></span>
               </div>
             </div>
@@ -121,7 +123,7 @@
             <div class="status-section-text">
               <div class="status-text"
                    th:text="${product.orderStatus == 'pending'} ? '결제 완료' :
-                            (${product.orderStatus == 'shipped'} ? '배송 준비 중' :
+                            (${product.orderStatus == 'shipped'} ? '배송 준비중' :
                             (${product.orderStatus == 'delivered'} ? '배송 중' :
                             (${product.orderStatus == 'completed'} ? '배송 완료' : '배송 상태 없음')))">
               </div>
@@ -129,14 +131,91 @@
             </div>
 
             <div class="actions">
-              <button class="confirm-button">구매확정</button>
-              <button class="review-button">리뷰 작성</button>
+              <button class="confirm-button"
+                      th:onclick="'confirmPurchase(this, ' + ${product.orderId} + ', ' + ${product.productId} + ')'"
+              th:if="${!product.isPurchaseConfirmed}">구매확정</button>
+              <a class="review-button" th:href="@{/mypage/inquiry/new}">리뷰 작성</a>
+              <span th:if="${product.isPurchaseConfirmed}" th:text="'구매확정'" class="confirmed-text"></span>
             </div>
+
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<script>
+  function confirmPurchase(button, orderId, productId) {
+    Swal.fire({
+      title: '구매확정 하시겠습니까?',
+      html: '<p class="custom-warning">구매확정 시 교환/반품을 할 수 없습니다</p>',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#1a202c',  // 확인 버튼 색상
+      cancelButtonColor: '#ffffff',  // 취소 버튼 배경색 (하얀색)
+      confirmButtonText: '구매확정',
+      cancelButtonText: '취소',
+      customClass: {
+        title: 'custom-title',  // 제목 스타일 커스터마이즈
+        popup: 'custom-popup',  // 모달 팝업 전체 스타일 커스터마이즈
+        confirmButton: 'custom-confirm-button',  // 확인 버튼 스타일
+        cancelButton: 'custom-cancel-button',  // 취소 버튼 스타일
+        htmlContainer: 'custom-html',  // 텍스트 스타일 커스터마이즈
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: '/mypage/manage/update/confirmed',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({ orderId : orderId, productId : productId }),
+          success: function(response) {
+            if (response.success) {
+              const parentDiv = button.closest(".actions");
+              button.style.display = "none";
+
+              const confirmedText = document.createElement("span");
+              confirmedText.textContent = "구매확정";
+              confirmedText.classList.add("confirmed-text");
+              parentDiv.appendChild(confirmedText);
+
+              Swal.fire({
+                title: '구매확정이 완료되었습니다',
+                html: '<p>감사합니다 :)</p>',
+                icon: 'success',
+                confirmButtonColor: '#1a202c',
+                confirmButtonText: '확인',
+                customClass: {
+                  title: 'custom-title',
+                  popup: 'custom-popup',
+                  confirmButton: 'custom-confirm-button',
+                  htmlContainer: 'custom-html'
+                }
+              });
+            } else {
+              Swal.fire({
+                title: '오류 발생',
+                text: '구매확정 업데이트에 실패했습니다. 다시 시도해 주세요.',
+                icon: 'error',
+                confirmButtonColor: '#d33',
+                confirmButtonText: '확인'
+              });
+            }
+          },
+          error: function() {
+            Swal.fire({
+              title: '오류 발생',
+              text: '서버와 통신 중 오류가 발생했습니다. 다시 시도해 주세요.',
+              icon: 'error',
+              confirmButtonColor: '#d33',
+              confirmButtonText: '확인'
+            });
+          }
+        });
+      }
+    });
+  }
+</script>
+
 </body>
 </html>

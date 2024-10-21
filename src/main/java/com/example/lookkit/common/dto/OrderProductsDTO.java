@@ -14,12 +14,13 @@ import java.util.List;
 public class OrderProductsDTO {
     private long orderId;
     private LocalDateTime orderDate;
-    private double totalAmount;
+    private String totalAmount;
     private String orderStatus;
     private long productId;
     private String productName;
-    private double productPrice;
+    private String productPrice;
     private int quantity;
     private String productDescription;
     private String productThumbnail;
+    private boolean isPurchaseConfirmed;
 }

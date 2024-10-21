@@ -29,4 +29,13 @@ public class OrderManagementService {
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     }
 
+    public boolean updatePurchaseConfirmed(Long orderId, Long productId) {
+        try {
+            dao.updatePurchaseConfirmed(orderId, productId, true);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }
