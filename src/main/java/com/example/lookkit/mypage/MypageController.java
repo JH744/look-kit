@@ -23,6 +23,17 @@ public class MypageController {
     private final MypageService mypageService;
     private final PasswordEncoder passwordEncoder;
 
+    @GetMapping("/enter-password")
+    public String enterPassword(Model model, HttpSession session){
+        System.out.println("확인>>>>>");
+        long userId = (long) session.getAttribute("userid");
+        MypageDTO userInfo = mypageService.getUserInfo(userId);
+        System.out.println("아이디 확인 : " + userId);
+        model.addAttribute("userInfo", userInfo);
+         //return "mypage/pw_check_popup_modal";
+         return "mypage/pw_check_modal";
+    }
+
     // 회원정보 조회 페이지
     @GetMapping("/userinfo")
     public String userinfo(Model model, HttpSession session) {
@@ -87,12 +98,12 @@ public class MypageController {
         return !isDuplicate; // true if email is available, false if duplicate
     }
 
-    // 비밀번호 확인 처리 (AJAX)
     @PostMapping("/verifyPassword")
     @ResponseBody
-    public Map<String, Object> verifyPassword(@RequestParam String currentPassword) {
+    public Map<String, Object> verifyPassword(@RequestParam String currentPassword, HttpSession session) {
         Map<String, Object> response = new HashMap<>();
 
+        System.out.println("verifyPassword 호출됨"); // 로그 추가
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || auth.getPrincipal().equals("anonymousUser")) {
             response.put("success", false);
@@ -102,20 +113,19 @@ public class MypageController {
 
         CustomUser customUser = (CustomUser) auth.getPrincipal();
         long userId = customUser.getUserId();
-
-        // 현재 비밀번호 가져오기
         String storedPassword = mypageService.getPassword(userId);
+
         if (storedPassword == null) {
             response.put("success", false);
             response.put("message", "사용자 정보를 찾을 수 없습니다.");
             return response;
         }
 
-        // 비밀번호 비교
         boolean matches = passwordEncoder.matches(currentPassword, storedPassword);
         if (matches) {
             response.put("success", true);
             response.put("message", "비밀번호가 일치합니다.");
+            session.setAttribute("passwordVerified", true);
         } else {
             response.put("success", false);
             response.put("message", "비밀번호가 일치하지 않습니다.");
@@ -123,6 +133,7 @@ public class MypageController {
 
         return response;
     }
+
 
     // 비밀번호 변경 처리 (AJAX)
     @PostMapping("/changePassword")
