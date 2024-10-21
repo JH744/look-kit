@@ -29,4 +29,5 @@ public class OrderVO {
     public void setOrderDetails(List<OrderDetailVO> orderDetails) {
         this.orderDetails = orderDetails;
     }
+
 }

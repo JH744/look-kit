@@ -16,14 +16,15 @@ public class OrderController {
 
     @GetMapping
     public String orderPage(@RequestParam(required = false) List<Integer> selectedItems, Model model) {
-        if (selectedItems != null) {
+        OrderVO orderVO = OrderVO.builder().userId(1).build(); // 실제 서비스에서는 사용자 ID를 세션에서 가져와야 함
+
+        if (selectedItems != null && !selectedItems.isEmpty()) {
             List<OrderDetailVO> items = orderService.getOrderDetails(selectedItems);
-            OrderVO orderVO = OrderVO.builder()
-                    .userId(1) // 실제 서비스에서는 사용자 ID를 세션에서 가져와야 함
-                    .orderDetails(items)
-                    .build();
-            model.addAttribute("order", orderVO);
+            orderVO.setOrderDetails(items);
+            orderVO.setTotalAmount(items.stream().mapToInt(item -> item.getProductPrice() * item.getQuantity()).sum());
         }
+
+        model.addAttribute("order", orderVO);
         return "order";
     }
 
@@ -33,8 +34,11 @@ public class OrderController {
         try {
             OrderVO orderVO = OrderVO.builder()
                     .userId(1) // 실제 서비스에서는 사용자 ID를 세션에서 가져와야 함
+                    .orderAddressee("홍길동") // 예시 값 추가
+                    .orderAddress("서울특별시") // 예시 값 추가
+                    .orderPhone("010-1234-5678") // 예시 값 추가
                     .build();
-            orderService.createOrder(orderVO, selectedItems);
+            orderService.createOrder(orderVO, selectedItems, 1);
             return "Order successfully created";
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,3 +75,4 @@ public class OrderController {
         return "addAddress";
     }
 }
+

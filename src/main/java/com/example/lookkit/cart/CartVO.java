@@ -15,7 +15,7 @@ public class CartVO {
     private String storeName;
     private String productName;
     private String productThumbnail;
-    private double productPrice;
+    private int productPrice;
     private int codiId;
 
     public int getCartId() {

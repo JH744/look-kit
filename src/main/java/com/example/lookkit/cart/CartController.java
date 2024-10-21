@@ -22,24 +22,23 @@ public class CartController {
         return "cart";
     }
 
-    @PostMapping("/add")
+    @PostMapping
     @ResponseBody
-    public String addItemToCart(@RequestParam("productId") int productId,
-                                @RequestParam("quantity") int quantity) {
-        int userId = 1; // 사용자 ID는 실제 서비스에서는 인증 정보로 가져와야 합니다
-        CartVO cartVO = new CartVO();
-        cartVO.setUserId(userId);
-        cartVO.setProductId(productId);
-        cartVO.setQuantity(quantity);
-        cartService.addItemToCart(cartVO);
-        return "Item added to cart successfully.";
-    }
+    public String addItemToCart(@RequestBody CartVO cartVO) {
+    cartService.addItemToCart(cartVO);
+    return "Item added to cart successfully.";
+}
+
 
     @PutMapping("/update")
     @ResponseBody
     public String updateCartItem(@RequestBody CartVO cartVO) {
-        cartService.updateCartItem(cartVO);
-        return "Item updated successfully.";
+        try {
+            cartService.updateCartItem(cartVO);
+           return "Item updated successfully.";
+        } catch (Exception e) {
+            return "Error updating item in cart.";
+        }
     }
 
     @DeleteMapping("/delete/{cartId}")

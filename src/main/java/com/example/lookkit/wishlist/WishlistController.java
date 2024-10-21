@@ -1,8 +1,7 @@
 package com.example.lookkit.wishlist;
 
-import com.example.lookkit.user.UserVO;
+
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

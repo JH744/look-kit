@@ -13,18 +13,16 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class ProductVO {
-    private long productId;
-    private long categoryId;
-    private Long codiId;
+    private int productId;
+    private int categoryId;
+    private int codiId;
     private String productName;
     private String productDescription;
-    private double productPrice;
+    private int productPrice;
     private int productStock;
     private String genderTarget;
     private String productThumbnail;
     private LocalDateTime productCreatedAt;
     private LocalDateTime productUpdatedAt;
-    // private List<ProductImageVO> productImages; 
-    private Double discountRate;  
-    
+    private List<ProductImageVO> productImages;
 }

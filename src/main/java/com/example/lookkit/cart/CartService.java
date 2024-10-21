@@ -30,4 +30,12 @@ public class CartService {
     public List<CartVO> getSelectedCartItems(List<Integer> cartIds) {
         return cartMapper.getSelectedCartItems(cartIds);
     }
+
+    public double calculateTotalAmount(int userId) {
+        List<CartVO> cartItems = cartMapper.getCartItems(userId);
+        return cartItems.stream()
+                .mapToDouble(item -> item.getProductPrice() * item.getQuantity())
+                .sum();
+    }
+    
 }

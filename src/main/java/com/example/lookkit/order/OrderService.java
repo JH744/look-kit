@@ -2,9 +2,9 @@ package com.example.lookkit.order;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.lookkit.cart.CartService;
-import com.example.lookkit.cart.CartVO;
-
+import com.example.lookkit.product.ProductVO;
+import com.example.lookkit.cart.CartMapper;
+import com.example.lookkit.product.ProductMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,43 +13,72 @@ public class OrderService {
 
     @Autowired
     private OrderMapper orderMapper;
+    private ProductMapper productMapper;
+    private CartMapper cartMapper;
 
-    @Autowired
-    private CartService cartService;
+    public OrderService(OrderMapper orderMapper, ProductMapper productMapper, CartMapper cartMapper) {
+        this.orderMapper = orderMapper;
+        this.productMapper = productMapper;
+        this.cartMapper = cartMapper;
+    }
 
-    public void createOrder(OrderVO orderVO, List<Integer> selectedCartIds) {
+    public void createOrder(OrderVO orderVO, List<OrderDetailVO> orderDetails) {
+        // 주문 생성
         orderMapper.createOrder(orderVO);
 
-        // List<CartVO> selectedCartItems = cartService.getSelectedCartItems(selectedCartIds);
-        // List<OrderDetailVO> orderDetails = selectedCartItems.stream().map(cartItem -> OrderDetailVO.builder()
-        //             .orderId(orderVO.getOrderId())
-        //             .productId(cartItem.getProductId())
-        //             .userId(cartItem.getUserId())
-        //             .quantity(cartItem.getQuantity())
-        //             .build()
-        // ).collect(Collectors.toList());
-
-        // for (OrderDetailVO orderDetail : orderDetails) {
-    //     //     orderMapper.createOrderDetail(orderDetail);
-    //     // }
-
-    //     selectedCartItems.forEach(cartItem -> cartService.deleteCartItem(cartItem.getCartId()));
+        // 주문 상세 생성
+        for (OrderDetailVO detail : orderDetails) {
+            ProductVO product = productMapper.getProductById(detail.getProductId());
+            if (product == null) {
+                throw new RuntimeException("Invalid productId: " + detail.getProductId());
+            }
+            detail.setOrderId(orderVO.getOrderId());
+            detail.setProductName(product.getProductName());
+            detail.setProductThumbnail(product.getProductThumbnail());
+            orderMapper.createOrderDetail(detail);
+        }
     }
 
-    public List<OrderVO> getOrdersByUser(int userId) {
-        return orderMapper.getOrdersByUser(userId);
+    public void createOrder(OrderVO orderVO, List<Integer> productIds, int quantity) {
+        // 주문 생성
+        orderMapper.createOrder(orderVO);
+
+        // 주문 상세 생성
+        for (Integer productId : productIds) {
+            ProductVO product = productMapper.getProductById(productId);
+            if (product == null) {
+                throw new RuntimeException("Invalid productId: " + productId);
+            }
+            OrderDetailVO orderDetail = OrderDetailVO.builder()
+                    .orderId(orderVO.getOrderId())
+                    .productId(productId)
+                    .userId(orderVO.getUserId())
+                    .quantity(quantity)
+                    .productPrice(product.getProductPrice())
+                    .productName(product.getProductName())
+                    .productThumbnail(product.getProductThumbnail())
+                    .build();
+            orderMapper.createOrderDetail(orderDetail);
+        }
     }
 
-    public List<OrderDetailVO> getOrderDetails(List<Integer> orderIds) {
-        return orderMapper.getOrderDetails(orderIds);
-    }
-
-    public void deleteOrder(int orderId) {
-        orderMapper.deleteOrderItems(orderId);
-        orderMapper.deleteOrder(orderId);
+    public List<OrderDetailVO> getOrderDetails(List<Integer> selectedItems) {
+        // 장바구니에서 선택된 상품 정보를 가져와서 주문 상세 목록으로 변환
+        return cartMapper.getSelectedCartItems(selectedItems).stream()
+                .map(cartItem -> OrderDetailVO.builder()
+                        .productId(cartItem.getProductId())
+                        .codiId(cartItem.getCodiId())
+                        .userId(cartItem.getUserId())
+                        .quantity(cartItem.getQuantity())
+                        .productPrice(cartItem.getProductPrice())
+                        .productName(cartItem.getProductName())
+                        .productThumbnail(cartItem.getProductThumbnail())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     public boolean processPayment(int orderId, String paymentMethod) {
+        // 결제 처리 로직 (현재는 성공 처리)
         return true;
     }
 
@@ -60,6 +89,13 @@ public class OrderService {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public void validateProductId(int productId) {
+        ProductVO product = productMapper.getProductById(productId);
+        if (product == null) {
+            throw new RuntimeException("Invalid productId: " + productId);
         }
     }
 }

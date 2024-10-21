@@ -245,7 +245,7 @@
         <div class="brand" th:text="${product.productName}"></div>
         <div class="product-title" th:text="${product.productName}"></div>
         <div class="price-section">
-          <span class="price" th:text="${product.productPrice} + '원'"></span>
+          <span class="price" id="price" th:text="${product.productPrice} + '원'"></span>
         </div>
         <div class="quantity-section">
           <label for="quantity" class="quantity-label">수량:</label>
@@ -307,7 +307,11 @@
       <img th:src="@{/images/product/look1/productThumbnail.jpg}" alt="상품 이미지">
       <div class="product-description" th:text="${product.productName}">[단독~10.6][10/10예약발송]SITP5162 루즈핏 포멀 ST 셔츠_Light blue ST</div>
     </div>
-    <div class="total-price" th:text="'총 상품 금액 ' + ${product.productPrice} + '원'">총 상품 금액 58,302원</div>
+    <div class="quantity-section">
+      <label for="quantity-bottom" class="quantity-label">수량:</label>
+      <input type="number" id="quantity-bottom" class="quantity-input" value="1" min="1">
+    </div>
+    <div class="total-price" id="total-price" th:text="'총 상품 금액 ' + ${product.productPrice} * 1 + '원'">총 상품 금액 58,302원</div>
     <div class="buttons">
       <a href="#" id="cart-link-bottom" class="btn btn-cart">장바구니</a>
       <a href="#" id="buy-link-bottom" class="btn btn-buy">구매하기</a>
@@ -320,6 +324,11 @@
       document.addEventListener("DOMContentLoaded", function() {
         const tabs = document.querySelectorAll(".tab-section div");
         const contents = document.querySelectorAll(".tab-content");
+        const quantityInput = document.getElementById("quantity");
+        const quantityInputBottom = document.getElementById("quantity-bottom");
+        const totalPriceElement = document.getElementById("total-price");
+        const priceElement = document.getElementById("price");
+        const productPrice = parseInt(priceElement.innerText.replace(/\D/g, ""));
         
         tabs.forEach((tab) => {
           tab.addEventListener("click", () => {
@@ -335,56 +344,76 @@
         const cartLinkBottom = document.getElementById("cart-link-bottom");
         const buyLink = document.getElementById("buy-link");
         const buyLinkBottom = document.getElementById("buy-link-bottom");
-        const quantityInput = document.getElementById("quantity");
         const productId = window.location.pathname.split("/").pop();
     
-        // 장바구니로 이동 (쿼리 파라미터 없이 깔끔하게 처리)
         function addToCart(event) {
           event.preventDefault();
-          const quantity = quantityInput.value;
-    
-          $.ajax({
-            url: "/cart/add",
-            type: "POST",
-            data: {
+          const quantity = parseInt(quantityInput.value);
+          const productData = {
               productId: productId,
               quantity: quantity
-            },
-            success: function() {
-              location.href = "/cart";
-            },
-            error: function() {
-              alert("장바구니 추가 중 오류가 발생했습니다.");
-            }
+          };
+      
+          $.ajax({
+              url: "/product/addToCart",
+              type: "POST",
+              data: productData, // 데이터를 직렬화하지 않고 객체로 전달
+              success: function (response) {
+                  alert(response); // 성공 메시지 알림
+                  location.href = "/cart"; // 장바구니 페이지로 이동
+              },
+              error: function () {
+                  alert("장바구니 추가 중 오류가 발생했습니다.");
+              }
           });
-        }
+      }
     
         cartLink.addEventListener("click", addToCart);
         cartLinkBottom.addEventListener("click", addToCart);
     
-        // 구매하기로 이동 (데이터 전달 필요)
         function buyNow(event) {
           event.preventDefault();
-          const quantity = quantityInput.value;
-    
+          const quantity = parseInt(quantityInput.value);
+      
           $.ajax({
-            url: "/order/add",
-            type: "POST",
-            data: {
-              productId: productId,
-              quantity: quantity
-            },
-            success: function() {
-              location.href = "/order";
-            },
-            error: function() {
-              alert("구매 중 오류가 발생했습니다.");
-            }
+              url: "/product/buyNow",
+              type: "POST",
+              data: {
+                  productId: productId,
+                  quantity: quantity
+              },
+              success: function (response) {
+                  alert(response); // 성공 메시지 알림
+                  location.href = "/order"; // 주문 페이지로 이동
+              },
+              error: function () {
+                  alert("구매 중 오류가 발생했습니다.");
+              }
           });
-        }
+      }
     
         buyLink.addEventListener("click", buyNow);
         buyLinkBottom.addEventListener("click", buyNow);
+
+        // 수량 변경 시 총 상품 금액 업데이트
+        function updateTotalPrice() {
+          const quantity = parseInt(quantityInput.value);
+          const totalPrice = productPrice * quantity;
+          totalPriceElement.innerText = `총 상품 금액 ${totalPrice.toLocaleString()}원`;
+          priceElement.innerText = `${(productPrice * quantity).toLocaleString()}원`;
+        }
+
+        quantityInput.addEventListener("change", function() {
+          const quantity = parseInt(quantityInput.value);
+          quantityInputBottom.value = quantity;
+          updateTotalPrice();
+        });
+
+        quantityInputBottom.addEventListener("change", function() {
+          const quantity = parseInt(quantityInputBottom.value);
+          quantityInput.value = quantity;
+          updateTotalPrice();
+        });
       });
     </script>
   </th:block>

@@ -29,3 +29,4 @@ public interface CartMapper {
             "</script>")
     List<CartVO> getSelectedCartItems(@Param("cartIds") List<Integer> cartIds);
 }
+
