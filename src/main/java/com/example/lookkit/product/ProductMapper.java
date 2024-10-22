@@ -17,16 +17,11 @@ public interface ProductMapper {
     @Update("UPDATE products SET product_stock = product_stock - #{quantity} WHERE product_id = #{productId} AND product_stock >= #{quantity}")
     int updateProductStock(int productId, int quantity);
 
-    @Select("SELECT * FROM products WHERE product_id = #{productId}")
-    ProductVO getProductById(long productId);
-
-
     @Select("SELECT p.* " +
             "FROM products p " +
             "JOIN categories c ON p.category_id = c.category_id " +
             "WHERE c.category_type = #{categoryType}")
     List<ProductVO> getProductsByCategoryType(String categoryType);
-
 
     // 키워드로 상품명 or 설명에서 검색
     @Select("SELECT * FROM products " +

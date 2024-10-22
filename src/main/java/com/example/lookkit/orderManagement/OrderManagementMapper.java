@@ -12,7 +12,7 @@ import java.util.List;
 public interface OrderManagementMapper {
 
     @Select("SELECT o.ORDER_ID, o.ORDER_DATE, o.ORDER_STATUS, oi.PRODUCT_ID, FORMAT(o.TOTAL_AMOUNT, 0) AS TOTAL_AMOUNT, " +
-            "p.product_description, p.PRODUCT_NAME, FORMAT(p.PRODUCT_PRICE, 0) AS PRODUCT_PRICE, oi.QUANTITY, p.PRODUCT_THUMBNAIL, oi.IS_PURCHASE_CONFIRMED " +
+            "p.BRAND_NAME, p.PRODUCT_NAME, FORMAT(p.PRODUCT_PRICE, 0) AS PRODUCT_PRICE, oi.QUANTITY, p.PRODUCT_THUMBNAIL, oi.IS_PURCHASE_CONFIRMED " +
             "FROM ORDERS o " +
             "JOIN ORDER_ITEMS oi ON o.ORDER_ID = oi.ORDER_ID " +
             "JOIN PRODUCTS p ON oi.PRODUCT_ID = p.PRODUCT_ID " +
