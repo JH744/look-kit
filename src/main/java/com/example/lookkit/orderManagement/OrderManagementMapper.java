@@ -16,7 +16,7 @@ public interface OrderManagementMapper {
             "FROM ORDERS o " +
             "JOIN ORDER_ITEMS oi ON o.ORDER_ID = oi.ORDER_ID " +
             "JOIN PRODUCTS p ON oi.PRODUCT_ID = p.PRODUCT_ID " +
-            "WHERE o.USER_ID = #{userId}")
+            "WHERE o.USER_ID = #{userId} order by o.ORDER_ID desc")
     public List<OrderProductsDTO> getProductsByOrder(long userId);
 
     @Update("UPDATE ORDER_ITEMS " +
