@@ -89,9 +89,19 @@
     font-size: 13px;
 }
 
+.profile-options:hover {
+    color: #000;
+}
+
 .icon-settings {
     width: 25px;
     height: 25px;
+}
+
+.profile-options a {
+    display: grid;
+    justify-items: center;
+    gap: 7px;
 }
 
 .side-and-main {

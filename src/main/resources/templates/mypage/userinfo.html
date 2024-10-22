@@ -10,77 +10,6 @@
     <link rel="stylesheet" th:href="@{/css/header.css}"/>
     <title>회원정보</title>
     <style>
-        /* 기존 사이드바 스타일 유지 */
-        .sidebar {
-            width: 170px;
-            height: 100%;
-        }
-
-        .sidebar h3 {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            margin-bottom: 15px;
-        }
-
-        .sidebar ul li a {
-            text-decoration: none;
-            color: #333;
-            font-size: 16px;
-        }
-
-        /* nav 스타일 */
-        .welcome-header {
-            padding: 20px;
-            background-color: #ffffff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid #555353;
-            color: #555353;
-            height: 91.74px; /* 높이 추가 */
-            box-sizing: border-box; /* 패딩 포함 */
-        }
-
-        .welcome-message {
-            font-size: 23px;
-            color: #555;
-        }
-
-        .profile-options {
-            display: inline-grid;
-            justify-items: center;
-            align-items: center;
-            gap: 3px;
-        }
-
-        .icon-settings {
-            width: 25px;
-            height: 25px;
-        }
-
-        .side-and-main {
-            display: inline-flex;
-            height: 1000px;
-        }
-
-        .mypage-block {
-            text-align: center;
-            background-color: #f0f0f0;
-            height: 160px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 25px;
-        }
-
         .error {
             color: red;
         }
@@ -89,11 +18,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        .btn-email-check, .btn-postcode-search, .btn-password-change, .btn-cancel, .btn-save {
-            padding: 5px 10px;
-            cursor: pointer;
         }
 
         .button-group {
@@ -180,22 +104,6 @@
             background-color: #1a1b5d;
         }
 
-        /* .profile-options 내 <a> 태그 스타일 조정 */
-        .profile-options a {
-           display: inline-grid; /* 그리드 레이아웃 사용 */
-           justify-items: center; /* 수평 중앙 정렬 */
-           align-items: center; /* 수직 중앙 정렬 */
-           gap: 3px; /* 아이콘과 텍스트 간 간격 */
-           text-decoration: none; /* 링크의 기본 밑줄 제거 */
-           color: inherit; /* 부모 요소의 색상 상속 */
-           width: 100%; /* 전체 너비 사용 */
-           height: 100%; /* 전체 높이 사용 */
-        }
-
-        /* 아이콘과 텍스트를 중앙에 배치 */
-        .profile-options a img.icon-settings {
-           margin: 0; /* 기본 마진 제거 */
-        }
         .hidden-input{
             display:none !important;
         }
@@ -203,20 +111,13 @@
     </style>
 </head>
 <body>
+<th:block th:replace="~{common/fragments/header :: headerFragment}"></th:block>
 <div class="profile-container">
-<<<<<<< HEAD
-    <th:block th:replace="~{common/fragments/header :: headerFragment}"></th:block>
-=======
     <th:block th:replace="~{common/fragments/userHeader :: userHeaderFragment}"></th:block>
->>>>>>> 9b42c005664d38c5b11824a665525941d4dfc838
 
     <!-- 사이드바 추가 -->
     <div class="side-and-main">
         <th:block th:replace="~{common/fragments/sidebar :: sidebarFragment}"></th:block>
-<<<<<<< HEAD
-
-=======
->>>>>>> 9b42c005664d38c5b11824a665525941d4dfc838
         <div class="second-grid">
             <form action="/mypage/update" method="post" th:object="${userInfo}" id="updateForm">
                 <div class="section-title">회원정보 관리</div>
