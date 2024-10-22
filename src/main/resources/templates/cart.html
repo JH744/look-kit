@@ -353,164 +353,134 @@
 </th:block>
 <th:block layout:fragment="script">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      let cartData = JSON.parse(localStorage.getItem("cartItems")) || [];
-      const cartItemList = document.querySelector(".cart-item-list");
-  
-      // 같은 productId가 있을 경우 수량을 업데이트
-      /*function addItemToCart(item) {
-        const existingItem = cartData.find(cartItem => cartItem.productId === item.productId);
-        if (existingItem) {
-          existingItem.quantity += item.quantity;
-        } else {
-          cartData.push(item);
-        }
-        localStorage.setItem("cartItems", JSON.stringify(cartData));
-      } */
-  
-      cartData.forEach(item => {
-        // 카트 UI에 항목 추가
-        const cartItemHTML = `
-          <div class="cart-item" data-cart-id="${item.productId}">
-            <div class="item-checkbox">
-                <input type="checkbox" class="checkbox-input" checked />
-            </div>
-            <div class="item-thumbnail">
-              <a href="/product/${item.productId}">
-                <img class="thumbnail-img" src="/images/products/0${item.productId}/${item.productId}_thumbnail.webp" alt="상품썸네일" />
-              </a>
-            </div>
-            <div class="item-description">
-              <div class="brand-name2">${item.productName}</div>
-              <a href="/product/${item.productId}">
-                <div class="product-name">${item.productName}</div>
-              </a>
-              <div class="product-variant">${item.quantity}개</div>
-            </div>
-            <div class="item-like-button">
-              <button class="like-button">
-                <img class="like-icon" src="/images/icon/goods-like-off-svg0.svg"/>
-              </button>
-            </div>
-            <div class="item-price">
-              <strong>${item.price.toLocaleString()}원</strong>
-            </div>
-            <div>
-              <input class="item-quantity quantity-input" type="number" value="${item.quantity}" min="1" data-cart-id="${item.productId}" />
-            </div>
-            <div class="item-options-button">
-              <button class="options-button" data-cart-id="${item.productId}">
-                <span>옵션/수량 변경</span>
-                <img class="options-icon" src="/images/icon/icon-option.svg" />
-              </button>
-            </div>
-          </div>`;
-  
-        // 생성한 HTML을 카트 아이템 리스트에 추가
-        cartItemList.insertAdjacentHTML("beforeend", cartItemHTML);
+<script>
+  // Cart page script
+  document.addEventListener("DOMContentLoaded", function () {
+    let cartData = JSON.parse(localStorage.getItem("cartItems")) || [];
+    const cartItemList = document.querySelector(".cart-item-list");
+
+    cartData.forEach(item => {
+      const cartItemHTML = `
+        <div class="cart-item" data-cart-id="${item.productId}">
+          <div class="item-checkbox">
+              <input type="checkbox" class="checkbox-input" checked />
+          </div>
+          <div class="item-thumbnail">
+            <a href="/product/${item.productId}">
+              <img class="thumbnail-img" src="/images/products/0${item.productId}/${item.productId}_thumbnail.webp" alt="상품써니얼" />
+            </a>
+          </div>
+          <div class="item-description">
+            <div class="brand-name2">${item.productName}</div>
+            <a href="/product/${item.productId}">
+              <div class="product-name">${item.productName}</div>
+            </a>
+            <div class="product-variant">${item.quantity}개</div>
+          </div>
+          <div class="item-like-button">
+            <button class="like-button">
+              <img class="like-icon" src="/images/icon/goods-like-off-svg0.svg"/>
+            </button>
+          </div>
+          <div class="item-price">
+            <strong>${item.price.toLocaleString()}원</strong>
+          </div>
+          <div>
+            <input class="item-quantity quantity-input" type="number" value="${item.quantity}" min="1" data-cart-id="${item.productId}" />
+          </div>
+          <div class="item-options-button">
+            <button class="options-button" data-cart-id="${item.productId}">
+              <span>옵션/수량 변경</span>
+              <img class="options-icon" src="/images/icon/icon-option.svg" />
+            </button>
+          </div>
+        </div>`;
+
+      cartItemList.insertAdjacentHTML("beforeend", cartItemHTML);
+    });
+
+    updateTotalPrice();
+
+    $("#checkout-button").click(function () {
+      let selectedItems = [];
+      let totalPrice = 0;
+      let totalQuantity = 0;
+
+      $(".checkbox-input:checked").each(function () {
+        const cartItem = $(this).closest(".cart-item");
+        const productId = cartItem.data("cart-id");
+        const quantity = parseInt(cartItem.find(".item-quantity").val());
+        const price = parseInt(cartItem.find(".item-price strong").text().replace(/\D/g, ""));
+
+        selectedItems.push({ productId: productId, quantity: quantity, price: price });
+        totalPrice += quantity * price;
+        totalQuantity += quantity;
       });
-  
-      updateTotalPrice(); // 초기 총 금액 및 수량 계산
-  
-      // 주문하기 버튼 클릭
-      $("#checkout-button").click(function () {
-        let selectedItems = [];
-        let totalPrice = 0;
-        let totalQuantity = 0;
-  
-        $(".checkbox-input:checked").each(function () {
-          const cartItem = $(this).closest(".cart-item");
-          const productId = cartItem.data("cart-id");
-          const quantity = parseInt(cartItem.find(".item-quantity").val());
-          const price = parseInt(cartItem.find(".item-price strong").text().replace(/\D/g, ""));
-  
-          selectedItems.push({ productId: productId, quantity: quantity, price: price });
-          totalPrice += quantity * price;
-          totalQuantity += quantity;
-        });
-  
-        if (selectedItems.length === 0) {
-          alert("주문할 상품을 선택해주세요.");
-          return;
-        }
-  
-        // 주문 데이터 localStorage에 저장
-        localStorage.setItem('orderData', JSON.stringify({
-          items: selectedItems,
-          totalPrice: totalPrice,
-          totalQuantity: totalQuantity
-        }));
-  
-        // 주문 페이지로 이동
-        location.href = "/order";
-      });
-  
-      // 선택 삭제 버튼 클릭
+
+      if (selectedItems.length === 0) {
+        alert("주문할 상품을 선택해주세요.");
+        return;
+      }
+
+      localStorage.setItem('orderData', JSON.stringify({
+        items: selectedItems,
+        totalPrice: totalPrice,
+        totalQuantity: totalQuantity
+      }));
+
+      location.href = "/order";
+    });
+
     $("#delete-selected-button").click(function () {
       $(".checkbox-input:checked").each(function () {
         const cartId = $(this).closest(".cart-item").data("cart-id");
-        // cartData에서 선택된 아이템 삭제
         cartData = cartData.filter(item => item.productId != cartId);
-        // localStorage 업데이트
         localStorage.setItem('cartItems', JSON.stringify(cartData));
-        // DOM에서 해당 아이템 제거
         $(this).closest(".cart-item").remove();
       });
-      updateTotalPrice(); // 삭제 후 금액 및 수량 업데이트
+      updateTotalPrice();
     });
-  
-      // 수량 변경 버튼 클릭
-      $(document).on("change", ".item-quantity", function () {
-        const cartId = $(this).closest(".cart-item").data("cart-id");
-        const newQuantity = parseInt($(this).val());
-  
-        if (newQuantity <= 0) {
-          alert("수량은 1 이상이어야 합니다.");
-          return;
-        }
-  
-        // 장바구니 데이터를 localStorage에 저장
-        cartData = cartData.map(item => {
-          if (item.productId === cartId) {
-            item.quantity = newQuantity; // 수량 변경
-          }
-          return item;
-        });
-  
-        localStorage.setItem('cartItems', JSON.stringify(cartData)); // 업데이트된 데이터를 localStorage에 저장
-  
-        updateTotalPrice(); // 수량 업데이트 후 합산 금액 업데이트
-      });
-  
-      // 총 가격 및 총 수량 업데이트 함수
-      function updateTotalPrice() {
-        let totalPrice = 0;
-        let totalQuantity = 0;
-  
-        $(".cart-item").each(function () {
-          const quantity = parseInt($(this).find(".item-quantity").val());
-          const price = parseInt($(this).find(".item-price strong").text().replace(/\D/g, ""));
-  
-          if (!isNaN(quantity) && !isNaN(price)) {
-            totalPrice += quantity * price;
-            totalQuantity += quantity;
-          }
-        });
-  
-        $("#total-price").text(totalPrice.toLocaleString() + "원");
-        $("#total-final-price").text(totalPrice.toLocaleString() + "원");
-        $("#checkout-button span").text(`총 ${totalQuantity}개 / ${totalPrice.toLocaleString()}원 주문하기`);
+
+    $(document).on("change", ".item-quantity", function () {
+      const cartId = $(this).closest(".cart-item").data("cart-id");
+      const newQuantity = parseInt($(this).val());
+
+      if (newQuantity <= 0) {
+        alert("수량은 1 이상이어야 합니다.");
+        return;
       }
+
+      cartData = cartData.map(item => {
+        if (item.productId === cartId) {
+          item.quantity = newQuantity;
+        }
+        return item;
+      });
+
+      localStorage.setItem('cartItems', JSON.stringify(cartData));
+      updateTotalPrice();
     });
 
-    document.addEventListener("DOMContentLoaded", function () {
-      // 장바구니의 모든 데이터를 삭제
-      localStorage.removeItem('cartItems');
-      localStorage.removeItem('orderData'); // 필요하면 이 데이터도 삭제
-  });
+    function updateTotalPrice() {
+      let totalPrice = 0;
+      let totalQuantity = 0;
 
-  </script>  
+      $(".cart-item").each(function () {
+        const quantity = parseInt($(this).find(".item-quantity").val());
+        const price = parseInt($(this).find(".item-price strong").text().replace(/\D/g, ""));
+
+        if (!isNaN(quantity) && !isNaN(price)) {
+          totalPrice += quantity * price;
+          totalQuantity += quantity;
+        }
+      });
+
+      $("#total-price").text(totalPrice.toLocaleString() + "원");
+      $("#total-final-price").text(totalPrice.toLocaleString() + "원");
+      $("#checkout-button span").text(`총 ${totalQuantity}개 / ${totalPrice.toLocaleString()}원 주문하기`);
+    }
+  });
+</script>
 </th:block>
 </body>
 </html>

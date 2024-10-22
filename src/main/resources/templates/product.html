@@ -323,6 +323,7 @@
   <th:block layout:fragment="script">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
+      // Product page script
       document.addEventListener("DOMContentLoaded", function() {
         const tabs = document.querySelectorAll(".tab-section div");
         const contents = document.querySelectorAll(".tab-content");
@@ -331,12 +332,12 @@
         const totalPriceElement = document.getElementById("total-price");
         const priceElement = document.getElementById("price");
         const productPrice = parseInt(priceElement.innerText.replace(/\D/g, ""));
-        
+        const productId = window.location.pathname.split("/").pop();
+    
         tabs.forEach((tab) => {
           tab.addEventListener("click", () => {
             tabs.forEach(t => t.classList.remove("active"));
             tab.classList.add("active");
-            
             contents.forEach(c => c.classList.remove("active"));
             document.getElementById(tab.getAttribute("data-target")).classList.add("active");
           });
@@ -346,13 +347,12 @@
         const cartLinkBottom = document.getElementById("cart-link-bottom");
         const buyLink = document.getElementById("buy-link");
         const buyLinkBottom = document.getElementById("buy-link-bottom");
-        const productId = window.location.pathname.split("/").pop();
     
         function addToCart(event) {
           event.preventDefault();
           const quantity = parseInt(quantityInput.value);
           let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-          
+    
           const existingItemIndex = cartItems.findIndex(item => item.productId === productId);
           if (existingItemIndex !== -1) {
             cartItems[existingItemIndex].quantity += quantity;
@@ -364,9 +364,9 @@
               quantity: quantity
             });
           }
-          
+    
           localStorage.setItem('cartItems', JSON.stringify(cartItems));
-          alert("장바구니에 추가되었습니다.");
+          alert("장바구리에 추가되었습니다.");
           location.href = "/cart";
         }
     
@@ -377,10 +377,14 @@
           event.preventDefault();
           const quantity = parseInt(quantityInput.value);
           const orderData = {
-            productId: productId,
-            productName: document.querySelector(".product-title").innerText,
-            price: productPrice,
-            quantity: quantity
+            items: [{
+              productId: productId,
+              productName: document.querySelector(".product-title").innerText,
+              price: productPrice,
+              quantity: quantity
+            }],
+            totalPrice: productPrice * quantity,
+            totalQuantity: quantity
           };
           localStorage.setItem('orderData', JSON.stringify(orderData));
           location.href = "/order";
@@ -388,20 +392,20 @@
     
         buyLink.addEventListener("click", buyNow);
         buyLinkBottom.addEventListener("click", buyNow);
-
+    
         function updateTotalPrice() {
           const quantity = parseInt(quantityInput.value);
           const totalPrice = productPrice * quantity;
           totalPriceElement.innerText = `총 상품 금액 ${totalPrice.toLocaleString()}원`;
           priceElement.innerText = `${(productPrice * quantity).toLocaleString()}원`;
         }
-
+    
         quantityInput.addEventListener("change", function() {
           const quantity = parseInt(quantityInput.value);
           quantityInputBottom.value = quantity;
           updateTotalPrice();
         });
-
+    
         quantityInputBottom.addEventListener("change", function() {
           const quantity = parseInt(quantityInputBottom.value);
           quantityInput.value = quantity;
