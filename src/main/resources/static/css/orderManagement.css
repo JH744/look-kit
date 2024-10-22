@@ -168,13 +168,14 @@
     display: flex;
     flex-direction: column;
     place-self: center;
+    min-width: 250px;
 }
 .product-brand {
     font-size: 15px;
     font-weight: 500;
 }
 .product-name {
-    font-size: 17px;
+    font-size: 13px;
     font-weight: 700;
     margin-top: 5px;
 }
@@ -216,9 +217,9 @@
 }
 .confirm-button {
     background-color: #0d1134;
-    width: 135px;
+    width: 130px;
     color: #ffffff;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     padding: 10px 20px;
     cursor: pointer;
@@ -226,9 +227,9 @@
 }
 .review-button {
     background-color: #ffffff;
-    width: 94px;
+    width: 88px;
     border: 1px solid #d4c9c9;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     padding: 10px 20px;
     cursor: pointer;

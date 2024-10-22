@@ -20,7 +20,7 @@ public class OrderProductsDTO {
     private String productName;
     private String productPrice;
     private int quantity;
-    private String productDescription;
+    private String brandName;
     private String productThumbnail;
     private boolean isPurchaseConfirmed;
 }

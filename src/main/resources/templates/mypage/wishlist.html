@@ -22,8 +22,8 @@
       <div class="product-grid">
         <!-- Product Item 반복 출력 -->
         <div class="product-item" th:each="wish : ${wishlist}">
-          <img class="product-image" th:src="@{/images/wishlist/} + ${wish.productThumbnail}" th:alt="${wish.productName}">
-          <h3 class="product-brand" th:text="${wish.productDescription}">브랜드 이름</h3>
+          <img class="product-image" th:src="@{|/images/products/0${wish.productId}/${wish.productThumbnail}|}"/>
+          <h3 class="product-brand" th:text="${wish.brandName}">브랜드 이름</h3>
           <p class="product-name" th:text="${wish.productName}">상품 이름</p>
           <p class="product-price">
             <span class="price-detail" th:text="${#numbers.formatInteger(wish.productPrice, 0, 'COMMA')}">가격</span> 원
