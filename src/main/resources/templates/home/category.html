@@ -60,7 +60,6 @@
             flex-wrap: wrap;
             gap: 25px;
             margin:0 auto;
-            place-content: center;
         }
         .product-item {
             width: 24%;
@@ -77,6 +76,13 @@
             font-size: 18px;
             font-weight: 400;
             color: #767676;
+            width: 240px;
+            height: 40px;
+        }
+        .brand-name{
+            font-size: 18px;
+            font-weight: 400;
+            color: #00000;
             width: 240px;
             height: 40px;
         }
@@ -172,7 +178,7 @@
                         <img th:src="@{/images/icon/heart2.svg}" class="like-btn" alt="좋아요버튼" sec:authorize="isAuthenticated()"/>
                         <div class="product-info">
                             <a th:href="@{|/product/${product.productId}|}">
-<!--                            <div class="brand-name" th:text="${product.brandName}">브랜드</div>-->
+                            <div class="brand-name" th:text="${product.brandName}">브랜드</div>
                             <div class="product-name" th:text="${product.productName}">아우터</div>
                             </a>
                             <div class="product-price-box">
