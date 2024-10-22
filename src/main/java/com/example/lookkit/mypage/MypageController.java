@@ -28,8 +28,8 @@ public class MypageController {
         System.out.println("확인>>>>>");
         long userId = (long) session.getAttribute("userid");
         MypageDTO userInfo = mypageService.getUserInfo(userId);
-        System.out.println("아이디 확인 : " + userId);
-        model.addAttribute("userInfo", userInfo);
+        System.out.println("userInfo 확인 : " + userInfo);
+        model.addAttribute("username", userInfo.getUserName());
          //return "mypage/pw_check_popup_modal";
          return "mypage/pw_check_modal";
     }
@@ -43,6 +43,7 @@ public class MypageController {
 
         MypageDTO userInfo = mypageService.getUserInfo(userId);
         model.addAttribute("userInfo", userInfo);
+        model.addAttribute("username", userInfo.getUserName());
         return "mypage/userinfo"; // Thymeleaf 템플릿 이름
     }
 
