@@ -6,6 +6,8 @@
     <link rel="stylesheet" th:href="@{/css/userinfo.css}">
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
     <title>회원정보</title>
     <style>
         /* 기존 사이드바 스타일 유지 */
@@ -202,43 +204,11 @@
 </head>
 <body>
 <div class="profile-container">
-    <div class="welcome-header">
-        <span class="welcome-message" th:text="${userInfo.userName} + ' 님 환영합니다.'">USER 님 환영합니다.</span>
-        <div class="profile-options">
-            <a href="/mypage/enter-password">
-            <img class="icon-settings" src="/images/icon/setting.png" alt="설정 아이콘"/>
-            <span>개인정보 변경</span>
-            </a>
-        </div>
-    </div>
+    <th:block th:replace="~{common/fragments/userHeader :: userHeaderFragment}"></th:block>
 
     <!-- 사이드바 추가 -->
     <div class="side-and-main">
-        <div>
-            <aside class="sidebar">
-                <div>
-                    <p class="mypage-block">MY PAGE</p>
-                </div>
-                <div>
-                    <ul>
-                        <li><a href="#">주문 관리</a></li>
-                        <li><a href="#">반납 신청</a></li>
-                        <li><a href="#">1:1 문의하기</a></li>
-                        <ul>
-                            <li><a href="#">문의 현황</a></li>
-                            <li><a href="#">문의 관리</a></li>
-                        </ul>
-                        <li><a href="#">리뷰 관리</a></li>
-                        <ul>
-                            <li><a href="#">작성 가능한 리뷰</a></li>
-                            <li><a href="#">작성한 리뷰</a></li>
-                        </ul>
-                        <li><a href="#">찜한 상품</a></li>
-                    </ul>
-                </div>
-            </aside>
-        </div>
-
+        <th:block th:replace="~{common/fragments/sidebar :: sidebarFragment}"></th:block>
         <div class="second-grid">
             <form action="/mypage/update" method="post" th:object="${userInfo}" id="updateForm">
                 <div class="section-title">회원정보 관리</div>
