@@ -124,10 +124,12 @@
     }
     .product-item {
       display: flex;
-      /* gap: 80px; */
-      justify-content: space-between;
       align-items: center;
-      width: 90%;
+      justify-content: space-between;
+      padding: 20px;
+      border: 1px solid #e6e6e6;
+      border-radius: 5px;
+      width: 100%;
     }
     .item-thumbnail {
       width: 77px;
@@ -322,148 +324,128 @@
   </th:block>
   <th:block layout:fragment="script">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-<script>
-  $(document).ready(function () {
-      // localStorage에서 주문 데이터를 읽어오기
-      const orderData = JSON.parse(localStorage.getItem('orderData'));
-      const addressData = JSON.parse(localStorage.getItem('addressData'));
-
-      if (!orderData || !orderData.productId) {
-          alert("주문 정보가 없습니다.");
-          return;
-      }
-
-      // 배송지 정보가 있으면 화면에 반영
-      if (addressData) {
-          $("#buyer-address-name").val(addressData.addressName);
-          $("#buyer-recipient-name").val(addressData.recipientName);
-          $("#buyer-phone-number").val(addressData.phoneNumber);
-          $("#buyer-address").val(addressData.fullAddress);
-      }
-
-      let totalAmount = orderData.price * orderData.quantity;
-      let totalQuantity = orderData.quantity;
-
-      // 주문 데이터를 화면에 표시
-      $("#product-list").append(`
-          <div class="product-item">
-              <div class="item-thumbnail">
-                  <a href="/product/${orderData.productId}">
-                      <img src="/images/products/0${orderData.productId}/${orderData.productId}_thumbnail.webp" alt="상품 썸네일" />
-                  </a>
-              </div>
-              <div class="item-description">
-                  <div class="product-name">${orderData.productName || '상품명'}</div>
-                  <div class="product-variant">${orderData.quantity}개</div>
-              </div>
-              <div class="item-price">
-                  <strong>${(orderData.price).toLocaleString()}원</strong>
-              </div>
-          </div>
-      `);
-
-      // 최종 결제 금액 및 수량을 페이지에 표시
-      $(".summary-value").text(totalAmount.toLocaleString() + "원");
-      $("#pay-button").text(`총 ${totalQuantity}개 / ${totalAmount.toLocaleString()}원 결제하기`);
-
-      // 결제하기 버튼 클릭 이벤트
-      $("#pay-button").click(function () {
-          console.log("결제하기 버튼 클릭됨");
-
-          if (!addressData || !addressData.fullAddress) {
-              alert("배송지를 등록해주세요.");
+    <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script>
+      // Order page script
+      $(document).ready(function () {
+          const orderData = JSON.parse(localStorage.getItem('orderData'));
+          const addressData = JSON.parse(localStorage.getItem('addressData'));
+    
+          if (!orderData || orderData.items.length === 0) {
+              alert("주문 정보가 없습니다.");
               return;
           }
-
-          let orderName = orderData.productName;
-          let buyerName = $("#buyer-recipient-name").val();
-          let buyerTel = $("#buyer-phone-number").val();
-          let buyerAddr = $("#buyer-address").val();
-
-          if (!$("input[name='payment-method']:checked").val()) {
-              alert("결제 수단을 선택해주세요.");
-              return;
-          }
-
-          if (!$("input[name='agreement1']").is(":checked") ||
-              !$("input[name='agreement2']").is(":checked") ||
-              !$("input[name='agreement3']").is(":checked") ||
-              !$("input[name='final-agreement']").is(":checked")) {
-              alert("모든 필수 동의 항목에 체크해주세요.");
-              return;
-          }
-
-          IMP.init("imp41634154");
-
-          IMP.request_pay({
-              pg: 'kcp',
-              pay_method: 'card',
-              merchant_uid: 'merchant_' + new Date().getTime(),
-              name: orderName,
-              amount: totalAmount,
-              buyer_name: buyerName,
-              buyer_tel: buyerTel,
-              buyer_addr: buyerAddr
-          }, function (rsp) {
-              if (rsp.success) {
-                  alert("결제가 완료되었습니다.\n고유ID: " + rsp.imp_uid);
-
-                  $.ajax({
-                      url: "/order",
-                      type: "POST",
-                      contentType: "application/json",
-                      data: JSON.stringify({
-                          imp_uid: rsp.imp_uid,
-                          merchant_uid: rsp.merchant_uid,
-                          paid_amount: rsp.paid_amount,
-                          buyer_name: rsp.buyer_name,
-                          buyer_tel: rsp.buyer_tel,
-                          buyer_addr: rsp.buyer_addr,
-                          product: orderData
-                      }),
-                      success: function () {
-                          location.href = "/order/success";
-                      },
-                      error: function () {
-                          alert("결제 정보 전송 중 오류가 발생했습니다.");
-                      }
-                  });
-              } else {
-                  alert("결제에 실패하였습니다. 실패사유: " + rsp.error_msg);
-              }
-          });
-      });
-  });
-
-  document.addEventListener("DOMContentLoaded", function () {
-      // 주문 UI에 항목 추가
-      const addressData = JSON.parse(localStorage.getItem('addressData'));
-      if (addressData) {
-          $("#buyer-address-name").val(addressData.addressName);
-          $("#buyer-recipient-name").val(addressData.recipientName);
-          $("#buyer-phone-number").val(addressData.phoneNumber);
-          $("#buyer-address").val(addressData.fullAddress);
-      }
-  });
-
-  function openAddressRegistration() {
-      window.open('/order/addAddress', '주소 등록', 'width=500,height=700');
-
-      // 주소 등록 완료 후 데이터를 로컬 스토리지에 저장
-      window.addEventListener("message", function(event) {
-          if (event.data.type === "address") {
-              const addressData = event.data.address;
-              localStorage.setItem("addressData", JSON.stringify(addressData));
-              // 주문 페이지에 주소 데이터 반영
+    
+          if (addressData) {
               $("#buyer-address-name").val(addressData.addressName);
               $("#buyer-recipient-name").val(addressData.recipientName);
               $("#buyer-phone-number").val(addressData.phoneNumber);
               $("#buyer-address").val(addressData.fullAddress);
           }
-      }, false);
-  }
-</script>
+    
+          let totalAmount = orderData.totalPrice;
+          let totalQuantity = orderData.totalQuantity;
+    
+          orderData.items.forEach(item => {
+              $("#product-list").append(`
+                  <div class="product-item">
+                      <div class="item-thumbnail">
+                          <a href="/product/${item.productId}">
+                              <img src="/images/products/0${item.productId}/${item.productId}_thumbnail.webp" alt="상품 써니얼" />
+                          </a>
+                      </div>
+                      <div class="item-description">
+                          <div class="product-name">${item.productName || '상품명'}</div>
+                          <div class="product-variant">${item.quantity}개</div>
+                      </div>
+                      <div class="item-price">
+                          <strong>${(item.price).toLocaleString()}원</strong>
+                      </div>
+                  </div>
+              `);
+          });
+    
+          $(".summary-value").text(totalAmount.toLocaleString() + "원");
+          $("#pay-button").text(`총 ${totalQuantity}개 / ${totalAmount.toLocaleString()}원 결제하기`);
+    
+          $("#pay-button").click(function () {
+              console.log("결제하기 버튼 클릭됨");
+    
+              let orderName = orderData.items[0].productName;
+              let buyerName = $("#buyer-recipient-name").val();
+              let buyerTel = $("#buyer-phone-number").val();
+              let buyerAddr = $("#buyer-address").val();
+    
+              if (!$("input[name='payment-method']:checked").val()) {
+                  alert("결제 수단을 선택해주세요.");
+                  return;
+              }
+    
+              if (!$("input[name='agreement1']").is(":checked") ||
+                  !$("input[name='agreement2']").is(":checked") ||
+                  !$("input[name='agreement3']").is(":checked") ||
+                  !$("input[name='final-agreement']").is(":checked")) {
+                  alert("모든 필수 동의 항목에 체크해주세요.");
+                  return;
+              }
+    
+              IMP.init("imp41634154");
+    
+              IMP.request_pay({
+                  pg: 'kcp',
+                  pay_method: 'card',
+                  merchant_uid: 'merchant_' + new Date().getTime(),
+                  name: orderName,
+                  amount: totalAmount,
+                  buyer_name: buyerName,
+                  buyer_tel: buyerTel,
+                  buyer_addr: buyerAddr
+              }, function (rsp) {
+                  if (rsp.success) {
+                      alert("결제가 완료되었습니다.\n고유ID: " + rsp.imp_uid);
+    
+                      $.ajax({
+                          url: "/order",
+                          type: "POST",
+                          contentType: "application/json",
+                          data: JSON.stringify({
+                              imp_uid: rsp.imp_uid,
+                              merchant_uid: rsp.merchant_uid,
+                              paid_amount: rsp.paid_amount,
+                              buyer_name: rsp.buyer_name,
+                              buyer_tel: rsp.buyer_tel,
+                              buyer_addr: rsp.buyer_addr,
+                              products: orderData.items
+                          }),
+                          success: function () {
+                              location.href = "/orderComplete";
+                          },
+                          error: function () {
+                              alert("결제 정보 전송 중 오류가 발생했습니다.");
+                          }
+                      });
+                  } else {
+                      alert("결제에 실패했습니다. 실패사용: " + rsp.error_msg);
+                  }
+              });
+          });
+      });
+    
+      function openAddressRegistration() {
+          window.open('/order/addAddress', '주소 등록', 'width=500,height=700');
+    
+          window.addEventListener("message", function(event) {
+              if (event.data.type === "address") {
+                  const addressData = event.data.address;
+                  localStorage.setItem("addressData", JSON.stringify(addressData));
+                  $("#buyer-address-name").val(addressData.addressName);
+                  $("#buyer-recipient-name").val(addressData.recipientName);
+                  $("#buyer-phone-number").val(addressData.phoneNumber);
+                  $("#buyer-address").val(addressData.fullAddress);
+              }
+          }, false);
+      }
+    </script>    
   </th:block>
 </body>
 </html>
