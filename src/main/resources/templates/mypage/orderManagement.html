@@ -111,9 +111,9 @@
             </div>
           </div>
           <div class="shipment-product">
-            <img class="product-image" th:src="@{'/images/product/' + ${product.productThumbnail}}" alt="제품 이미지" />
+            <img class="product-image" th:src="@{|/images/products/0${product.productId}/${product.productThumbnail}|}"/>
             <div class="product-details">
-              <div class="product-brand" th:text="${product.productDescription}">브랜드</div>
+              <div class="product-brand" th:text="${product.brandName}">브랜드</div>
               <div class="product-name" th:text="${product.productName}">상품명</div>
               <div class="product-price"> <span th:text="${product.productPrice} + '원 / '">가격</span>
                 <span th:text="'수량: ' + ${product.quantity}"></span>
