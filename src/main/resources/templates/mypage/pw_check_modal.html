@@ -5,82 +5,9 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>비밀번호 확인</title>
     <link rel="stylesheet" th:href="@{/css/userinfo.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
     <style>
-        /* 기존 사이드바 스타일 유지 */
-        .sidebar {
-            width: 170px;
-            height: 100%;
-        }
-
-        .sidebar h3 {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            margin-bottom: 15px;
-        }
-
-        .sidebar ul li a {
-            text-decoration: none;
-            color: #333;
-            font-size: 16px;
-        }
-
-        /* nav 스타일 */
-        .welcome-header {
-           padding: 20px;
-           background-color: #ffffff;
-           display: flex;
-           justify-content: space-between;
-           align-items: center;
-           border: 1px solid #555353;
-           color: #555353;
-           height: 91.74px; /* 높이 추가 */
-           box-sizing: border-box; /* 패딩 포함 */
-        }
-
-        .welcome-message {
-            font-size: 23px;
-            color: #555;
-        }
-
-        .profile-options {
-            display: inline-grid;
-            justify-items: center;
-            align-items: center;
-            gap: 3px;
-        }
-
-        .profile-options:hover {
-             color: #000;
-        }
-
-        .icon-settings {
-            width: 25px;
-            height: 25px;
-        }
-
-        .side-and-main {
-            display: inline-flex;
-            height: 1000px;
-        }
-
-        .mypage-block {
-            text-align: center;
-            background-color: #f0f0f0;
-            height: 160px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 25px;
-        }
-
         .error {
             color: red;
         }
@@ -89,11 +16,6 @@
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        .btn-email-check, .btn-postcode-search, .btn-password-change, .btn-cancel, .btn-save {
-            padding: 5px 10px;
-            cursor: pointer;
         }
 
         .button-group {
@@ -133,10 +55,10 @@
 
         .modal-subtitle, .modal-subtitle2 {
             display: block;
-            font-size: 18px;
-            margin-bottom: 15px;
+            font-size: 21px;
+            margin: 15px 0px;
             text-align: center;
-            color: #555;
+            color: #8b8a8a;
             font-weight: bold;
 
         }
@@ -194,10 +116,10 @@
         }
 
         .password-check-form {
-            max-width: 450px;
             margin: 0 auto;
-<!--            display:flex;-->
-<!--            justyfy-content:center;-->
+            display: grid;
+            justify-content: center;
+            justify-items: center;
         }
 
         .password-check-form label {
@@ -211,86 +133,35 @@
             padding: 10px;
             margin-top: 20px;
             margin-bottom: 20px;
-            margin-left: 70px; /* 원하는 픽셀 값으로 조정 */
             border: 1px solid #ccc;
             border-radius: 5px;
         }
 
         .password-check-form button {
-            width: 50%;
+            width: 180px;
             padding: 12px;
             background-color: #0d1134;
             color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
+            border-radius: 30px;
+            font-size: 15px;
             cursor: pointer;
-            margin: 0 auto; /* 좌우 마진을 자동으로 설정하여 가운데 정렬 */
-            display: block; /* 요소를 블록으로 변경하여 마진 적용 */
+            margin: 0 auto;
+            display: block;
         }
 
         .password-check-form button:hover {
             background-color: #1a1b5d;
         }
-
-        /* .profile-options 내 <a> 태그 스타일 조정 */
-        .profile-options a {
-           display: inline-grid; /* 그리드 레이아웃 사용 */
-           justify-items: center; /* 수평 중앙 정렬 */
-           align-items: center; /* 수직 중앙 정렬 */
-           gap: 3px; /* 아이콘과 텍스트 간 간격 */
-           text-decoration: none; /* 링크의 기본 밑줄 제거 */
-           color: inherit; /* 부모 요소의 색상 상속 */
-           width: 100%; /* 전체 너비 사용 */
-           height: 100%; /* 전체 높이 사용 */
-        }
-
-        /* 아이콘과 텍스트를 중앙에 배치 */
-        .profile-options a img.icon-settings {
-           margin: 0; /* 기본 마진 제거 */
-        }
-
     </style>
 </head>
 <body>
+<th:block th:replace="~{common/fragments/header :: headerFragment}"></th:block>
 <div class="profile-container">
-    <div class="welcome-header">
-        <span class="welcome-message" th:text="${userInfo.userName} + ' 님 환영합니다.'">USER 님 환영합니다.</span>
-        <div class="profile-options">
-            <a href="/mypage/enter-password">
-                <img alt="설정 아이콘" class="icon-settings" src="/images/icon/setting.png"/>
-                <span>개인정보 변경</span>
-            </a>
-        </div>
-    </div>
-
-    <!-- 사이드바 추가 -->
+    <th:block th:replace="~{common/fragments/userHeader :: userHeaderFragment}"></th:block>
     <div class="side-and-main">
-        <div>
-            <aside class="sidebar">
-                <div>
-                    <p class="mypage-block">MY PAGE</p>
-                </div>
-                <div>
-                    <ul>
-                        <li><a href="#">주문 관리</a></li>
-                        <li><a href="#">반납 신청</a></li>
-                        <li><a href="#">1:1 문의하기</a></li>
-                        <ul>
-                            <li><a href="#">문의 현황</a></li>
-                            <li><a href="#">문의 관리</a></li>
-                        </ul>
-                        <li><a href="#">리뷰 관리</a></li>
-                        <ul>
-                            <li><a href="#">작성 가능한 리뷰</a></li>
-                            <li><a href="#">작성한 리뷰</a></li>
-                        </ul>
-                        <li><a href="#">찜한 상품</a></li>
-                    </ul>
-                </div>
-            </aside>
-        </div>
-
+    <!-- 사이드바 추가 -->
+        <th:block th:replace="~{common/fragments/sidebar :: sidebarFragment}"></th:block>
         <div class="second-grid">
             <div class="section-title">비밀번호 확인</div>
             <form class="password-check-form" id="password-check-form"
@@ -305,7 +176,6 @@
         </div>
     </div>
 </div>
-
 <script>
     function verifyPassword() {
         console.log('verifyPassword 함수가 호출되었습니다.'); // 디버깅을 위한 로그

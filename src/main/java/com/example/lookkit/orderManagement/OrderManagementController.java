@@ -29,9 +29,6 @@ public class OrderManagementController {
     public ModelAndView getMyOrder(HttpSession session) {
         long userId = (long) session.getAttribute("userid");
         List<OrderProductsDTO> list =  service.getProductsByOrder(userId);
-        for (OrderProductsDTO op : list) {
-            System.out.println(">>>>>>>>>>>>>>>>>>>>" + op);
-        }
         Map<String, Long> statusCounts = service.getOrderStatusCounts(userId);
 
         ModelAndView mv = new ModelAndView("/mypage/orderManagement");
