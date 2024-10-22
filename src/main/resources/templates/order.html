@@ -124,10 +124,12 @@
     }
     .product-item {
       display: flex;
-      /* gap: 80px; */
-      justify-content: space-between;
       align-items: center;
-      width: 90%;
+      justify-content: space-between;
+      padding: 20px;
+      border: 1px solid #e6e6e6;
+      border-radius: 5px;
+      width: 100%;
     }
     .item-thumbnail {
       width: 77px;
@@ -371,10 +373,6 @@
       $("#pay-button").click(function () {
           console.log("결제하기 버튼 클릭됨");
 
-          if (!addressData || !addressData.fullAddress) {
-              alert("배송지를 등록해주세요.");
-              return;
-          }
 
           let orderName = orderData.productName;
           let buyerName = $("#buyer-recipient-name").val();
@@ -423,7 +421,7 @@
                           product: orderData
                       }),
                       success: function () {
-                          location.href = "/order/success";
+                          location.href = "/orderComplete";
                       },
                       error: function () {
                           alert("결제 정보 전송 중 오류가 발생했습니다.");
