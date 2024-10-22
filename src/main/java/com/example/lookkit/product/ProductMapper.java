@@ -32,3 +32,5 @@ public interface ProductMapper {
             "LIKE CONCAT('%', #{keyword}, '%')")
     List<ProductVO> searchProductsByKeyword(String keyword);
 }
+
+
