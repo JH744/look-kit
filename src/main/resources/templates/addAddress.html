@@ -358,42 +358,50 @@
           <button type="button" id="registerAddress">등록하기</button>
         </div>
       </div>      
-  <script>
-    $(document).ready(function () {
-      // 우편번호 찾기 버튼 클릭 시 다음 주소찾기 API 사용
-      $("#addressSearch").click(function () {
-        new daum.Postcode({
-          oncomplete: function (data) {
-            let addr = ""; // 주소 변수
-
-            if (data.userSelectedType === "R") {
-              addr = data.roadAddress; // 도로명 주소
-            } else {
-              addr = data.jibunAddress; // 지번 주소
-            }
-
-            $("#user_address").val(addr);
-            $("#user_detail_address").focus();
-          },
-        }).open();
-      });
-
-      // 등록하기 버튼 클릭 시 order.html에 정보 반영
-      $("#registerAddress").click(function () {
-        // 기본주소와 상세주소 합치기
-        let addr1 = $("#user_address").val();
-        let addr2 = $("#user_detail_address").val();
-        let totalAddress = addr1 + " " + addr2;
-
-        // 부모 창의 order.html 페이지로 데이터 전달
-        window.opener.document.querySelector(".address-title .address-label").innerText = $("#address_name").val();
-        window.opener.document.querySelector(".recipient-details .recipient-name").innerText = $("#recipient_name").val() + " / " + $("#phone_number").val();
-        window.opener.document.querySelector(".address-text span").innerText = totalAddress;
-
-        // 창 닫기
-        window.close();
-      });
-    });
-  </script>
+      <script>
+        $(document).ready(function () {
+            // 우편번호 찾기 버튼 클릭 시 다음 주소찾기 API 사용
+            $("#addressSearch").click(function () {
+                new daum.Postcode({
+                    oncomplete: function (data) {
+                        let addr = ""; // 주소 변수
+    
+                        if (data.userSelectedType === "R") {
+                            addr = data.roadAddress; // 도로명 주소
+                        } else {
+                            addr = data.jibunAddress; // 지번 주소
+                        }
+    
+                        $("#user_address").val(addr);
+                        $("#user_detail_address").focus();
+                    },
+                }).open();
+            });
+    
+            // 등록하기 버튼 클릭 시 order.html에 정보 반영
+            $("#registerAddress").click(function () {
+                // 기본주소와 상세주소 합치기
+                let addressName = $("input[placeholder='배송지명 입력']").val();
+                let recipientName = $("input[placeholder='받는 사람 입력']").val();
+                let phoneNumber = $("input[placeholder='휴대폰 번호 입력']").val();
+                let addr1 = $("#user_address").val();
+                let addr2 = $("#user_detail_address").val();
+                let totalAddress = addr1 + " " + addr2;
+    
+                // 부모 창의 order.html 페이지로 데이터 전달
+                window.opener.document.querySelector(".address-link .link-text").innerText = "배송지 등록됨";
+    
+                // order.html 페이지의 적절한 필드 업데이트
+                window.opener.document.querySelector("#buyer-address-name").value = addressName;
+                window.opener.document.querySelector("#buyer-recipient-name").value = recipientName;
+                window.opener.document.querySelector("#buyer-phone-number").value = phoneNumber;
+                window.opener.document.querySelector("#buyer-address").value = totalAddress;
+    
+                // 창 닫기
+                window.close();
+            });
+        });
+    </script>
+    
 </body>
 </html>

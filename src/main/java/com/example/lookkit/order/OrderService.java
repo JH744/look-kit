@@ -7,7 +7,6 @@ import com.example.lookkit.product.ProductMapper;
 import com.example.lookkit.cart.CartService;
 import com.example.lookkit.cart.CartVO;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -17,7 +16,6 @@ public class OrderService {
     private final ProductMapper productMapper;
     private final CartService cartService;
 
-    @Autowired
     public OrderService(OrderMapper orderMapper, ProductMapper productMapper, CartService cartService) {
         this.orderMapper = orderMapper;
         this.productMapper = productMapper;

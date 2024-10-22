@@ -9,7 +9,6 @@ import com.example.lookkit.cart.CartVO;
 import com.example.lookkit.review.ReviewService;
 import com.example.lookkit.review.ReviewVO;
 import com.example.lookkit.order.OrderDetailDTO;
-import com.example.lookkit.order.OrderDetailVO;
 import com.example.lookkit.order.OrderService;
 import com.example.lookkit.order.OrderVO;
 
