@@ -17,6 +17,7 @@ public interface ProductMapper {
     @Update("UPDATE products SET product_stock = product_stock - #{quantity} WHERE product_id = #{productId} AND product_stock >= #{quantity}")
     int updateProductStock(int productId, int quantity);
 
+
     @Select("SELECT p.* " +
             "FROM products p " +
             "JOIN categories c ON p.category_id = c.category_id " +
@@ -31,3 +32,5 @@ public interface ProductMapper {
             "LIKE CONCAT('%', #{keyword}, '%')")
     List<ProductVO> searchProductsByKeyword(String keyword);
 }
+
+

@@ -8,14 +8,11 @@ import com.example.lookkit.cart.CartService;
 import com.example.lookkit.cart.CartVO;
 import com.example.lookkit.review.ReviewService;
 import com.example.lookkit.review.ReviewVO;
-import com.example.lookkit.order.OrderDetailVO;
+import com.example.lookkit.order.OrderDetailDTO;
 import com.example.lookkit.order.OrderService;
 import com.example.lookkit.order.OrderVO;
 
 import java.util.Collections;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
 import java.util.List;
 
 @Controller
@@ -85,28 +82,22 @@ public class ProductController {
     try {
         if (productService.isStockAvailable(productId, quantity)) {
             ProductVO product = productService.getProductById(productId);
-            if (product == null) {
-                return "Product not found.";
-            }
-
-            OrderVO orderVO = new OrderVO();
-            orderVO.setUserId(userId);
-            orderVO.setTotalAmount(product.getProductPrice() * quantity);
-            orderVO.setOrderStatus("pending");
-            orderVO.setOrderAddressee("홍길동"); // 예시 값, 실제로는 사용자 정보 사용
-            orderVO.setOrderAddress("서울특별시"); // 예시 값, 실제로는 사용자 정보 사용
-            orderVO.setOrderPhone("010-1234-5678"); // 예시 값, 실제로는 사용자 정보 사용
-
-            OrderDetailVO orderDetail = OrderDetailVO.builder()
+            OrderDetailDTO orderDetailDTO = OrderDetailDTO.builder()
                     .productId(productId)
-                    .userId(userId)
-                    .quantity(quantity)
-                    .productPrice(product.getProductPrice())
                     .productName(product.getProductName())
+                    .productPrice(product.getProductPrice())
                     .productThumbnail(product.getProductThumbnail())
+                    .quantity(quantity)
                     .build();
 
-            orderService.createOrder(orderVO, Collections.singletonList(orderDetail));
+            OrderVO orderVO = OrderVO.builder()
+                    .userId(userId)
+                    .orderAddressee("홍길동") // 예시 값, 실제로는 사용자 정보 사용
+                    .orderAddress("서울특별시") // 예시 값, 실제로는 사용자 정보 사용
+                    .orderPhone("010-1234-5678") // 예시 값, 실제로는 사용자 정보 사용
+                    .build();
+
+            orderService.createOrder(orderVO, Collections.singletonList(orderDetailDTO));
             return "Order placed successfully.";
         } else {
             return "Not enough stock available.";
@@ -115,5 +106,6 @@ public class ProductController {
         return "Error placing order.";
     }
 }
+
 
 }
