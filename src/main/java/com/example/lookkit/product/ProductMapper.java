@@ -18,8 +18,6 @@ public interface ProductMapper {
     int updateProductStock(int productId, int quantity);
 
 
-
-
     @Select("SELECT p.* " +
             "FROM products p " +
             "JOIN categories c ON p.category_id = c.category_id " +

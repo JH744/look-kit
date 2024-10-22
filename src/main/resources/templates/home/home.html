@@ -70,13 +70,15 @@
             <div class="codi-main-container">
                 <!--코디&상품 반복 시작-->
                 <div th:each="codi:${coordiList}" class="codi-block">
-                    <img class="codi-sumnail" th:src="@{'./images/coordi/0' + ${codi.codiId} + '/' + ${codi.codiId} + '_thumbnail.webp'}" alt="코디 썸네일"/>
+                    <img class="codi-sumnail" th:src="@{'/images/coordi/0' + ${codi.codiId} + '/' + ${codi.codiId} + '_thumbnail.webp'}" alt="코디 썸네일"/>
                     <div class="codi-product"  th:each="product : ${codi.products}">
-                        <img class="codi-product-img" th:src="@{'./images/products/0' + ${product.productId} + '/'+ ${product.productThumbnail}}" alt="코디 썸네일"/>
-                        <div class="codi-text">
-                            <p th:text="${product.productName}">DIEMME</p>
-                            <p th:text="${product.productPrice}">FOUND TIE FRONT PANT (BLACK)</p>
-                        </div>
+                        <img class="codi-product-img" th:src="@{'/images/products/0' + ${product.productId} + '/'+ ${product.productThumbnail}}" alt="코디 썸네일"/>
+                        <a th:href="@{|/product/${product.productId}|}">
+                            <div class="codi-text">
+                               <p th:text="${product.productName}">DIEMME</p>
+                                <p th:text="${product.productPrice}">FOUND TIE FRONT PANT (BLACK)</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
                 <!--반복 끝-->
