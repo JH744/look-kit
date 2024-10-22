@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/userinfo.css}">
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
     <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/inquiryForm.css}"/>
     <title>회원정보</title>
     <style>
         /* 기존 사이드바 스타일 유지 */
@@ -203,7 +203,9 @@
     </style>
 </head>
 <body>
-<div class="profile-container">
+<th:block th:replace="~{common/fragments/header :: headerFragment}"></th:block>
+
+<div class="outer-container">
     <th:block th:replace="~{common/fragments/userHeader :: userHeaderFragment}"></th:block>
 
     <!-- 사이드바 추가 -->
@@ -222,7 +224,7 @@
                         <label for="password">비밀번호</label>
                         <div class="inline">
                             <input id="password" type="password" value="qwe123r" >
-                            <button type="button" class="btn-password-change" onclick="showPwChangeModal()">변경하기</button>
+                            <button type="button" class="btn-password-change" >변경하기</button>
                         </div>
                     </div>
 
@@ -310,8 +312,8 @@
         </div>
 
         <div class="modal-footer">
-            <button onclick="changePassword()">비밀번호 변경하기</button>
-            <button onclick="closePwChangeModal()">취소</button>
+            <button id="updatePwBtn">비밀번호 변경하기</button>
+            <button id="cancleBtn">취소</button>
         </div>
     </div>
 </div>
@@ -409,19 +411,11 @@
         });
 
 
+    $(".btn-password-change").click(()=>{
+        document.getElementById('pw-change-modal-container').style.display = 'flex';
 
-        // 비밀번호 변경 모달 표시
-        function showPwChangeModal() {
-            document.getElementById('pw-change-modal-container').style.display = 'flex';
-        }
-
-        // 비밀번호 변경 모달 닫기
-        function closePwChangeModal() {
-            document.getElementById('pw-change-modal-container').style.display = 'none';
-        }
-
-        // 비밀번호 변경 처리
-        function changePassword() {
+    })
+        $("#updatePwBtn").click(()=>{
             const currentPassword = document.getElementById('current-password-change').value;
             const newPassword = document.getElementById('new-password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
@@ -459,7 +453,25 @@
                 console.error('Error:', error);
                 alert('비밀번호 변경 중 오류가 발생했습니다.');
             });
-        }
+
+    })
+        $("#cancleBtn").click(()=>{
+            document.getElementById('pw-change-modal-container').style.display = 'none';
+    })
+//        // 비밀번호 변경 모달 표시
+//        function showPwChangeModal() {
+//            document.getElementById('pw-change-modal-container').style.display = 'flex';
+//        }
+//
+//        // 비밀번호 변경 모달 닫기
+//        function closePwChangeModal() {
+//            document.getElementById('pw-change-modal-container').style.display = 'none';
+//        }
+//
+//        // 비밀번호 변경 처리
+//        function changePassword() {
+//
+//        }
 
             /**폼제출 버튼 이벤트*/
             $("#updateBtn").click((e) => {
