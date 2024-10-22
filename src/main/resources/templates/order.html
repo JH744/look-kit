@@ -146,6 +146,14 @@
       flex-direction: column;
       gap: 5px;
     }
+    .brand-name2 {
+      color: #212529;
+      font-size: 11px;
+    }
+    .product-name {
+   font-size: 14px;
+   color: #767676;
+ }
     .item-price {
       font-weight: 700;
       font-size: 18px;
@@ -347,7 +355,9 @@
           let totalQuantity = orderData.totalQuantity;
     
           orderData.items.forEach(item => {
-              $("#product-list").append(`
+            $("#product-list").append(`
+          
+                    
                   <div class="product-item">
                       <div class="item-thumbnail">
                           <a href="/product/${item.productId}">
@@ -355,8 +365,9 @@
                           </a>
                       </div>
                       <div class="item-description">
-                          <div class="product-name">${item.productName || '상품명'}</div>
-                          <div class="product-variant">${item.quantity}개</div>
+                        <div class="brand-name2">${item.brandName}</div>
+                        <div class="product-name">${item.productName}</div>
+                        <div class="product-variant">${item.quantity}개</div>
                       </div>
                       <div class="item-price">
                           <strong>${(item.price).toLocaleString()}원</strong>
