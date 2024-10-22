@@ -29,12 +29,9 @@ public class OrderManagementController {
     public ModelAndView getMyOrder(HttpSession session) {
         long userId = (long) session.getAttribute("userid");
         List<OrderProductsDTO> list =  service.getProductsByOrder(userId);
-        for (OrderProductsDTO op : list) {
-            System.out.println(">>>>>>>>>>>>>>>>>>>>" + op);
-        }
         Map<String, Long> statusCounts = service.getOrderStatusCounts(userId);
 
-        ModelAndView mv = new ModelAndView("mypage/orderManagement");
+        ModelAndView mv = new ModelAndView("/mypage/orderManagement");
         mv.addObject("username", userService.searchUserName(userId));
         mv.addObject("products", list);
         mv.addObject("countPending", statusCounts.getOrDefault("pending", 0L));
