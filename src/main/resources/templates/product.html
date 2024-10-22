@@ -93,7 +93,7 @@
     .buttons {
       display: flex;
       gap: 20px;
-      margin-top: 30px;
+
     }
     .btn {
       padding: 15px;
@@ -238,11 +238,11 @@
   <th:block layout:fragment="content">
   <div class="container">
     <div class="image-section">
-      <img th:src="@{/images/product/look1/look1.jpg}" alt="상품 이미지">
+      <img th:src="@{|/images/products/0${product.productId}/${product.productId}_detail_1.webp|}" alt="상품썸네일" />
     </div>
     <div class="details-section">
       <div>
-        <div class="brand" th:text="${product.productName}"></div>
+        <div class="brand" th:text="${product.brandName}"></div>
         <div class="product-title" th:text="${product.productName}"></div>
         <div class="price-section">
           <span class="price" id="price" th:text="${product.productPrice} + '원'"></span>
@@ -269,8 +269,10 @@
     </div>
     <div class="container">
       <div class="tab-content active" id="details">
-        <img th:src="@{/images/product/look1/detail1.jpg}" alt="상품 디테일">
-        <img th:src="@{/images/product/look1/info.jpg}" alt="상품 정보">
+        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_detail_1.webp'}" alt="상품사진1" />
+        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_detail_2.webp'}" alt="상품사진2" />
+        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_detail_3.webp'}" alt="상품사진3" />
+        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_detail_4.webp'}" alt="상품사진4" />
       </div>
       <div class="tab-content" id="reviews">
         <div class="review-filters">
@@ -304,7 +306,7 @@
   </div>
   <div class="bottom-fixed-bar">
     <div class="product-info">
-      <img th:src="@{/images/product/look1/productThumbnail.jpg}" alt="상품 이미지">
+      <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_thumbnail.webp'}" alt="상품 이미지">
       <div class="product-description" th:text="${product.productName}">[단독~10.6][10/10예약발송]SITP5162 루즈핏 포멀 ST 셔츠_Light blue ST</div>
     </div>
     <div class="quantity-section">
@@ -349,24 +351,24 @@
         function addToCart(event) {
           event.preventDefault();
           const quantity = parseInt(quantityInput.value);
-          const productData = {
+          let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+          
+          const existingItemIndex = cartItems.findIndex(item => item.productId === productId);
+          if (existingItemIndex !== -1) {
+            cartItems[existingItemIndex].quantity += quantity;
+          } else {
+            cartItems.push({
               productId: productId,
+              productName: document.querySelector(".product-title").innerText,
+              price: productPrice,
               quantity: quantity
-          };
-      
-          $.ajax({
-              url: "/product/addToCart",
-              type: "POST",
-              data: productData, // 데이터를 직렬화하지 않고 객체로 전달
-              success: function (response) {
-                  alert(response); // 성공 메시지 알림
-                  location.href = "/cart"; // 장바구니 페이지로 이동
-              },
-              error: function () {
-                  alert("장바구니 추가 중 오류가 발생했습니다.");
-              }
-          });
-      }
+            });
+          }
+          
+          localStorage.setItem('cartItems', JSON.stringify(cartItems));
+          alert("장바구니에 추가되었습니다.");
+          location.href = "/cart";
+        }
     
         cartLink.addEventListener("click", addToCart);
         cartLinkBottom.addEventListener("click", addToCart);
@@ -374,28 +376,19 @@
         function buyNow(event) {
           event.preventDefault();
           const quantity = parseInt(quantityInput.value);
-      
-          $.ajax({
-              url: "/product/buyNow",
-              type: "POST",
-              data: {
-                  productId: productId,
-                  quantity: quantity
-              },
-              success: function (response) {
-                  alert(response); // 성공 메시지 알림
-                  location.href = "/order"; // 주문 페이지로 이동
-              },
-              error: function () {
-                  alert("구매 중 오류가 발생했습니다.");
-              }
-          });
-      }
+          const orderData = {
+            productId: productId,
+            productName: document.querySelector(".product-title").innerText,
+            price: productPrice,
+            quantity: quantity
+          };
+          localStorage.setItem('orderData', JSON.stringify(orderData));
+          location.href = "/order";
+        }
     
         buyLink.addEventListener("click", buyNow);
         buyLinkBottom.addEventListener("click", buyNow);
 
-        // 수량 변경 시 총 상품 금액 업데이트
         function updateTotalPrice() {
           const quantity = parseInt(quantityInput.value);
           const totalPrice = productPrice * quantity;
