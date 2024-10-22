@@ -29,8 +29,6 @@
           font-size: calc(28px * 1.2);
           line-height: var(--line-height-322, 32.2px);
           font-weight: var(--opacity-100, 400);
-          position: absolute;
-          left: calc(50% - 68.5px);
           top: 0px;
           display: flex;
           align-items: center;
@@ -64,6 +62,7 @@
           background: rgba(255, 255, 255, 0);
           padding: calc(15px * 1.2) 45.96px 15px 45.95px;
           width: 380px;
+            margin-top:50px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -205,19 +204,26 @@
           font-size: 16px;
           margin-bottom: 30px;
         }
+
+        .notice-label{
+            display:none;
+        }
     </style>
     <script>
         $(document).ready(() => {
           $("#findIdBtn").click(() => {
 //            location.href = "/auth/findIdOK";
+              console.log("sss")
               $("#findIdForm").submit();
+
+//              $(".notice-label").css({"color","#FF294F"},{"display","inline"});
           });
         });
     </script>
 </head>
 <body>
 <div class="findIdContainer">
-    <div class="findIdTitle">Look kit</div>
+    <div class="findIdTitle"><img src="/images/Logo2.png" width="300px"></div>
     <div class="findIdBackground">
         <div class="tabContainer">
             <div class="tabActive">
@@ -230,6 +236,7 @@
             <div class="formLabel">이메일</div>
             <input class="formInput" placeholder="이메일을 입력해 주세요" name="email"/>
             <div id="findIdBtn" class="buttonContainer">확인</div>
+<!--            <span class="notice-label">* 일치하는 아이디가 없습니다.</span>-->
         </form>
     </div>
 </div>

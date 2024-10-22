@@ -31,8 +31,6 @@ body {
   border: 1px solid #ddd;
   padding: 18px;
   border-radius: 10px;
-  height: fit-content;
-
 }
 
 .product-image {
@@ -50,8 +48,8 @@ body {
 }
 
 .product-name {
-  font-size: 16px;
-  color: #666;
+  font-size: 14px;
+  color: #454545;
   margin-top: 3px;
   margin-bottom: 3px;
 }

@@ -14,13 +14,13 @@
             <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active" data-bs-interval="2000">
-                        <img src="./images/products/carousel-item1.jpg" class="d-block w-100 " alt="...">
+                        <img src="./images/products/main_sumnail1.png" class="d-block w-100 " alt="...">
                     </div>
                     <div class="carousel-item" data-bs-interval="2000">
-                        <img src="./images/products/pc.jpg" class="d-block w-100 " alt="...">
+                        <img src="./images/products/main_sumnail2.png" class="d-block w-100 " alt="...">
                     </div>
                     <div class="carousel-item" data-bs-interval="2000">
-                        <img src="./images/products/carousel-item3.jpg" class="d-block w-100 " alt="...">
+                        <img src="./images/products/main_sumnail3.png" class="d-block w-100 " alt="...">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
@@ -70,13 +70,15 @@
             <div class="codi-main-container">
                 <!--코디&상품 반복 시작-->
                 <div th:each="codi:${coordiList}" class="codi-block">
-                    <img class="codi-sumnail" th:src="@{'./images/coordi/0' + ${codi.codiId} + '/' + ${codi.codiId} + '_thumbnail.webp'}" alt="코디 썸네일"/>
+                    <img class="codi-sumnail" th:src="@{'/images/coordi/0' + ${codi.codiId} + '/' + ${codi.codiId} + '_thumbnail.webp'}" alt="코디 썸네일"/>
                     <div class="codi-product"  th:each="product : ${codi.products}">
-                        <img class="codi-product-img" th:src="@{'./images/products/0' + ${product.productId} + '/'+ ${product.productThumbnail}}" alt="코디 썸네일"/>
-                        <div class="codi-text">
-                            <p th:text="${product.productName}">DIEMME</p>
-                            <p th:text="${product.productPrice}">FOUND TIE FRONT PANT (BLACK)</p>
-                        </div>
+                        <img class="codi-product-img" th:src="@{'/images/products/0' + ${product.productId} + '/'+ ${product.productThumbnail}}" alt="코디 썸네일"/>
+                        <a th:href="@{|/product/${product.productId}|}">
+                            <div class="codi-text">
+                               <p th:text="${product.productName}">DIEMME</p>
+                                <p th:text="${product.productPrice}">FOUND TIE FRONT PANT (BLACK)</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
                 <!--반복 끝-->

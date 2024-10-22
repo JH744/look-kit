@@ -238,7 +238,7 @@
   <th:block layout:fragment="content">
   <div class="container">
     <div class="image-section">
-      <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_thumbnail.webp'}" alt="상품썸네일" />
+      <img th:src="@{|/images/products/0${product.productId}/${product.productId}_detail_1.webp|}" alt="상품썸네일" />
     </div>
     <div class="details-section">
       <div>
