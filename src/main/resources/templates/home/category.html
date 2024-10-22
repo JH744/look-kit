@@ -60,7 +60,7 @@
             flex-wrap: wrap;
             gap: 25px;
             margin:0 auto;
-
+            place-content: center;
         }
         .product-item {
             width: 24%;
@@ -199,6 +199,8 @@
         $(document).ready(function () {
             // 좋아요 추가 및 삭제 클릭이벤트
             $(".like-btn").click( function (){
+//                e.stopPropagation();  // 이벤트 버블링 방지
+
                 let $this = $(this);
                 let productItem= $(this).closest('.product-item');
                 let productID = parseInt(productItem.find('.hidden-id').text().trim());  // 숫자타입으로 변환

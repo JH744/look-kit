@@ -6,7 +6,7 @@ import lombok.Getter;
 public class ProductWishlistDTO {
     private long productId;
     private String productName;
-    private String productDescription;
+    private String brandName;
     private double productPrice;
     private String productThumbnail;
     private int likeCount;
