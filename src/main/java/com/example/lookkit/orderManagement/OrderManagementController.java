@@ -34,7 +34,7 @@ public class OrderManagementController {
         }
         Map<String, Long> statusCounts = service.getOrderStatusCounts(userId);
 
-        ModelAndView mv = new ModelAndView("mypage/orderManagement");
+        ModelAndView mv = new ModelAndView("/mypage/orderManagement");
         mv.addObject("username", userService.searchUserName(userId));
         mv.addObject("products", list);
         mv.addObject("countPending", statusCounts.getOrDefault("pending", 0L));

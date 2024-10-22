@@ -44,10 +44,11 @@
   <div th:fragment="userHeaderFragment" class="welcome-header">
     <span class="welcome-message" th:text="${username != null ? username : 'USER'} + '님 환영합니다'"></span>
     <div class="profile-options">
-      <img class="icon-settings" src="/images/icon/setting.png"  alt=""/>
-      <span>개인정보 변경</span>
-    </a>
-  </div>
+      <a href="/mypage/enter-password">
+        <img class="icon-settings" src="/images/icon/setting.png" alt="설정 아이콘"/>
+        <span>개인정보 변경</span>
+      </a>
+    </div>
   </div>
   </body>
 </html>

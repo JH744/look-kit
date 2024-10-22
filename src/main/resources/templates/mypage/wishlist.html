@@ -18,7 +18,7 @@
     <!-- 사이드바 추가 -->
     <th:block th:replace="~{common/fragments/sidebar :: sidebarFragment}"></th:block>
     <div class="second-grid">
-      <h2>PRODUCT(<span th:text="${#lists.size(wishlist)}">위시리스트 total</span>)</h2>
+      <h2>정상페이지?(<span th:text="${#lists.size(wishlist)}">위시리스트 total</span>)</h2>
       <div class="product-grid">
         <!-- Product Item 반복 출력 -->
         <div class="product-item" th:each="wish : ${wishlist}">
