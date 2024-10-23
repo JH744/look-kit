@@ -91,8 +91,8 @@ public class OrderController {
 
         if (result) {
             model.addAttribute("message", "결제가 완료되었습니다.");
-            model.addAttribute("orderId", merchantUid);
-            model.addAttribute("amount", amount);
+            // model.addAttribute("orderId", merchantUid);
+            // model.addAttribute("amount", amount);
             return "orderComplete";
         } else {
             model.addAttribute("paymentFailed", true);
@@ -100,8 +100,16 @@ public class OrderController {
         }
     }
 
+
     @GetMapping("/addAddress")
     public String addAddressPage() {
         return "addAddress";
+    }
+
+
+    @GetMapping("/orderComplete")
+    public String orderCompletePage(Model model) {
+       model.addAttribute("message", "주문이 완료되었습니다.");
+       return "orderComplete";
     }
 }

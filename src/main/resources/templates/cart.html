@@ -59,14 +59,16 @@
  
  /* 장바구니 헤더 */
  .cart-header {
-  width: 100%;
-  display: flex;
-  margin-bottom: 20px;
-  border-top: 1px solid #101010;
-  padding-top: 20px;
-  gap: 760px;
-  flex-direction: row;
- }
+    width: 100%;
+    display: flex;
+    /* margin-bottom: 20px; */
+    border-top: 1px solid #101010;
+    padding: 20px;
+    gap: 760px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+ 
  
  .select-delete-button {
    display: flex;
@@ -295,41 +297,8 @@
   
   <div class="cart-item-list">
         <!-- 장바구니 항목이 여기 추가됩니다 -->
-      
-          <div class="cart-item" data-cart-id="9">
-            <div class="item-checkbox">
-                <input type="checkbox" class="checkbox-input" checked="">
-            </div>
-            <div class="item-thumbnail">
-              <a href="/product/9">
-                <img class="thumbnail-img" src="/images/products/09/9_thumbnail.webp" alt="상품썸네일">
-              </a>
-            </div>
-            <div class="item-description">
-              <div class="brand-name2">BS 03-1 EIFFEL PACK 27 (BLACK)</div>
-              <a href="/product/9">
-                <div class="product-name">BS 03-1 EIFFEL PACK 27 (BLACK)</div>
-              </a>
-              <div class="product-variant">1개</div>
-            </div>
-            <div class="item-like-button">
-              <button class="like-button">
-                <img class="like-icon" src="/images/icon/goods-like-off-svg0.svg">
-              </button>
-            </div>
-            <div class="item-price">
-              <strong>29,000원</strong>
-            </div>
-            <div>
-              <input class="item-quantity quantity-input" type="number" value="1" min="1" data-cart-id="9">
-            </div>
-            <div class="item-options-button">
-              <button class="options-button" data-cart-id="9">
-                <span>옵션/수량 변경</span>
-                <img class="options-icon" src="/images/icon/icon-option.svg">
-              </button>
-            </div>
-          </div></div><div class="cart-summary">
+          </div>
+          <div class="cart-summary">
         <div class="summary-header">
           <h3>최종 결제 예상 금액</h3>
         </div>
@@ -359,8 +328,10 @@
     let cartData = JSON.parse(localStorage.getItem("cartItems")) || [];
     const cartItemList = document.querySelector(".cart-item-list");
 
+    
     cartData.forEach(item => {
       const cartItemHTML = `
+        
         <div class="cart-item" data-cart-id="${item.productId}">
           <div class="item-checkbox">
               <input type="checkbox" class="checkbox-input" checked />
@@ -371,10 +342,8 @@
             </a>
           </div>
           <div class="item-description">
-            <div class="brand-name2">${item.productName}</div>
-            <a href="/product/${item.productId}">
-              <div class="product-name">${item.productName}</div>
-            </a>
+            <div class="brand-name2">${item.brandName}</div>
+            <div class="product-name">${item.productName}</div>
             <div class="product-variant">${item.quantity}개</div>
           </div>
           <div class="item-like-button">
@@ -405,31 +374,46 @@
       let selectedItems = [];
       let totalPrice = 0;
       let totalQuantity = 0;
-
+    
       $(".checkbox-input:checked").each(function () {
         const cartItem = $(this).closest(".cart-item");
         const productId = cartItem.data("cart-id");
         const quantity = parseInt(cartItem.find(".item-quantity").val());
         const price = parseInt(cartItem.find(".item-price strong").text().replace(/\D/g, ""));
-
-        selectedItems.push({ productId: productId, quantity: quantity, price: price });
+        const productName = cartItem.find('.product-name').text();
+        const brandName = cartItem.find('.brand-name2').text();
+    
+        // 장바구니에서 선택된 상품 정보를 selectedItems에 추가
+        selectedItems.push({
+          productId: productId,
+          productName: productName,
+          brandName: brandName,
+          quantity: quantity,
+          price: price
+        });
+    
+        // 총 가격 및 총 수량 계산
         totalPrice += quantity * price;
         totalQuantity += quantity;
       });
-
+    
+      // 선택된 상품이 없을 경우 알림
       if (selectedItems.length === 0) {
         alert("주문할 상품을 선택해주세요.");
         return;
       }
-
+    
+      // 주문 데이터를 localStorage에 저장
       localStorage.setItem('orderData', JSON.stringify({
         items: selectedItems,
         totalPrice: totalPrice,
         totalQuantity: totalQuantity
       }));
-
+    
+      // 주문 페이지로 이동
       location.href = "/order";
     });
+    
 
     $("#delete-selected-button").click(function () {
       $(".checkbox-input:checked").each(function () {

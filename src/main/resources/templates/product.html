@@ -360,13 +360,14 @@
             cartItems.push({
               productId: productId,
               productName: document.querySelector(".product-title").innerText,
+              brandName: document.querySelector(".brand").innerText,
               price: productPrice,
               quantity: quantity
             });
           }
     
           localStorage.setItem('cartItems', JSON.stringify(cartItems));
-          alert("장바구리에 추가되었습니다.");
+          alert("장바구니에 추가되었습니다.");
           location.href = "/cart";
         }
     
@@ -380,6 +381,7 @@
             items: [{
               productId: productId,
               productName: document.querySelector(".product-title").innerText,
+              brandName: document.querySelector(".brand").innerText,
               price: productPrice,
               quantity: quantity
             }],
