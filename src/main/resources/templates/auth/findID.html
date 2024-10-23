@@ -20,7 +20,7 @@
           flex-shrink: 0;
           height: calc(423.09px * 1.2);
           position: relative;
-          margin-top: 200px;
+          margin-top: 100px;
         }
         .findIdTitle {
           color: var(--wwwkurlycom-mine-shaft, #333333);
@@ -62,7 +62,7 @@
           background: rgba(255, 255, 255, 0);
           padding: calc(15px * 1.2) 45.96px 15px 45.95px;
           width: 380px;
-            margin-top:50px;
+            margin-top:40px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -212,9 +212,12 @@
     <script>
         $(document).ready(() => {
           $("#findIdBtn").click(() => {
+             let name = $("input[name]=name").val();
+             let email = $("input[name]=email").val();
+            console.log(name);
+            console.log(email);
 //            location.href = "/auth/findIdOK";
-              console.log("sss")
-              $("#findIdForm").submit();
+//              $("#findIdForm").submit();
 
 //              $(".notice-label").css({"color","#FF294F"},{"display","inline"});
           });

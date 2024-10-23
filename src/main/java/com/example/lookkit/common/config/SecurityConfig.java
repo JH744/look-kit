@@ -15,7 +15,9 @@ public class SecurityConfig {
         http.csrf((csrf) -> csrf.disable());
         http.authorizeHttpRequests((authorize) ->
 //                authorize.requestMatchers("/**").permitAll() // 모든 페이지 허용
-              authorize.requestMatchers("/", "/auth/**","/fail","/common/**","/main/**","/product/**","/fail", "/css/**", "/js/**", "/images/**").permitAll() // 특정페이지만 허용
+              authorize.requestMatchers("/", "/auth/**","/fail","/common/**","/main/**","/error/**","/fail/**","/css/**", "/js/**", "/images/**").permitAll() // 모두에게 허용되도록 설정
+                      .requestMatchers("/mypage/**").authenticated() // 마이페이지 로그인회원만 접근가능
+                      .anyRequest().authenticated() // 그 외의 모든 요청도 인증된 사용자만 접근 가능하도록 설정
         );
         http.formLogin((formLogin) -> formLogin
                 .loginPage("/auth/login")
