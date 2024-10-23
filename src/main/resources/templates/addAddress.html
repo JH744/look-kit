@@ -39,8 +39,8 @@
        align-items: center;
        justify-content: center;
        border-radius: 54px;
-       padding: 16px 24px;
-       font-size: 16px;
+       padding: 14px 24px;
+       font-size: 15px;
        font-weight: bold;
        color: #fff;
        background-color: #062236;
@@ -59,6 +59,9 @@
    .span-text {
        font-size: 14px;
        color: #101010;
+       width: 100%;
+       height: 100%;
+       padding: 0px 10px;
    }
 
    .label {
@@ -124,9 +127,6 @@
   justify-content: center;
 }
 .button.button-zipcode {
-  
-  
-  padding: 0 20px; /* 좌우 여백 조정 */
   display: flex;
   flex-direction: row; /* 가로 방향으로 설정 */
   gap: 0px;
@@ -285,7 +285,7 @@
   line-height: 28px;
   font-weight: 400;
   position: absolute;
-  left: 525px;
+  left: 555px;
   top: 25px;
   width: 37px;
   height: 28px;
@@ -303,13 +303,24 @@
   position: absolute;
   left: 41px;
   top: 25px;
-  width: 150px;
   height: 30px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
-
+.x-button {
+       cursor: pointer;
+       display: inline-flex;
+       align-items: center;
+       justify-content: center;
+       border-radius: 54px;
+       padding: 6px 10px;
+       font-size: 16px;
+       font-weight: bold;
+       color: #ffffff;
+       background-color: #062236;
+       transition: background-color 0.3s ease;
+}
   </style>
 </head>
 <body>
@@ -318,7 +329,7 @@
           <span>신규 배송지 등록</span>
         </div>
         <div class="delete-button">
-          <button type="button">X</button>
+          <button type="button" class="x-button">X</button>
         </div>
         <div class="label label-destination">
           <span>배송지명</span>

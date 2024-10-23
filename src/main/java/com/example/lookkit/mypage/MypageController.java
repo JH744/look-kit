@@ -80,6 +80,7 @@ public class MypageController {
         // 업데이트된 정보 다시 조회
         MypageDTO updatedInfo = mypageService.getUserInfo(userId);
         model.addAttribute("userInfo", updatedInfo);
+        model.addAttribute("username", updatedInfo.getUserName());
 
         return "mypage/userinfo"; // 같은 페이지로 포워드
     }
