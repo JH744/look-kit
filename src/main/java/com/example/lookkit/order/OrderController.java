@@ -83,22 +83,6 @@ public class OrderController {
         return paymentResult ? "Payment successful" : "Payment failed";
     }
 
-    @PostMapping("/payment/complete")
-    public String completePayment(@RequestParam("imp_uid") String impUid,
-                                  @RequestParam("merchant_uid") String merchantUid,
-                                  @RequestParam("amount") int amount, Model model) {
-        boolean result = orderService.processPayment(impUid, merchantUid, amount);
-
-        if (result) {
-            model.addAttribute("message", "결제가 완료되었습니다.");
-            // model.addAttribute("orderId", merchantUid);
-            // model.addAttribute("amount", amount);
-            return "orderComplete";
-        } else {
-            model.addAttribute("paymentFailed", true);
-            return "order";
-        }
-    }
 
 
     @GetMapping("/addAddress")
