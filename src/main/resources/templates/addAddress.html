@@ -370,6 +370,10 @@
         </div>
       </div>      
       <script>
+        $('.x-button').click(function () {
+          window.close();
+        });
+        
         $(document).ready(function () {
             // 우편번호 찾기 버튼 클릭 시 다음 주소찾기 API 사용
             $("#addressSearch").click(function () {
@@ -413,6 +417,5 @@
             });
         });
     </script>
-    
 </body>
 </html>

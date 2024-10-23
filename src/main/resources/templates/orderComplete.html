@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="common/layout/base"> 
 <head>
   <meta charset="UTF-8">
@@ -61,62 +60,59 @@
   box-sizing: border-box;
 }
 .order-complete {
-  background: #ffffff;
-  height: 1484.84px;
-  position: relative;
-}
-.order-info {
-  width: 1359.98px;
-  height: 1284.84px;
-  position: absolute;
-  left: 100px;
-  top: 100px;
-}
-.order-header {
+  padding: 0px 280px 140px 280px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: absolute;
-  right: 0px;
-  left: 0px;
-  top: 0px;
-}
-.heading {
-  padding: 118px 563.41px 19px 563.39px;
-  display: flex;
-  flex-direction: column;
-  gap: 0px;
+  gap: 10px;
   align-items: center;
   justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
   position: relative;
+
+}
+.order-info {
+  width: 1000px;
+    height: 1284.84px;
+    position: absolute;
+}
+.order-header {
+  width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: absolute;
+}
+.heading {
+  padding: 100px 300px 19px 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    align-items: center;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
 }
 .order-complete-text {
   color: #101010;
-  text-align: center;
-  font-family: "Inter-Regular", sans-serif;
-  font-size: 24.578125px;
-  line-height: 26px;
-  font-weight: 400;
-  position: relative;
-  align-self: stretch;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    text-align: center;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 24.578125px;
+    line-height: 26px;
+    font-weight: 400;
+    position: relative;
+    align-self: stretch;
+    display: flex;
 }
 .order-number-container {
-  margin: -0.8px 0 0 0;
-  padding: 0px 558.09px 0px 558.09px;
   display: flex;
-  flex-direction: column;
-  gap: 0px;
-  align-items: center;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
+    flex-direction: column;
+    gap: 0px;
+    align-items: center;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
 }
 .order-number-wrapper {
   padding: 0px 0px 0px 3.47px;
@@ -166,16 +162,15 @@
   overflow: visible;
 }
 .order-links {
-  margin: -0.8px 0 0 0;
-  padding: 39.8px 450.03px 0px 450px;
-  display: flex;
-  flex-direction: row;
-  gap: 7.99px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
+  padding: 39.8px 200px 0px 300px;
+    display: flex;
+    flex-direction: row;
+    gap: 7.99px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
 }
 .button.view-order-link {
   background: #a0a0a0;
@@ -311,7 +306,7 @@
   justify-content: flex-start;
   width: 128.99px;
   position: absolute;
-  left: 1185px;
+  left: 900px;
   top: 63.01px;
 }
 .price-amount {
@@ -485,14 +480,15 @@
 
 .shipping-row {
   padding: 0px 0px 0px 22.99px;
-  display: flex;
-  flex-direction: row;
-  gap: 102.07px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: absolute;
-  left: 0px;
-  top: -0.25px;
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    /* position: absolute; */
+    left: 0px;
+    top: -0.25px;
+    width: 500px;
 }
 
 .shipping-cell {
@@ -510,12 +506,6 @@
 
 .shipping-data {
   padding: 0px 23px 0px 0px;
-  display: flex;
-  flex-direction: column;
-  gap: 0px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-shrink: 0;
   position: relative;
 }
 
@@ -690,7 +680,7 @@
     flex-direction: column;
     gap: 10px;
     flex-shrink: 0;
-    width: 324px;
+    width: 500px;
     position: relative;
 }
 
@@ -699,7 +689,7 @@
     flex-direction: column;
     width: 100%;
     flex-shrink: 0;
-    max-width: 324px;
+    max-width: 500px;
     position: relative;
 }
 
@@ -719,6 +709,7 @@
   justify-content: flex-start;
   flex-shrink: 0;
   position: relative;
+  gap: 180px;
 }
 
 .final-payment-cell {
@@ -849,7 +840,7 @@
                 <div class="final-payment-row">
                   <div class="final-payment-cell">총 상품금액</div>
                   <div class="final-payment-data">
-                    <span class="span final-payment-amount" id="total-amount"></span>원
+                    <span class="span final-payment-amount" id="total-amount"></span>
                   </div>
                 </div>
               </div>
@@ -857,7 +848,7 @@
                 <div class="final-payment-row">
                   <div class="final-payment-cell">최종 결제금액</div>
                   <div class="final-payment-data">
-                    <span class="span final-payment-amount" id="final-amount"></span>원
+                    <span class="span final-payment-amount" id="final-amount"></span>
                   </div>
                 </div>
               </div>
@@ -921,7 +912,7 @@
 
       // '구매내역 보기' 버튼 클릭 시 구매 내역 페이지로 이동
       $('.view-order-link').click(function () {
-        location.href = '/mypage'; // 구매내역 페이지로 이동 (URL 수정 필요)
+        location.href = '/mypage/manage'; // 구매내역 페이지로 이동 (URL 수정 필요)
       });
       
       // '쇼핑 홈 가기' 버튼 클릭 시 쇼핑 홈으로 이동
