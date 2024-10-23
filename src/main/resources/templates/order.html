@@ -336,13 +336,22 @@
     <script>
       // Order page script
       $(document).ready(function () {
-          const orderData = JSON.parse(localStorage.getItem('orderData'));
-          const addressData = JSON.parse(localStorage.getItem('addressData'));
+        let orderDataRaw = localStorage.getItem('orderData');
+        let addressDataRaw = localStorage.getItem('addressData');
     
-          if (!orderData || orderData.items.length === 0) {
-              alert("주문 정보가 없습니다.");
-              return;
-          }
+        if (!orderDataRaw) {
+            alert("주문 정보가 없습니다.");
+            return;
+        }
+    
+        const orderData = JSON.parse(orderDataRaw);
+        const addressData = addressDataRaw ? JSON.parse(addressDataRaw) : null;
+    
+        if (!orderData || orderData.items.length === 0) {
+            alert("주문 정보가 없습니다.");
+            return;
+        }
+    
     
           if (addressData) {
               $("#buyer-address-name").val(addressData.addressName);
@@ -356,8 +365,7 @@
     
           orderData.items.forEach(item => {
             $("#product-list").append(`
-          
-                    
+        
                   <div class="product-item">
                       <div class="item-thumbnail">
                           <a href="/product/${item.productId}">
