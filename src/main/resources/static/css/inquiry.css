@@ -1,0 +1,128 @@
+.outer-container {
+    display: grid;
+    margin-top: 20px;
+    width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 100px;
+}
+
+.inquiry {
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.section-inquiries {
+    border-bottom: 2px solid #727272;
+}
+
+.second-grid {
+    width: 100%;
+    margin-left: 50px;
+}
+
+#section-title {
+    font-size: 24px;
+    margin-top: 65px;
+    margin-bottom: 17px;
+}
+
+.inquiry-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.inquiry-content {
+    margin-left: 54px;
+}
+
+.inquiry-image-container {
+    display: inline-flex;
+    gap: 7px;
+}
+
+.inquiry-btn-block {
+    margin-top: 50px;
+    text-align: -webkit-center;
+}
+
+.meta-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #0d1134;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Almarai-Bold", sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.meta-icon.question {
+    background: #0d1134;
+}
+
+.meta-icon.answer {
+    background: #0d1134;
+}
+
+.inquiry-date {
+    font-size: 15px;
+    color: #8b8b8b;
+    margin-left : 2px;
+}
+
+.inquiry-status {
+    font-size: 16px;
+    color: #49a5b9;
+    margin-top: -21px;
+    margin-left: 20px;
+}
+
+.inquiry-subject {
+    font-size: 19px;
+    color: #000000;
+    font-weight: 500;
+    margin : 0px;
+    margin-bottom: 5px;
+}
+
+.inquiry-text,
+.reply-text {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    margin-top: 50px;
+}
+
+.inquiry-image {
+    width : 130px;
+}
+
+.reply {
+    margin-top: 20px;
+}
+
+.reply-content {
+    padding-left: 54px;
+}
+
+.back-to-inquiry {
+    background: #ffffff;
+    border: 1px solid #555353;
+    border-radius: 35px;
+    width: 184px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Inter-Medium", sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 20px;
+    cursor: pointer;
+}

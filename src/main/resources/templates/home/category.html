@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{common/layout/base}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <style>
+        .page-container{
+            width:100%;
+        }
+        .title-section {
+            padding: 80px 120px;
+            text-align: center;
+        }
+        .title-section h1 {
+            font-size: 28px;
+        }
+        .main-content {
+            width: 90%;
+            margin: 50px auto;
+        }
+        .filter-section {
+            display: flex;
+            justify-content: flex-end;
+            border-bottom: 2px solid #000000;
+        }
+        .filter-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid #000000;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            padding: 10px;
+            border-bottom: none;
+        }
+        .sort-section {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            margin-top: 47px;
+        }
+        .sort-section .item-count {
+            font-size: 18px;
+        }
+        .sort-box ul {
+            width: 500px;
+            display: flex;
+            justify-content: space-between;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: #999999;
+            font-weight: 400;
+            cursor: pointer;
+        }
+        .product-list {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin:0 auto;
+            padding-left: 60px;
+        }
+        .product-item {
+            width: 18%;
+            position:relative;
+        }
+        .product-item > img:nth-child(1) {
+            width: 100%;
+        }
+
+        .product-info {
+            padding: 10px;
+        }
+        .product-name {
+            font-size: 18px;
+            font-weight: 400;
+            color: #767676;
+            width: 240px;
+            height: 40px;
+        }
+        .brand-name{
+            font-size: 18px;
+            font-weight: 400;
+            color: #00000;
+            width: 240px;
+            height: 40px;
+        }
+        .product-name:hover{
+            text-decoration: underline;
+        }
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .product-price-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin: 3px 0;
+        }
+        .product-price-discount {
+            font-size: 21px;
+            color: #ff5c28;
+            font-weight: 700;
+        }
+        .like-box {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .product-event {
+            height: 76px;
+            gap: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+        }
+
+        .product-event-box {
+            padding: 5px 0px;
+            display: flex;
+            gap: 10px;
+        }
+        .product-event-box > div {
+            padding: 5px;
+            background-color: #cdcdcd;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 400;
+            color: #5c5c5c;
+        }
+        .like-btn{
+            width:25px;
+            height:25px;
+            position:absolute;
+            top:10px;
+            right:15px;
+        }
+    .hidden-id{
+        display:none;
+    }
+    </style>
+</head>
+<body>
+<img src="./images/products/carousel-item1.jpg" class="d-block w-100 " alt="...">
+<th:block layout:fragment="content">
+    <div class="page-container">
+        <div class="page-container">
+            <div class="title-section">
+                <h1 th:text="${type}">아우터</h1>
+                <div class="filter-section">
+                    <div class="filter-btn">
+                        <img src="/images/icon/filterIcon.svg" alt="" />
+                        필터검색
+                        <img src="/images/icon/dropDownIcon.svg" alt="" width="10px" />
+                    </div>
+                </div>
+                <div class="sort-section">
+                    <div class="item-count" th:text="'상품갯수: '+${productsList.size()}+'개'">2,120개</div>
+                    <div class="sort-box">
+                        <ul>
+                            <li>추천순</li>
+                            <li>최신순</li>
+                            <li>낮은 가격순</li>
+                            <li>높은 가격순</li>
+                            <li>판매순</li>
+                            <li>리뷰 많은순</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="main-content">
+                <div class="product-list">
+                    <div th:each="product :${productsList}" class="product-item">
+                        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_detail_1.webp'}" alt="상품썸네일" />
+                    <!--좋아요버튼(로그인시에만 표시)-->
+                        <img th:src="@{/images/icon/heart2.svg}" class="like-btn" alt="좋아요버튼" sec:authorize="isAuthenticated()"/>
+                        <div class="product-info">
+                            <a th:href="@{|/product/${product.productId}|}">
+                            <div class="brand-name" th:text="${product.brandName}">브랜드</div>
+                            <div class="product-name" th:text="${product.productName}">아우터</div>
+                            </a>
+                            <div class="product-price-box">
+                                <div class="product-price" th:text="${product.productPrice}+'원'">120,000원</div>
+                                <div class="product-price-discount">20%</div>
+                                <div class="hidden-id" th:text="${product.productId}">상품ID</div>
+                            </div>
+                            <div class="like-box">
+                                <img src="/images/icon/heart0.svg" alt="" width="20px" height="20px" />
+                                <span>120</span>
+                            </div>
+                            <div class="product-event">
+                                <div class="product-event-box">
+                                    <div>쿠폰</div>
+                                    <div>대여가능</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            // 좋아요 추가 및 삭제 클릭이벤트
+            $(".like-btn").click( function (){
+//                e.stopPropagation();  // 이벤트 버블링 방지
+
+                let $this = $(this);
+                let productItem= $(this).closest('.product-item');
+                let productID = parseInt(productItem.find('.hidden-id').text().trim());  // 숫자타입으로 변환
+                console.log("productID",productID);
+
+                fetch(`/wishlist/item?productId=${productID}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                    .then(response => {
+                    if (!response.ok) {
+                        throw new Error('응답에러 ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                    .then(result => {
+                    console.log('결과 : ', result);
+                    if ( result.message == '상품추가') {
+                        //성공
+                        $this.attr("src", "/images/icon/heart1.svg");
+                    }else if(result.message == '상품삭제')
+                    //삭제
+                    $this.attr("src", "/images/icon/heart2.svg");
+                    else {
+                        //실패
+                        console.log("상품 찜하기 추가&삭제  실패");
+                    }
+                })
+                    .catch(error => {
+                    console.error('위시리스트 추가 중 에러 발생 : ', error);
+                });
+            })
+
+            // 찜한 상품 확인
+            $('.hidden-id').each(function() {
+                var $this = $(this); // 현재 요소를 $this에 저장
+                var id = parseFloat($(this).text()); // 현재 요소의 텍스트를 숫자로 변환하여 반환
+                console.log("id",id);
+                // Fetch API 사용
+                fetch('/wishlist/check?itemId=' + id, {
+                    method: 'GET'
+                })
+                    .then(response => {
+                    if (!response.ok) {
+                        throw new Error('응답에러 ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                    .then(result => {
+                    console.log('결과 : ', result);
+                    if ( result.message == 'addedItem') {
+                        console.log("추가된상품");
+                        var $heart = $this.closest('.product-item').find('.like-btn');
+                        $heart.attr("src", "/images/icon/heart1.svg");
+                    }else {
+                        return;
+                    }
+                })
+                    .catch(error => {
+                    console.error('위시리스트 상품 확인 중 에러 발생 : ', error);
+                });
+            });
+        })
+    </script>
+</th:block>
+</body>
+</html>

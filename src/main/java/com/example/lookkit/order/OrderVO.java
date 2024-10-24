@@ -1,19 +1,18 @@
 package com.example.lookkit.order;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class OrderVO {
-    private long orderId;
-    private long userId;
+    private int orderId;
+    private int userId;
     private int totalAmount;
     private String orderStatus;
     private String orderComment;
@@ -21,4 +20,14 @@ public class OrderVO {
     private String orderAddressee;
     private String orderAddress;
     private String orderPhone;
+    private List<OrderDetailVO> orderDetails; // 주문 상세 정보 필드 추가
+
+    public List<OrderDetailVO> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<OrderDetailVO> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
+
 }

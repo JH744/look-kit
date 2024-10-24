@@ -20,7 +20,7 @@
           flex-shrink: 0;
           height: calc(423.09px * 1.2);
           position: relative;
-          margin-top: 200px;
+          margin-top: 100px;
         }
         .findIdTitle {
           color: var(--wwwkurlycom-mine-shaft, #333333);
@@ -29,8 +29,6 @@
           font-size: calc(28px * 1.2);
           line-height: var(--line-height-322, 32.2px);
           font-weight: var(--opacity-100, 400);
-          position: absolute;
-          left: calc(50% - 68.5px);
           top: 0px;
           display: flex;
           align-items: center;
@@ -64,6 +62,7 @@
           background: rgba(255, 255, 255, 0);
           padding: calc(15px * 1.2) 45.96px 15px 45.95px;
           width: 380px;
+            margin-top:40px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -205,31 +204,43 @@
           font-size: 16px;
           margin-bottom: 30px;
         }
+
+        .notice-label{
+            display:none;
+        }
     </style>
     <script>
         $(document).ready(() => {
           $("#findIdBtn").click(() => {
-            location.href = "/auth/findIdOK";
+             let name = $("input[name]=name").val();
+             let email = $("input[name]=email").val();
+            console.log(name);
+            console.log(email);
+//            location.href = "/auth/findIdOK";
+//              $("#findIdForm").submit();
+
+//              $(".notice-label").css({"color","#FF294F"},{"display","inline"});
           });
         });
     </script>
 </head>
 <body>
 <div class="findIdContainer">
-    <div class="findIdTitle">Look kit</div>
+    <div class="findIdTitle"><img src="/images/Logo2.png" width="300px"></div>
     <div class="findIdBackground">
         <div class="tabContainer">
             <div class="tabActive">
                 <div class="tabTextActive">아이디찾기</div>
             </div>
         </div>
-        <div class="formContainer">
+        <form action="/auth/findID" method="post" id="findIdForm" class="formContainer">
             <div class="formLabel">이름</div>
-            <input class="formInput" placeholder="이름을 입력해 주세요" />
+            <input class="formInput" placeholder="이름을 입력해 주세요" name="name"/>
             <div class="formLabel">이메일</div>
-            <input class="formInput" placeholder="이메일을 입력해 주세요" />
+            <input class="formInput" placeholder="이메일을 입력해 주세요" name="email"/>
             <div id="findIdBtn" class="buttonContainer">확인</div>
-        </div>
+<!--            <span class="notice-label">* 일치하는 아이디가 없습니다.</span>-->
+        </form>
     </div>
 </div>
 </body>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/userinfo.css}">
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/inquiryForm.css}"/>
+    <title>회원정보</title>
+    <style>
+        .error {
+            color: red;
+        }
+
+        .inline {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .button-group {
+            margin-top: 20px;
+        }
+
+        /* Modal Styles */
+        .modal-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Overlay */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .pw-check-modal, .pw-change-modal {
+            display: grid;
+            background-color: white;
+            width: 530px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            margin-bottom: 50px;
+            margin-left: 3px;
+            padding: 5px;
+            color: #555353;
+        }
+
+        .modal-subtitle {
+            font-size: 21px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #555;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+             font-size: 14px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .input-group input {
+           width: 350px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .input-container {
+            justify-self: center;
+        }
+
+        .modal-footer {
+            text-align: center;
+            margin: 20px 0px;
+        }
+
+        .modal-footer button {
+            padding: 12px 30px;
+            background-color: #0d1134;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 15px;
+            cursor: pointer;
+            width: 200px;
+            height: 42px
+        }
+
+        .modal-footer button:hover {
+            background-color: #1a1b5d;
+        }
+
+        .hidden-input{
+            display:none !important;
+        }
+
+    </style>
+</head>
+<body>
+<th:block th:replace="~{common/fragments/header :: headerFragment}"></th:block>
+
+<div class="profile-container">
+    <th:block th:replace="~{common/fragments/userHeader :: userHeaderFragment}"></th:block>
+
+    <!-- 사이드바 추가 -->
+    <div class="side-and-main">
+        <th:block th:replace="~{common/fragments/sidebar :: sidebarFragment}"></th:block>
+        <div class="second-grid">
+            <form action="/mypage/update" method="post" th:object="${userInfo}" id="updateForm">
+                <div class="section-title">회원정보 관리</div>
+                <div class="profile-management-content">
+                    <div class="info-group1">
+                        <label for="user-id">아이디</label>
+                        <input id="user-id" type="text" th:field="*{userUuid}" readonly>
+                    </div>
+
+                    <div class="info-group2">
+                        <label for="password">비밀번호</label>
+                        <div class="inline">
+                            <input id="password" type="password" value="qwe123r" >
+                            <button type="button" class="btn-password-change" >변경하기</button>
+                        </div>
+                    </div>
+
+                    <div class="info-group1">
+                        <label for="name">이름</label>
+                        <input id="name" type="text" th:field="*{userName}" readonly>
+                        <div class="error" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">이름 오류</div>
+                    </div>
+
+                    <div class="info-group1">
+                        <label for="phone">휴대폰 번호</label>
+                        <input id="phone" type="text" th:field="*{phone}">
+                        <div class="error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">전화번호 오류</div>
+                    </div>
+
+                    <div class="info-group1">
+                        <label for="birthdate">생년월일</label>
+                        <input id="birthdate" type="date" th:field="*{birthDate}" >
+                        <div class="error" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}">생년월일 오류</div>
+                    </div>
+
+                    <div class="info-group2">
+                        <label for="email">이메일 주소</label>
+                        <div class="inline">
+                            <input id="email" type="email" th:field="*{email}" >
+                            <button type="button" class="btn-email-check">중복확인</button>
+                        </div>
+                        <span id="email-check-result"></span>
+                        <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">이메일 오류</div>
+                    </div>
+
+                    <div class="address-group">
+                        <label>주소 정보</label>
+                        <div class="inline">
+                            <input type="text" th:value="${userInfo.address}" id="user_address">
+                            <button type="button" class="btn-postcode-search" id="addressSearch">우편번호 검색</button>
+                        </div>
+                            <input type="text"  class="hidden-input" id="user_detail_address">
+                        <!--숨겨진 input에 기본주소+세부주소를 포함한 내용을 담아 서버로 전달-->
+                        <input
+                                type="text"
+                                id="user_total_address"
+                                name="address"
+                                style="display:none"
+                        />
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button type="button" class="btn-cancel" onclick="window.location.href='/mypage/userinfo'">취소하기</button>
+                    <button type="button" class="btn-save" id="updateBtn">저장하기</button>
+                </div>
+                <!-- 메시지 표시 부분을 alert으로 대체 -->
+                <!-- <div th:if="${message}" th:text="${message}"></div> -->
+                <script th:if="${message}" th:inline="javascript">
+                    /*<![CDATA[*/
+                    alert([[${message}]]);
+                    /*]]>*/
+                </script>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 비밀번호 변경 모달 -->
+<div id="pw-change-modal-container" class="modal-container">
+    <div class="pw-change-modal">
+        <span class="modal-title">비밀번호 변경</span>
+        <span class="modal-subtitle">변경하실 비밀번호를 입력해주세요</span>
+
+        <div class="input-container">
+            <div class="input-group">
+                <label for="current-password-change">현재 비밀번호</label>
+                <input type="password" id="current-password-change" placeholder="현재 비밀번호를 입력하세요">
+            </div>
+
+            <div class="input-group">
+                <label for="new-password">새 비밀번호</label>
+                <input type="password" id="new-password" placeholder="새 비밀번호를 입력하세요">
+            </div>
+
+            <div class="input-group">
+                <label for="confirm-password">새 비밀번호 확인</label>
+                <input type="password" id="confirm-password" placeholder="한번 더 입력하세요">
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button id="updatePwBtn">비밀번호 변경하기</button>
+            <button id="cancleBtn">취소</button>
+        </div>
+    </div>
+</div>
+
+<!-- 이메일 중복 확인 스크립트 -->
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+
+
+        $(".btn-email-check").click(function(){
+            console.log("이메일중복확인");
+            // 이메일 중복 확인
+                const email = document.getElementById('email').value;
+                if (!email) {
+                    alert('이메일을 입력해주세요.');
+                    return;
+                }
+                fetch(`/mypage/checkDuplicateEmail?email=${encodeURIComponent(email)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                    const resultSpan = document.getElementById('email-check-result');
+                    if (data) {
+                        resultSpan.style.color = 'green';
+                        resultSpan.textContent = '사용 가능한 이메일입니다.';
+                    } else {
+                        resultSpan.style.color = 'red';
+                        resultSpan.textContent = '이미 사용 중인 이메일입니다.';
+                    }
+                })
+                    .catch(error => {
+                    console.error('Error:', error);
+                });
+        })
+
+        // 우편번호 검색 (Placeholder)
+        $("#addressSearch").click(function () {
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var addr = ""; // 주소 변수
+                    var extraAddr = ""; // 참고항목 변수
+
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === "R") {
+                        // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else {
+                        // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                    if (data.userSelectedType === "R") {
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+                            extraAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if (data.buildingName !== "" && data.apartment === "Y") {
+                            extraAddr +=
+                            extraAddr !== ""
+                            ? ", " + data.buildingName
+                            : data.buildingName;
+                        }
+                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if (extraAddr !== "") {
+                            extraAddr = " (" + extraAddr + ")";
+                        }
+                        // 조합된 참고항목을 해당 필드에 넣는다.
+                    } else {
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+
+                    document.getElementById("user_address").value = addr;
+
+                    //주소 검색이 완료된 후 변하는 css 목록
+                    $(".field_address input").css("display", "block");
+                    $("#addressNo").text("재검색");
+
+                    // 커서를 상세주소 필드로 이동한다.
+                    $("#user_detail_address").removeClass("hidden-input");
+                    $("#user_detail_address").focus();
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+                    // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+                    // http://postcode.map.daum.net/guide  api주소
+
+                },
+            }).open();
+        });
+
+    $(".btn-password-change").click(()=>{
+        document.getElementById('pw-change-modal-container').style.display = 'flex';
+
+    })
+        $("#updatePwBtn").click(()=>{
+            const currentPassword = document.getElementById('current-password-change').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (!currentPassword) {
+                alert('현재 비밀번호를 입력해주세요.');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                alert('새 비밀번호가 일치하지 않습니다.');
+                return;
+            }
+
+            // 비밀번호 변경 요청 전송
+            fetch('/mypage/changePassword', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `newPassword=${encodeURIComponent(newPassword)}&confirmPassword=${encodeURIComponent(confirmPassword)}&currentPassword=${encodeURIComponent(currentPassword)}`,
+            })
+                .then(response => response.json())
+                .then(data => {
+                if (data.success) {
+                    alert('비밀번호가 성공적으로 변경되었습니다.');
+                    document.getElementById('pw-change-modal-container').style.display = 'none';
+                    // 페이지 새로고침 또는 리다이렉션
+                    window.location.href = '/mypage/userinfo';
+                } else {
+                    alert(data.message);
+                }
+            })
+                .catch(error => {
+                console.error('Error:', error);
+                alert('비밀번호 변경 중 오류가 발생했습니다.');
+            });
+
+    })
+        $("#cancleBtn").click(()=>{
+            document.getElementById('pw-change-modal-container').style.display = 'none';
+    })
+//        // 비밀번호 변경 모달 표시
+//        function showPwChangeModal() {
+//            document.getElementById('pw-change-modal-container').style.display = 'flex';
+//        }
+//
+//        // 비밀번호 변경 모달 닫기
+//        function closePwChangeModal() {
+//            document.getElementById('pw-change-modal-container').style.display = 'none';
+//        }
+//
+//        // 비밀번호 변경 처리
+//        function changePassword() {
+//
+//        }
+
+            /**폼제출 버튼 이벤트*/
+            $("#updateBtn").click((e) => {
+                console.log("클릭이벤트");
+                // 폼 기본 이벤트 막기
+                e.preventDefault();
+                console.log("sssssdasdas");
+                // 기본주소와 상세주소 합치기
+                $("#user_total_address").val('');
+                let addr1 = $("#user_address").val();
+                let addr2 = $("#user_detail_address").val() || '';
+                let totalAddr = (addr1 + ' ' + addr2).trim();
+                console.log('주소:', totalAddr);
+                $("#user_total_address").val(totalAddr);
+                $("#user_address").val('');
+                $("#updateForm").submit();
+            });
+    });
+</script>
+</body>
+</html>

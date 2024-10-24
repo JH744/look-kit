@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
       body {
         input:focus {
@@ -25,7 +24,7 @@
       }
       .loginBox {
         width: 460px;
-        height: 488px;
+        height: 522px;
         position: relative;
       }
       .loginHeading {
@@ -68,10 +67,12 @@
         justify-content: flex-start;
       }
       .formLabelId {
-        top: 0px;
+        top: 20px;
+        font-size:18px;
       }
       .formLabelPassword {
-        top: 97px;
+        top: 110px;
+        font-size:18px;
       }
       .inputField {
         height: 46px;
@@ -79,21 +80,28 @@
         right: 0px;
         left: 0px;
         border: 1px solid #cdcdcd;
+        border-radius:3px;
         box-sizing: border-box;
         font-size: 20px;
         padding: 14px;
       }
+
+      .inputField::placeholder{
+        color :#999999;
+        font-size:18px;
+      }
+
       .inputFieldId {
-        top: 28px;
+        top: 50px;
       }
       .inputFieldPassword {
-        top: 125px;
+        top: 140px;
       }
       .rememberIdContainer {
         height: 20px;
         position: absolute;
         left: 0px;
-        top: 187px;
+        top: 200px;
         display: flex;
         align-items: center;
       }
@@ -101,7 +109,7 @@
         color: #101010;
         text-align: left;
         font-family: "Inter-Regular", sans-serif;
-        font-size: 16px;
+        font-size: 18px;
         line-height: 18px;
         font-weight: 400;
         margin-left: 28px;
@@ -120,13 +128,13 @@
         height: 54px;
         position: relative;
         left: calc(50% - 230px);
-        top: calc(53%);
+        top: 242px;
         color: #ffffff;
         text-align: center;
         font-family: "Inter-Regular", sans-serif;
         font-size: 17px;
         line-height: 54px;
-        font-weight: 400;
+        font-weight: 500;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -140,14 +148,14 @@
         height: 54px;
         position: absolute;
         left: calc(50% - 229px);
-        top: 293px;
+        top: 305px;
         border: 1px solid #b8b8b9;
         color: #2b2b2b;
         text-align: center;
         font-family: "Inter-Regular", sans-serif;
         font-size: 17px;
         line-height: 54px;
-        font-weight: 400;
+        font-weight:500;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -162,8 +170,8 @@
         line-height: 14px;
         font-weight: 400;
         position: absolute;
-        left: calc(50% - 79px);
-        top: 366px;
+        left: calc(50% - 89px);
+        top: 386px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -184,6 +192,25 @@
         height: 10px;
         margin: 0 5px;
       }
+      .loginFailMessage{
+        color: #FF294F;
+        text-align:center;
+        padding:14px;
+      }
+      .NoShowPwdButton{
+        position:absolute;
+        top:148px;
+        right:12px;
+        display:none;
+        cursor:pointer;
+      }
+      .showPwdButton{
+        position:absolute;
+        top:150px;
+        right:14px;
+        cursor:pointer;
+      }
+
     </style>
   </head>
   <body>
@@ -191,10 +218,12 @@
     <div class="loginContainer">
       <div class="loginBox">
         <div class="loginHeading">로그인</div>
+        <div th:if="${param.error}" class="loginFailMessage"><span>아이디 또는 비밀번호를 재확인해주세요</span></div>
         <div class="formContainer">
-          <form class="formBox">
+          <form class="formBox" action="/auth/login" method="post">
             <div class="formLabel formLabelId"><label>아이디</label></div>
             <input
+                    name="username"
               type="text"
               placeholder="아이디를 입력하세요"
               id="idInputBox"
@@ -205,17 +234,24 @@
             </div>
             <input
               type="password"
+              name="password"
               placeholder="비밀번호 영문/특수문자/숫자 8~16자"
               id="pwdInputBox"
               class="inputField inputFieldPassword"
             />
+            <div id="showPwdButton" class="showPwdButton show">
+              <img th:src="@{/images/icon/eyesShow.svg}" width="27" height="27"  />
+            </div>
+            <div id="NoShowPwdButton" class="NoShowPwdButton show">
+              <img th:src="@{/images/icon/eyesNoShow.svg}" width="31" height="31" />
+            </div>
             <div class="rememberIdContainer">
               <input type="checkbox" class="checkbox" id="rememberId" />
               <label class="rememberIdLabel" for="rememberId"
                 >아이디 저장</label
               >
             </div>
-            <button type="button" class="loginButton">로그인</button>
+            <button type="submit" class="loginButton">로그인</button>
             <button type="button" class="signupLink" id="signupLink">회원가입</button>
             <div class="findIdPasswordContainer">
               <div class="findIdLink" id="findIdLink">아이디 찾기</div>
@@ -240,7 +276,20 @@
             $("#signupLink").click(function () {
                 location.href = "/auth/signUp";
             });
-        });
+
+            $("#showPwdButton").click(function(){
+               $(this).css('display','none');
+            $("#NoShowPwdButton").css("display","block");
+              $("#pwdInputBox").attr("type", "text");
+            })
+
+          $("#NoShowPwdButton").click(function(){
+               $(this).css('display','none');
+            $("#showPwdButton").css('display','block');
+            $("#pwdInputBox").attr("type", "password");
+            })
+
+            });
       </script>
     </th:block>
   </body>

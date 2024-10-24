@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>비밀번호 확인</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: rgba(0, 0, 0, 0.5); /* 모달 외부 어둡게 */
+    }
+
+    .modal-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .pw-check-modal {
+        display: grid;
+        background-color: white;
+        width: 530px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        border-radius: 3px;
+    }
+
+    .modal-title {
+        font-size: 16px;
+        margin-bottom: 50px;
+        margin-left: 3px;
+        padding: 5px;
+        color: #555353;
+    }
+
+    .modal-subtitle {
+        font-size: 19px;
+        margin-bottom: 30px;
+        text-align: center;
+        color: #555;
+    }
+
+    .modal-subtitle2 {
+        font-size: 15px;
+        margin-bottom: 15px;
+        text-align: center;
+        color: #555;
+    }
+
+    .input-group {
+        margin-bottom: 20px;
+    }
+
+    .input-group label {
+        font-size: 14px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .input-group input {
+        width: 350px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    .input-container {
+        justify-self: center;
+    }
+
+    .modal-footer {
+        text-align: center;
+        margin: 20px 0px;
+    }
+
+    .modal-footer button {
+        padding: 12px 30px;
+        background-color: #0d1134;
+        color: white;
+        border: none;
+        border-radius: 30px;
+        font-size: 15px;
+        cursor: pointer;
+        width: 160px;
+        height: 42px;
+    }
+
+    .modal-footer button:hover {
+        background-color: #1a1b5d;
+    }
+  </style>
+</head>
+<body>
+
+<div class="modal-container">
+  <div class="pw-check-modal">
+    <span class="modal-title">비밀번호 확인</span>
+    <span class="modal-subtitle">소중한 개인정보 보호를 위해 비밀번호를 입력해주세요</span>
+    <span class="modal-subtitle2">로그인하셔야 회원정보 수정이 가능합니다</span>
+
+    <div class="input-container">
+      <div class="input-group">
+        <input type="password" id="current-password" placeholder="현재 비밀번호를 입력하세요">
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button onclick="verifyPassword()">확인하기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function verifyPassword() {
+      console.log('verifyPassword 함수가 호출되었습니다.');
+
+      const currentPassword = document.getElementById('current-password').value.trim();
+
+      if (!currentPassword) {
+          alert('비밀번호를 입력해주세요.');
+          return;
+      }
+
+      const formData = new URLSearchParams();
+      formData.append('currentPassword', currentPassword);
+
+      fetch('/mypage/verifyPassword', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: formData.toString(),
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('서버 응답이 올바르지 않습니다.');
+          }
+          return response.json();
+      })
+      .then(data => {
+          console.log('서버 응답:', data);
+          if (data.success) {
+              window.location.href = '/mypage/userinfo';
+          } else {
+              alert(data.message);
+          }
+      })
+      .catch(error => {
+          console.error('에러 발생:', error);
+          alert('비밀번호 확인 중 오류가 발생했습니다.');
+      });
+  }
+</script>
+
+</body>
+</html>

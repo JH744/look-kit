@@ -20,7 +20,7 @@
       flex-shrink: 0;
       height: calc(423.09px * 1.2);
       position: relative;
-      margin-top: 200px;
+      margin-top: 100px;
     }
     .findIdTitle {
       color: var(--wwwkurlycom-mine-shaft, #333333);
@@ -29,7 +29,6 @@
       font-size: calc(28px * 1.2);
       line-height: var(--line-height-322, 32.2px);
       font-weight: var(--opacity-100, 400);
-      position: absolute;
       left: calc(50% - 68.5px);
       top: 0px;
       display: flex;
@@ -71,6 +70,7 @@
       height: calc(48px * 1.2);
       position: relative;
       box-shadow: inset 0px -2px 0px 0px #0d1134;
+      margin-top:40px;
     }
     .tabTextActive {
       color: var(--wwwkurlycom-pigment-indigo, #0d1134);
@@ -222,6 +222,7 @@
       height: 56px;
       position: relative;
       overflow: hidden;
+      cursor:pointer;
     }
     .buttonContainer:hover {
       background: #0d1134;
@@ -251,31 +252,150 @@
       margin-bottom: 30px;
     }
   </style>
-  <script>
-    $(document).ready(() => {
-      $("#authenticationBtn").click(() => {
-        alert("입력하신 이메일로 인증번호를 발송했습니다.");
-        $(".formContainer").css("display", "none");
-        $(".formContainer2").css("display", "block");
+</head>
+<script>
+    //전역변수 선언
+  let userId;
+  $(document).ready(() => {
+    let verificationCode; //인증코드
+    let userEmail;
+    let name;
+
+
+    $("#goToLoginBtn").click(() => {
+      location.href = "/auth/login";
+    });
+
+
+    /** 이름과 이메일 일치하는 유저아이디찾기*/
+    function findUser(name ,userEmail) {
+
+      fetch("/auth/findUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ userName: name,email:userEmail })
+      })
+        .then(response => response.text())
+        .then(data => {
+
+        // 유저가 존재하는지 확인 후 유저아이디 저장
+        userId = data;
+        console.log("저장된아이디: "+userId)
+      })
+        .catch(error => {
+        console.error("Error:", error);
       });
-      $("#authenticationOKBtn").click(() => {
+    }
+
+
+
+
+
+    // 이메일인증 버튼 클릭 이벤트
+    $("#authenticationBtn").click(async() => {
+      console.log("sss")
+       name = $("input[name='name']").val();
+       userEmail = $("input[name='email']").val();
+      console.log("입력한 이름:", name);
+      console.log("입력한 이메일:", userEmail);
+
+      // 유효성 검사 (이메일 형식 확인)
+      let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (name.trim() === "") {
+        alert("이름을 입력해 주세요.");
+        return;
+      }
+      if (!emailPattern.test(userEmail)) {
+        alert("올바른 이메일 형식을 입력해 주세요.");
+        return;
+      }
+
+      // 이메일 인증 요청
+      await  sendEmailVerification(name, userEmail);
+       $("#authenticationBtn").prop("disabled", true).text("인증코드 전송중...");
+      // 실제 유저 찾기
+      await findUser(name,userEmail);
+    });
+  });
+
+  /** 이메일 인증 요청 함수 */
+  function sendEmailVerification(name, userEmail) {
+
+    fetch("/mailsender", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email: userEmail })
+    })
+      .then(response => response.text())
+      .then(data => {
+//      alert(data);
+      verificationCode= data;
+      alert("입력하신 이메일로 인증번호를 발송했습니다.");
+      $(".formContainer").css("display", "none");
+      $(".formContainer2").css("display", "block");
+    })
+      .catch(error => {
+      console.error("Error:", error);
+      alert("이메일 인증에 실패했습니다. 다시 시도해 주세요.");
+    });
+
+    $("#authenticationOKBtn").click(() => {
+      let veriCode = $("input[name='veriCode']").val();
+      if(verificationCode == veriCode){
         confirm("인증에 성공하였습니다.");
         $(".formContainer2").css("display", "none");
         $(".formContainer3").css("display", "flex");
-      });
-      $("#ModifyBtn").click(() => {
-        $(".formContainer3").css("display", "none");
-        $(".formContainer4").css("display", "block");
-      });
-      $("#goToLoginBtn").click(() => {
-        location.href = "/auth/login";
-      });
+      }else{
+        $(".verificationNotice").text("* 인증번호가 일치하지 않습니다.").css("color","red");
+        //일치하지않을경우 버튼 숨기고 재인증버튼을 나타나도록 설정
+      }
     });
-  </script>
-</head>
+
+    // 비밀번호 수정 버튼 클릭이벤트
+    $("#ModifyBtn").click( async () => {
+//      alert("비밀번호 수정요청")
+      let newPwd = $("#newPwd").val();
+      console.log("새비번:"+newPwd);
+      let newPwd2 = $("#newPwd2").val();
+      console.log("새비번2:"+newPwd2);
+      if(newPwd == newPwd2){
+        await  updatePassword(userId,newPwd);
+      }
+    });
+
+    /** 비밀번호 수정 요청 함수*/
+    function updatePassword(userId ,newPwd) {
+        fetch("/auth/updatePwd", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ userUuid: userId,password:newPwd })
+        })
+            .then(response => response.text())
+            .then(data => {
+          console.log("비밀번호 변경요청으로 응답받음 ")
+            //폼체인지
+//            alert(data);
+            $(".formContainer3").css("display", "none");
+            $(".formContainer4").css("display", "block");
+        })
+            .catch(error => {
+            console.error("Error:", error);
+        });
+    }
+
+
+
+  };
+</script>
 <body>
 <div class="findIdContainer">
-  <div class="findIdTitle">Look kit</div>
+  <div class="findIdTitle"><img src="/images/Logo2.png" width="300px"></div>
   <div class="findIdBackground">
     <div class="tabContainer">
       <div class="tabActive">
@@ -284,27 +404,27 @@
     </div>
     <div class="formContainer">
       <div class="formLabel">이름</div>
-      <input class="formInput" placeholder="이름을 입력해 주세요" />
+      <input class="formInput" placeholder="이름을 입력해 주세요" name="name"/>
       <div class="formLabel">이메일</div>
-      <input class="formInput" placeholder="이메일을 입력해 주세요" />
+      <input class="formInput" placeholder="이메일을 입력해 주세요" name="email"/>
       <div id="authenticationBtn" class="buttonContainer">인증받기</div>
     </div>
-
     <div class="formContainer2">
-      <input class="formInput" placeholder="인증번호 입력" />
+      <input class="formInput" placeholder="인증번호 입력" name="veriCode"/>
       <div style="margin: 15px">
-        *3분 이내로 인증번호 6자리를 입력해주세요.
+        <span class="verificationNotice" >*3분 이내로 인증번호 6자리를 입력해주세요.</span>
         <!-- 인증번호를 재입력해주세요. -->
       </div>
       <div id="authenticationOKBtn" class="buttonContainer">확인</div>
     </div>
-    <div class="formContainer3">
-      <span class="">새비밀번호입력</span>
-      <input class="formInput" placeholder="새비밀번호를 입력해 주세요" />
-      <span class="">새비밀번호 재입력</span>
-      <input class="formInput" placeholder="새비밀번호를 재입력해 주세요" />
-      <div id="ModifyBtn" class="buttonContainer">확인</div>
-    </div>
+
+    <form action="/auth/updatePwd" method="post" class="formContainer3">
+        <span class="">새비밀번호입력</span>
+        <input type="password" class="formInput" placeholder="새비밀번호를 입력해 주세요" name="newPassword" id="newPwd"/>
+        <span class="">새비밀번호 재입력</span>
+        <input type="password" class="formInput" placeholder="새비밀번호를 재입력해 주세요" id="newPwd2"/>
+        <div id="ModifyBtn" class="buttonContainer">확인</div>
+    </form>
     <div class="formContainer4">
       <div>
         <p>비밀번호를 성공적으로 변경하였습니다.</p>

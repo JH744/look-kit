@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="common/layout/base"> 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    .container {
+      top: 50px;
+      width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: row;
+      gap: 50px;
+      padding: 50px 0;
+      align-items: center;
+      justify-content: center;
+    }
+    .container2 {
+      top: 50px;
+      width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      padding: 50px 0;
+    }
+    .image-section {
+      flex: 1;
+      width: 600px;
+      height: 400px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .image-section img {
+      width: auto;
+      max-width: 100%;
+      height: 100%;
+      object-fit: contain;
+  }
+  
+    .details-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .brand {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .product-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .price-section {
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+    }
+    .price {
+      font-size: 28px;
+      font-weight: bold;
+      color: #062236;
+    }
+    .quantity-section {
+      margin: 20px 0;
+      display: flex;
+      align-items: center;
+    }
+    .quantity-label {
+      margin-right: 10px;
+    }
+    .quantity-input {
+      width: 50px;
+      padding: 5px;
+      text-align: center;
+      border: 1px solid #cdcdcd;
+    }
+    .buttons {
+      display: flex;
+      gap: 20px;
+
+    }
+    .btn {
+      padding: 15px;
+      border-radius: 5px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+      flex: 1;
+    }
+    .btn-cart {
+      background-color: #ffffff;
+      border: 1px solid #062236;
+      color: #062236;
+    }
+    .btn-buy {
+      background-color: #062236;
+      border: none;
+      color: #ffffff;
+    }
+    .btn-buy:hover, .btn-cart:hover {
+      opacity: 0.8;
+    }
+    .bottom-fixed-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #fff;
+      border-top: 1px solid #ddd;
+      padding: 10px 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .bottom-fixed-bar .product-info {
+      display: flex;
+      align-items: center;
+    }
+    .bottom-fixed-bar img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+    .bottom-fixed-bar .product-description {
+      font-size: 14px;
+      color: #333;
+    }
+    .bottom-fixed-bar .total-price {
+      font-size: 18px;
+      font-weight: bold;
+      color: #062236;
+      margin-right: 20px;
+    }
+    .bottom-fixed-bar .buttons {
+      flex: none;
+      display: flex;
+      gap: 10px;
+    }
+    .tab-section {
+        
+        display: flex;
+        gap: 80px;
+        margin-top: 20px;
+        cursor: pointer;
+    }
+    .tab-section div {
+        padding: 10px;
+        font-size: 16px;
+        color: #666;
+    }
+    .tab-section .active {
+        font-weight: bold;
+        border-bottom: 2px solid #062236;
+        color: #062236;
+    }
+    .tab-content {
+        display: none;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+    }
+    .tab-content.active {
+      display: flex;
+      flex-direction: column;
+    }
+    .review-filters {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      justify-content: flex-end;
+    }
+    .filter-button {
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .filter-button:hover {
+      background-color: #f0f0f0;
+    }
+    .review-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .review-item {
+      border-bottom: 1px solid #ddd;
+      padding: 15px;
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+    }
+    .review-header {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .review-rating {
+      font-weight: bold;
+      color: #ff5c28;
+    }
+    .review-user {
+      color: #666;
+      font-size: 14px;
+    }
+    .review-date {
+      color: #999;
+      font-size: 12px;
+    }
+    .review-content {
+      font-size: 16px;
+      color: #333;
+    }
+  </style>
+  <title>Product Page</title>
+</head>
+<body>
+  <th:block layout:fragment="content">
+  <div class="container">
+    <div class="image-section">
+      <img th:src="@{|/images/products/0${product.productId}/${product.productId}_detail_1.webp|}" alt="상품썸네일" />
+    </div>
+    <div class="details-section">
+      <div>
+        <div class="brand" th:text="${product.brandName}"></div>
+        <div class="product-title" th:text="${product.productName}"></div>
+        <div class="price-section">
+          <span class="price" id="price" th:text="${product.productPrice} + '원'"></span>
+        </div>
+        <div class="quantity-section">
+          <label for="quantity" class="quantity-label">수량:</label>
+          <input type="number" id="quantity" class="quantity-input" value="1" min="1">
+        </div>
+      </div>
+      <div class="buttons">
+        <a href="#" id="cart-link" class="btn btn-cart">장바구니</a>
+        <a href="#" id="buy-link" class="btn btn-buy">구매하기</a>
+      </div>
+    </div>
+  </div>
+  <div class="container2">
+    <div class="container">
+      <div class="tab-section">
+        <div class="active" data-target="details">상세정보</div>
+        <div data-target="reviews">리뷰</div>
+        <div data-target="qna">상품 Q&A</div>
+        <div data-target="seller">판매자 정보</div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="tab-content active" id="details">
+        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_detail_1.webp'}" alt="상품사진1" />
+        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_detail_2.webp'}" alt="상품사진2" />
+        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_detail_3.webp'}" alt="상품사진3" />
+        <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_detail_4.webp'}" alt="상품사진4" />
+      </div>
+      <div class="tab-content" id="reviews">
+        <div class="review-filters">
+            <button class="filter-button" onclick="sortReviews('latest')">최신순</button>
+            <button class="filter-button" onclick="sortReviews('highRating')">별점 높은 순</button>
+            <button class="filter-button" onclick="sortReviews('lowRating')">별점 낮은 순</button>
+        </div>
+        <div th:if="${#lists.isEmpty(reviews)}">
+            <p>작성된 리뷰가 없습니다.</p>
+        </div>
+        <div th:each="review : ${reviews}" class="review-list">
+            <div class="review-item">
+                <div class="review-header">
+                    <span class="review-rating" th:text="${review.rating} + '점'">5점</span>
+                    <span class="review-user" th:text="${review.userId}">유저 아이디</span>
+                    <span class="review-date" th:text="${#temporals.format(review.createdAt, 'yy.MM.dd')}">24.10.08</span>
+                </div>
+                <div class="review-content">
+                    <p th:text="${review.reviewText}">리뷰 내용</p>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="tab-content" id="qna">
+        <p>상품 Q&A 내용이 여기에 표시됩니다.</p>
+      </div>
+      <div class="tab-content" id="seller">
+        <p>판매자 정보가 여기에 표시됩니다.</p>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-fixed-bar">
+    <div class="product-info">
+      <img th:src="@{'/images/products/0'+${product.productId}+'/'+${product.productId}+'_thumbnail.webp'}" alt="상품 이미지">
+      <div class="product-description" th:text="${product.productName}">[단독~10.6][10/10예약발송]SITP5162 루즈핏 포멀 ST 셔츠_Light blue ST</div>
+    </div>
+    <div class="quantity-section">
+      <label for="quantity-bottom" class="quantity-label">수량:</label>
+      <input type="number" id="quantity-bottom" class="quantity-input" value="1" min="1">
+    </div>
+    <div class="total-price" id="total-price" th:text="'총 상품 금액 ' + ${product.productPrice} * 1 + '원'">총 상품 금액 58,302원</div>
+    <div class="buttons">
+      <a href="#" id="cart-link-bottom" class="btn btn-cart">장바구니</a>
+      <a href="#" id="buy-link-bottom" class="btn btn-buy">구매하기</a>
+    </div>
+  </div>
+  </th:block>
+  <th:block layout:fragment="script">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+      // Product page script
+      document.addEventListener("DOMContentLoaded", function() {
+        const tabs = document.querySelectorAll(".tab-section div");
+        const contents = document.querySelectorAll(".tab-content");
+        const quantityInput = document.getElementById("quantity");
+        const quantityInputBottom = document.getElementById("quantity-bottom");
+        const totalPriceElement = document.getElementById("total-price");
+        const priceElement = document.getElementById("price");
+        const productPrice = parseInt(priceElement.innerText.replace(/\D/g, ""));
+        const productId = window.location.pathname.split("/").pop();
+    
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", () => {
+            tabs.forEach(t => t.classList.remove("active"));
+            tab.classList.add("active");
+            contents.forEach(c => c.classList.remove("active"));
+            document.getElementById(tab.getAttribute("data-target")).classList.add("active");
+          });
+        });
+    
+        const cartLink = document.getElementById("cart-link");
+        const cartLinkBottom = document.getElementById("cart-link-bottom");
+        const buyLink = document.getElementById("buy-link");
+        const buyLinkBottom = document.getElementById("buy-link-bottom");
+    
+        function addToCart(event) {
+          event.preventDefault();
+          const quantity = parseInt(quantityInput.value);
+          let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    
+          const existingItemIndex = cartItems.findIndex(item => item.productId === productId);
+          if (existingItemIndex !== -1) {
+            cartItems[existingItemIndex].quantity += quantity;
+          } else {
+            cartItems.push({
+              productId: productId,
+              productName: document.querySelector(".product-title").innerText,
+              brandName: document.querySelector(".brand").innerText,
+              price: productPrice,
+              quantity: quantity
+            });
+          }
+    
+          localStorage.setItem('cartItems', JSON.stringify(cartItems));
+          alert("장바구니에 추가되었습니다.");
+          location.href = "/cart";
+        }
+    
+        cartLink.addEventListener("click", addToCart);
+        cartLinkBottom.addEventListener("click", addToCart);
+    
+        function buyNow(event) {
+          event.preventDefault();
+          const quantity = parseInt(quantityInput.value);
+          const orderData = {
+            items: [{
+              productId: productId,
+              productName: document.querySelector(".product-title").innerText,
+              brandName: document.querySelector(".brand").innerText,
+              price: productPrice,
+              quantity: quantity
+            }],
+            totalPrice: productPrice * quantity,
+            totalQuantity: quantity
+          };
+          localStorage.setItem('orderData', JSON.stringify(orderData));
+          location.href = "/order";
+        }
+    
+        buyLink.addEventListener("click", buyNow);
+        buyLinkBottom.addEventListener("click", buyNow);
+    
+        function updateTotalPrice() {
+          const quantity = parseInt(quantityInput.value);
+          const totalPrice = productPrice * quantity;
+          totalPriceElement.innerText = `총 상품 금액 ${totalPrice.toLocaleString()}원`;
+          priceElement.innerText = `${(productPrice * quantity).toLocaleString()}원`;
+        }
+    
+        quantityInput.addEventListener("change", function() {
+          const quantity = parseInt(quantityInput.value);
+          quantityInputBottom.value = quantity;
+          updateTotalPrice();
+        });
+    
+        quantityInputBottom.addEventListener("change", function() {
+          const quantity = parseInt(quantityInputBottom.value);
+          quantityInput.value = quantity;
+          updateTotalPrice();
+        });
+      });
+    </script>
+  </th:block>
+</body>
+</html>
