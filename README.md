@@ -2,7 +2,7 @@
 
 ## 서비스 소개
 
- <img width="1200" alt="카테고리" src="https://github.com/user-attachments/assets/6237a032-c5ef-49ce-ac5f-89cc9d2fd111"> 
+ <img width="1200" alt="카테고리" src="https://github.com/user-attachments/assets/2d840c6e-7fda-4d98-8d68-aa0bfa617339"> 
 
 
 
