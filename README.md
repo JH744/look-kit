@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/e9c83c20-38b2-478a-adee-7d7e845c0ae6)
+
 
 ## 서비스 소개
 
